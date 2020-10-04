@@ -1,0 +1,25 @@
+{
+    "message": {
+        "query_graph": {
+            "edges": [
+                {
+                    "id": " ",
+                    "source_id": "n00",
+                    "target_id": "n01",
+                    "type": "associated"
+                }
+            ],
+            "nodes": [
+                {
+                    "curie": "MONDO:0004981",
+                    "id": "n00",
+                    "type": "disease"
+                },
+                {
+                    "id": "n01",
+                    "type": "gene"
+                }
+            ]
+        }
+    }
+}

@@ -50,6 +50,16 @@ class test_clsAgentController(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual(agentResponseBody, response.json)
 
+    def test_user_request_body_not_supported(self):
+        userRequestBody = json.dumps(self.loadJsonFromFile("test_user_request_body_not_supported.json"))
+        knowledgeProviderResponseBody = 'garbage'
+        agentResponseBody = self.loadJsonFromFile("test_agent_response_body_empty.json")
+        with requests_mock.Mocker() as mocker:
+            mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
+            response = self.app.post('/agent', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(agentResponseBody, response.json)
+
     def test_user_request_body_bad_request(self):
         userRequestBody = 'garbage'
         knowledgeProviderResponseBody = 'also garbage'
@@ -60,7 +70,7 @@ class test_clsAgentController(unittest.TestCase):
         self.assertEqual(400, response.status_code)
         self.assertEqual(agentResponseBody, response.json)
 
-    def test_knowlegdge_provider_response_body_unknown_internal_server_error(self):
+    def test_knowledge_provider_response_body_unknown_internal_server_error(self):
         userRequestBody = json.dumps(self.loadJsonFromFile("test_user_request_body_nominal.json"))
         knowledgeProviderResponseBody = "garbage"
         agentResponseBody = {"message": "Knowledge Provider response body does not conform, have they changed their API?"}

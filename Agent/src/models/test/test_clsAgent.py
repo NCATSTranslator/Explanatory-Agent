@@ -1,5 +1,5 @@
 import unittest
-from ..clsAgent import clsAgent
+from models.clsAgent import clsAgent
 import json
 import os
 from inspect import stack
@@ -55,12 +55,6 @@ class test_clsAgent(unittest.TestCase):
     def test_user_request_body_nodes_not_list(self):
         self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edges_length_1(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_nodes_length_2(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
     def test_user_request_body_edge_not_dictionary(self):
         self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
@@ -70,38 +64,50 @@ class test_clsAgent(unittest.TestCase):
     def test_user_request_body_gene_node_not_dictionary(self):
         self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_node_keys_invalid(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_nominal_is_supported(self):
+        self.assertEqual(True, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_node_disease_invalid(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_node_disease_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_type_invalid(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_type_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_id_null(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_disease_ids_mismatch_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_id_blank(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_id_null_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_source_id_null(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_id_blank_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_source_id_blank(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_source_id_null_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_target_id_null(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_source_id_blank_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_edge_target_id_blank(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_target_id_null_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_disease_ids_mismatch(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edge_target_id_blank_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_gene_ids_mismatch(self):
-        self.assertEqual(False, clsAgent().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    def test_user_request_body_edges_length_1_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+
+    def test_user_request_body_nodes_length_2_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+
+    def test_user_request_body_gene_ids_mismatch_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+
+    def test_user_request_body_node_keys_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+
+    def test_user_request_body_edge_keys_not_supported(self):
+        self.assertEqual(False, clsAgent().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
     def test_knowledge_provider_response_body_nominal(self):
         self.assertEqual(True, clsAgent().knowledgeProviderResponseBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
