@@ -80,6 +80,7 @@ class AgentController(Resource):
         HTTP POST request
         * Initializes agent model
         * Checks user request body is valid
+        * Checks user request body is supported
         * Forwards request body to knowledge provider POST
         * Checks knowledge provider response body is valid
         * Generates results
@@ -97,6 +98,11 @@ class AgentController(Resource):
             raise BadRequest("Supplied request body does not conform")
 
         agent.applyQueryGraphFromUserRequestBody(userRequestBody)
+
+        if not agent.userRequestBodyIsSupported(userRequestBody):
+            agent.generateEmptyKnowledgeGraph()
+            agent.generateEmptyResults()
+            return vars(agent), 200
 
         try:
             response = requests.post(url=knowledgeProviderUrl, json=userRequestBody)
