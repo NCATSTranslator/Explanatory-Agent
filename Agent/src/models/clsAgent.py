@@ -7,12 +7,19 @@ WHAT: A class which handles the logic involved with the clsAgentController
     * creates the results which maps nodes and edges from the query_graph and knowledge_graph
 WHY: Need a class to handle data specific logic outside of clsAgentController to separate concerns
 ASSUMES: 'Agent' is short for 'Explanatory Autonomous Relay Agent'
-FUTURE IMPROVEMENTS: N/A
+FUTURE IMPROVEMENTS: Speed up generateResults() method
 WHO: SL 2020-09-10
 """
 
 from utils.modTextUtils import isNullOrWhiteSpace
 from collections import OrderedDict
+
+explanations = {
+    0: "reserved for textual description",  # default
+    1: "Disease-Gene association was identified via MAGMA_GENE (a standard method for identifying gene-condition associations from variant-level associations using proximity-based assignments from GWAS data) AND was also identified by INTEGRATED_GENETICS (an experimental method for identifying gene-condition associations using a novel combination of established methods). INTEGRATED_GENETICS is still in development and undergoing optimization; false-positives may be present.\nConfirmation of the association with both available methods from this KP gives us high confidence in these results.",
+    2: "Disease-Gene association was identified via MAGMA_GENE (a standard method for identifying gene-condition associations from variant-level associations using proximity-based assignments from GWAS data), but was not confirmed by INTEGRATED_GENETICS (an experimental method that for identifying gene-condition associations using a novel combination of established methods).\nINTEGRATED_GENETICS is still in development and undergoing optimization; false-positives may be present. Considering MAGMA_GENE is a standard method in the field, we still maintain acceptable confidence in these results.",
+    3: "Disease-Gene association was identified only by INTEGRATED_GENETICS (an experimental method for identifying gene-condition associations using a novel combination of established methods). Results were not confirmed using the standard MAGMA_GENE method.\nINTEGRATED_GENETICS is still in development and undergoing optimization; false-positives may be present. For this reason, we consider these results to be the associations with lowest confidence.",
+}
 
 
 class clsAgent:
@@ -31,7 +38,7 @@ class clsAgent:
         self.results = None  # the created mapping between the query_graph and knowledge_graph
 
     @staticmethod
-    def userRequestBodyIsValid(body):
+    def userRequestBodyIsValid(body: dict):
         """
         A function to evaluate whether the JSON body received from the client conforms to the proper input standard.
         :param body: A dictionary representing a JSON body
@@ -59,7 +66,7 @@ class clsAgent:
         return True
 
     @staticmethod
-    def userRequestBodyIsSupported(body):
+    def userRequestBodyIsSupported(body: dict):
         """
         A function to evaluate whether the valid response is supported by our api
         :param body: A dictionary representing a JSON body
@@ -125,7 +132,7 @@ class clsAgent:
         return True
 
     @staticmethod
-    def knowledgeProviderResponseBodyIsValid(body):
+    def knowledgeProviderResponseBodyIsValid(body: dict):
         """
         A function to evaluate whether the JSON body received from the knowledge provider conforms to our assumptions.
         :param body: A dictionary representing a JSON body
@@ -151,7 +158,7 @@ class clsAgent:
 
         return True
 
-    def applyQueryGraphFromUserRequestBody(self, body):
+    def applyQueryGraphFromUserRequestBody(self, body: dict):
         """
         Assigns a portion of the JSON request body from the client to the query_graph property
         :param body: A dictionary representing a JSON body
@@ -159,7 +166,7 @@ class clsAgent:
         """
         self.query_graph = body['message']['query_graph']
 
-    def applyKnowledgeGraphFromKnowledgeProviderResponseBody(self, body):
+    def applyKnowledgeGraphFromKnowledgeProviderResponseBody(self, body: dict):
         """
         Assigns a portion of the JSON response body from the knowledge provider to the knowledge_graph property
         :param body: A dictionary representing a JSON body
@@ -167,12 +174,52 @@ class clsAgent:
         """
         self.knowledge_graph = body['knowledge_graph']
 
+    def generateTargetIdExplanationCounts(self):
+        """
+        Generates a dictionary of where the key is a target id and the value is another dictionary with the key as a explanation code and value is the count
+        :return: dict
+        """
+        targetIdExplanationCounts = {}
+        for knowledgeEdge in self.knowledge_graph['edges']:
+            targetId = knowledgeEdge['target_id']
+            edgeId = knowledgeEdge['id']
+            if targetId not in targetIdExplanationCounts:
+                targetIdExplanationCounts[targetId] = {code: 0 for code in explanations.keys()}  # initialize keys with 0 as value
+            if edgeId.upper().startswith("MAGMA_GENE"):
+                targetIdExplanationCounts[targetId][2] += 1
+            elif edgeId.upper().startswith("INTEGRATED_GENETICS"):
+                targetIdExplanationCounts[targetId][3] += 1
+            else:
+                targetIdExplanationCounts[targetId][0] += 1
+        return targetIdExplanationCounts
+
+    @staticmethod
+    def resolveTargetIdExplanationCount(targetIdExplanationCount: dict):
+        """
+        Returns the final explanation code based on the observed counts of the target id explanation codes
+        :param targetIdExplanationCount: A dictionary representing the key as the explanation code and the value as the observation count
+        :return: explanation code as integer
+        :raises: Attribute error if it does not resolve
+        """
+        if targetIdExplanationCount[2] > 0 and targetIdExplanationCount[3] > 0:
+            return 1
+        elif targetIdExplanationCount[2] > 0:
+            return 2
+        elif targetIdExplanationCount[3] > 0:
+            return 3
+        elif targetIdExplanationCount[0] > 0:
+            return 0
+        else:
+            raise AttributeError("Target explanation codes could not resolve for: %s" % str(targetIdExplanationCount))
+
     def generateResults(self):
         """
         Creates the results which maps nodes and edges from the query_graph and knowledge_graph.
         This is in-lieu of the results given by the knowledge provider, those are discarded.
         :return: None
         """
+        targetIdExplanationCounts = self.generateTargetIdExplanationCounts()
+
         self.results = []
         queryEdge = self.query_graph['edges'][0]
         for knowledgeEdge in self.knowledge_graph['edges']:
@@ -182,15 +229,9 @@ class clsAgent:
                 {'kg_id': knowledgeEdge['source_id'], 'qg_id': queryEdge['source_id']},
                 {'kg_id': knowledgeEdge['target_id'], 'qg_id': queryEdge['target_id']}
             ]
-            if knowledgeEdge['id'].upper().startswith('MAGMA_GENE'):
-                result['Explanatory_Agent_Ranking'] = 2
-                result['Explanatory_Agent_Explanation'] = 'Disease-Gene association was identified via MAGMA_GENE (a standard method for identifying gene-condition associations from variant-level associations using proximity-based assignments from GWAS data), but was not confirmed by INTEGRATED_GENETICS (an experimental method that for identifying gene-condition associations using a novel combination of established methods). INTEGRATED_GENETICS is still in development and undergoing optimization; false-positives may be present. Considering MAGMA_GENE is a standard method in the field, we still maintain acceptable confidence in these results.'
-            elif knowledgeEdge['id'].upper().startswith('INTEGRATED_GENETICS'):
-                result['Explanatory_Agent_Ranking'] = 3
-                result['Explanatory_Agent_Explanation'] = 'Disease-Gene association was identified only by INTEGRATED_GENETICS (an experimental method for identifying gene-condition associations using a novel combination of established methods). Results were not confirmed using the standard MAGMA_GENE method.\nINTEGRATED_GENETICS is still in development and undergoing optimization; false-positives may be present. For this reason, we consider these results to be the associations with lowest confidence.'
-            else:
-                result['Explanatory_Agent_Ranking'] = 1  # todo
-                result['Explanatory_Agent_Explanation'] = "reserved for textual description"  # todo
+            explanationCode = self.resolveTargetIdExplanationCount(targetIdExplanationCounts[knowledgeEdge['target_id']])
+            result['Explanatory_Agent_Ranking'] = explanationCode
+            result['Explanatory_Agent_Explanation'] = explanations[explanationCode]
             self.results.append(result)
 
     def generateEmptyKnowledgeGraph(self):
@@ -206,5 +247,3 @@ class clsAgent:
         :return: None
         """
         self.results = []
-
-
