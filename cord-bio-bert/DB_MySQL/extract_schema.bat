@@ -1,0 +1,1 @@
+mysqldump -u root -p --no-data cord-bert > init/schema.sql
