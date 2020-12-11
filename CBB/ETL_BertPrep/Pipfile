@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pandas = "==1.0.5"
+tqdm = "==4.48.2"
+coverage = "==5.2.1"
+mysql-connector-python = "==8.0.21"
+nltk = "==3.5"
+setuptools = "==49.6.0"
+requests = "==2.24.0"
+
+[requires]
+python_version = "3.8"
