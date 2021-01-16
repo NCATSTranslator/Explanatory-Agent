@@ -72,3 +72,7 @@ Once the container functionality is confirmed, make changes to run the real data
 * src/modConfig.py -> Change inputTextFileName to "documents.txt" (it is currently "sample_text.txt")
 * src/tasks/clsCreatePretrainingDataTask.py -> Update self.parameters per the study requirements
 * src/tasks/clsRunPretrainingTask.py -> Update self.parameters per the study requirements
+
+## Extra Information
+
+GitHub's Dependabot issues a security warning due to the workflow requiring TensorFlow v1.11, as it has issues of varied severity. Unfortunately, the code from Bert's create_pretraining.py will not run in a Google VM on any newer version. The security concerns are due to code execution or memory access via loaded model checkpoint files. As is the case of all external files, please make sure you are getting them from trusted, verified sources and, where possible, confirm the file's contents via checksum.
