@@ -69,10 +69,10 @@ paths:
                       object: n1
                   nodes:
                     n0:
-                      category: biolink:Gene
+                      category: biolink:Disease
                       id: EFO:0000275
                     n1:
-                      category: biolink:Drug
+                      category: biolink:Gene
             schema:
               $ref: '#/components/schemas/Query'
         description: A message with question graph.
