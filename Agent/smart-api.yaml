@@ -28,7 +28,7 @@ tags:
   - name: 1.0.0
 
 paths:
-  /predicates:
+  /predicates/:
     get:
       responses:
         '200':
@@ -54,7 +54,7 @@ paths:
       tags:
         - "Predicates"
       x-accessRestriction: none
-  /query:
+  /query/:
     post:
       requestBody:
         content:
