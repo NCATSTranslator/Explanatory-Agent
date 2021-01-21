@@ -11,3 +11,8 @@ import os
 isDocker = True if os.getenv("IS_DOCKER") == "TRUE" else False
 host = '0.0.0.0' if isDocker else 'localhost'
 port = 80
+
+# injected into container image build in Azure DevOps with: '--build-arg BUILD_NUMBER_ARG=$(Build.BuildNumber)'
+buildNumber = os.getenv("BUILD_NUMBER", "LOCAL BUILD")
+
+defaultVersion = "v1.0"  # redirect swagger

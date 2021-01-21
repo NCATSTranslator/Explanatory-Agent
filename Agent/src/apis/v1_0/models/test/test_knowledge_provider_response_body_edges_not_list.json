@@ -1,0 +1,5857 @@
+{
+    "knowledge_graph": {
+        "edges": {},
+        "nodes": [
+            {
+                "id": "EFO:0001360",
+                "type": "disease"
+            },
+            {
+                "id": "NCBIGene:6934",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3784",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54901",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6928",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10644",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8872",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7466",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57178",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3416",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79068",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2696",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26086",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3832",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3767",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:286",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7325",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23499",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10296",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9690",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8091",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:63892",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26053",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101928448",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100505877",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1852",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:116985",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9861",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5468",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79834",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9055",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:728489",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:374383",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5460",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54535",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:157848",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8761",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221895",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22837",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3172",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:111",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2646",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:894",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10239",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64170",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54814",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7088",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11124",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6941",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6314",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3087",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100129940",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56623",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100526783",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6480",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56172",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:595",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6621",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2180",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10363",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4925",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10807",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5780",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:59338",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:400935",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:24139",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:415116",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:284546",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:348110",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54708",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6239",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100287284",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:643314",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57542",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11164",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7917",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:94241",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9866",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23403",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9919",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9784",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7079",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55176",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91433",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2645",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387103",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11085",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54622",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57410",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10087",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23177",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:678",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6854",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7916",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8694",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83986",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:60488",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:535",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22849",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7919",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23140",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4544",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4054",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2193",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:256126",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80736",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:492",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51479",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7227",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2124",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5066",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1395",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:728780",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10665",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9671",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:200734",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26575",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7054",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23203",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80790",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10534",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:65264",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9374",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:201232",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1031",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51426",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57794",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:353500",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2695",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2113",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:284076",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4853",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5629",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3122",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3156",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4855",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3597",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:170680",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100505573",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2888",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23383",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23142",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10809",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:165",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26160",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7103",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57654",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10180",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83795",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1487",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:137964",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80347",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:222234",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54832",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:348",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6745",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2123",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55656",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22913",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25942",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:28",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7326",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:162427",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:169792",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:50674",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7187",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6048",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7021",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4779",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4296",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4486",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:177",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:285464",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80145",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4763",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5286",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54826",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4122",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3630",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4023",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10181",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51755",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1460",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7776",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9044",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23338",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:596",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:63940",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5425",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:133746",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:516",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:440387",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1504",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80339",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10125",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:489",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5609",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10951",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6049",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57198",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1030",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29959",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53918",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26276",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5861",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6443",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6945",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55671",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:673",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57666",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54815",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53345",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80131",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22808",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23456",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4795",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:81492",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2186",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6137",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:401250",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:58498",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8894",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6494",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:254102",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8050",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84450",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8638",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23139",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5184",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4010",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56648",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10554",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507436",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84315",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:199",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29942",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8816",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80157",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3292",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5078",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1762",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8631",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55209",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5236",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:169981",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:134359",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3297",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100533183",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:158584",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101928242",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:723961",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10919",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101928726",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:811",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:341",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2033",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4851",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29982",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64897",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10077",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:220064",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23246",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:158055",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:226",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64838",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79990",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:59343",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23211",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3305",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29916",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3833",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:388553",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90987",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80778",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27175",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:28231",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8831",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79012",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:162515",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:474343",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6833",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80741",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9807",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90576",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51659",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83723",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6499",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:339977",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5926",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5496",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92002",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4439",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:128866",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6581",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83595",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:63891",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:578",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84961",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3992",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9398",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:390598",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:150280",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27000",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8897",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101929578",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10018",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3838",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84296",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3643",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10293",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:89866",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51074",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:89849",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54984",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25813",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8503",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90427",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23564",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29999",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10198",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7148",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221491",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2639",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:148479",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:170679",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:200634",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5886",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100137047",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4277",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54801",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:78997",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9051",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10642",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101927216",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5970",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8890",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3159",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51226",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91653",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:144348",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5469",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4154",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29893",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:846",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84226",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23743",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7789",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57181",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55690",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5531",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9415",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:145497",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:200879",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3481",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80312",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84561",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26872",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:150356",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:89822",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64847",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91574",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9873",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10691",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6927",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29958",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9401",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5684",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55860",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10023",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25970",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:353189",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6925",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55630",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9903",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5119",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11060",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53834",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1589",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:222235",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2976",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2740",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8945",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1871",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57609",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83938",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1800",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:89872",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:746",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:93210",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4605",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51144",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9564",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2778",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92597",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55898",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:635",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10336",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1607",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:286204",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4245",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:286046",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84676",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10452",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6207",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389118",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80863",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7553",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:219931",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:121665",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:256006",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83746",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84153",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7884",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:60313",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:701",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2064",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9344",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:28991",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51085",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5027",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9512",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6514",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:745",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:58496",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11279",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:152273",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:149483",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23225",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7407",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:128486",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4482",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2591",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23005",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3097",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221504",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57224",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6720",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:627",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:717",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:381",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79661",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55163",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507679",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:285126",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10773",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7918",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:818",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7707",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9439",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54847",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5727",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57159",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9684",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55833",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22902",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:135656",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2828",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23312",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3652",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55746",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10458",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7699",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80237",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51098",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8925",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:116150",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8506",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29113",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6523",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2832",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:85021",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55735",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6295",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57634",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80864",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:145741",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6891",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5530",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22983",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9134",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2969",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84440",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:149420",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26015",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54542",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57602",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9677",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4236",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80212",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:150",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:534",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79676",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10075",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221035",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7037",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23262",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80309",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5096",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29948",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54838",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8187",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57120",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:388115",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:65975",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2887",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5138",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23017",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4058",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:487",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:548596",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387849",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51249",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:219965",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7994",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:146691",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11273",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7283",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3106",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:132671",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8019",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8527",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6687",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:200916",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54469",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:441381",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57684",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54954",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5937",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80737",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:261729",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3105",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23637",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84164",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2983",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55930",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64837",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51441",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:399909",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7201",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51526",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101928499",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2261",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:196383",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25953",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5252",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79966",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:161497",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9557",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1041",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23294",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79968",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55884",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1636",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29919",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55294",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79154",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5331",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23264",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9031",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:463",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:222389",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4358",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10652",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:346288",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8681",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:145957",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92305",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:169026",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4772",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10043",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26508",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3710",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:58",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92912",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9258",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5017",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:133383",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56946",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3119",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7323",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10417",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:124446",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:130557",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5913",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4214",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2813",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6688",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:164714",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56171",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10234",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84988",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9960",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57616",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:30833",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:421",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4864",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57805",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57827",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4049",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1797",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3759",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26145",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10128",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84152",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:440193",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55924",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9340",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51650",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4160",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80714",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:140902",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:339344",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27344",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83999",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7318",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5025",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:284119",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1788",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:81693",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5905",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83850",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4796",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57121",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101927789",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5649",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4286",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:259197",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26122",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6876",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:196951",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64324",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:115548",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3486",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9158",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55342",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26263",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55272",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55954",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3672",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1108",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1616",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5627",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10042",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83983",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:85451",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101060181",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83463",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54845",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6905",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:282991",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10325",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8099",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26275",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7301",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7556",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2139",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55778",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23129",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57673",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51155",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:253461",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9262",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8448",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3128",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3118",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:283014",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3123",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3127",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:253018",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3117",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3120",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56913",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55280",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90507",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:644873",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:192217",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83719",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5934",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1388",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:553148",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:360182",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100874381",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:283899",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4123",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3145",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:283131",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:134505",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10343",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3139",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507674",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7417",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:548644",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100418744",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:645960",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23059",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100128010",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10287",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101928111",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23141",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54059",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4987",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64599",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:341567",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:161823",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51332",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:266727",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:286042",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2630",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100137049",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:339231",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25934",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:201254",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:642797",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79912",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:115290",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91869",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84557",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54543",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54940",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100131827",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:400506",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:148811",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8781",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8934",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100287177",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:160857",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4892",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:254122",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100101268",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1521",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64429",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:93973",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23493",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:345051",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80351",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6911",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:348174",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55909",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:122945",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56935",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4140",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389493",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:415117",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7637",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:390688",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55650",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2774",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90990",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29945",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51652",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5092",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56898",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54876",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7104",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3107",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7059",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3508",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8678",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3667",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90459",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7169",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79622",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:66036",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:729092",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3694",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:219927",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8131",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4163",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:148203",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9284",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:118460",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10073",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10487",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10139",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:374387",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57142",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29894",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6785",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:340385",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:541565",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84318",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:170384",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:167227",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:222229",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100506060",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:115584",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80306",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:493856",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:720",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79365",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9231",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55236",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:63894",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84073",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54923",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84456",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10099",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221955",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9908",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:165140",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2322",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:143384",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6610",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9399",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7284",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92014",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:113174",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:401074",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51374",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100127907",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4828",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56155",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:157739",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23181",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4069",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1723",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:170506",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23395",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29960",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:644172",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10480",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:280",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9025",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6300",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83656",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:339778",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54700",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56605",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:440275",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100288332",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79191",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2356",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23223",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101927861",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57103",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100289187",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9702",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:114900",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6163",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55124",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:105379219",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54890",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:137682",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:120534",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9875",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64940",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84910",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11117",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25861",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:253558",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2571",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51750",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57130",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8663",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5723",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:642799",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:348980",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51657",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:398",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8904",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84148",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:126969",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55823",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51092",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84126",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23457",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:374650",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51259",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54937",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:58515",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57553",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9902",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54981",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:151258",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:112483",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83442",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55073",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:644157",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9620",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54970",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:197358",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51531",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51160",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84727",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9884",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:43",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:133418",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3795",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:439936",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:340390",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100131089",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57494",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:200373",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55251",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55666",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5338",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:163227",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90411",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:105374104",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6728",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:114926",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:253264",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1062",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51460",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57691",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:348235",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3344",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:650368",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:255252",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11339",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389941",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9657",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:147081",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:285834",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27229",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25917",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7905",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4008",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29907",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2622",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100289414",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83461",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1590",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5961",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25941",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:640",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84936",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100506233",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10917",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4215",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64965",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100312829",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55374",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:115560",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51329",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:602",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221336",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23357",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7146",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23111",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8625",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80726",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100631254",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90135",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80010",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:129787",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79153",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:283663",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83933",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55643",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:115804232",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9993",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:254394",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:255027",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29967",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:105369490",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2678",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2631",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5523",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64788",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100129405",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2677",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5698",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:102546298",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64400",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:339768",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53335",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51319",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4071",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51227",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5947",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2882",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:391123",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29887",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64710",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1152",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100270887",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4882",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:750",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7423",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:117246",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26054",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83650",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:342",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79760",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5705",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9701",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23682",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:442325",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84986",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6272",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3912",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507062",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23498",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11193",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84750",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55246",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8786",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51056",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:359761",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:441212",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53371",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54733",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5702",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9904",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29078",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54435",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56624",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79908",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10725",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57644",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1435",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57786",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5201",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2868",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51025",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100874054",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101927111",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23420",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29125",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2784",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2938",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8563",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3700",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57613",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:63905",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23126",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:164592",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2629",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:105377585",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56971",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2581",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7473",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101929541",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:653308",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4582",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:130132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55275",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11325",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1145",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51103",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8624",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51095",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100287314",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5784",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91647",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83742",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10061",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:222643",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9488",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8771",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:65018",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3242",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5529",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100133545",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92196",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101927755",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100316904",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11170",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9362",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79830",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:124790",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:346702",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100499466",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10230",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:123722",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:201514",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:160897",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:107133522",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8449",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25802",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:27348",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91392",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:282679",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:130162",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55327",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:123207",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51385",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:643623",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64714",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79797",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:49855",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1161",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53905",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84163",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:199223",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:285237",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:116461",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:290",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2894",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:388152",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79736",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79006",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:256380",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6892",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8566",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:401320",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1949",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8622",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6326",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:284325",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92340",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5478",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2138",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:122402",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8727",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25798",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8836",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10411",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2255",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3092",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9652",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:65979",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26751",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:157570",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80207",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5819",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4969",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:728591",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8293",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92070",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84641",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57118",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2826",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3899",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1366",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1984",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9516",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26517",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:727736",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2739",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:143884",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:313",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:163933",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6405",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84996",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3339",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:138429",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84722",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100420003",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64147",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:159989",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10131",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387893",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6540",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79632",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54849",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100505783",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55346",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9887",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:161145",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6730",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:170954",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10256",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55194",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:388650",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:115704",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:53981",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:50626",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2149",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:259173",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51430",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2531",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5443",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22921",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:105375015",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221458",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84342",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11197",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90326",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387715",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:390211",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9798",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55179",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7775",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10144",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:28971",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387119",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9111",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9139",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8774",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9263",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100129460",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389362",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4817",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64928",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2547",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6344",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7920",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10795",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8874",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79644",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51626",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:133619",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79660",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83648",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5106",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:85236",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8789",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507341",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:338651",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2119",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101928919",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9217",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6890",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29888",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:221409",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56672",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2939",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:134728",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:651250",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5261",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79903",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10166",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:22883",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51195",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83752",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1952",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54962",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11328",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:414919",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:124",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56654",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10238",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100506115",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2224",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9827",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55744",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80739",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25956",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:373159",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4591",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79879",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26130",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79816",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100507032",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5557",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80063",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:644253",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:978",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:143570",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:60412",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:164832",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:554225",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92105",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55975",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:338557",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389170",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8938",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7158",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54957",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23125",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55653",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55689",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:374659",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:653238",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23148",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83637",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9901",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64114",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:90586",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9556",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55349",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83464",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55120",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80307",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:123803",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79770",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9632",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:144811",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:440",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:83694",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:349152",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2027",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6133",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2793",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3512",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:254428",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10109",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8399",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6645",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3712",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2134",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5328",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8120",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:124930",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:169714",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64224",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100874223",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:116535",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84267",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54780",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:148789",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:131034",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:121274",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:101059918",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:140686",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:130026",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64167",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57003",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8994",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51691",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26578",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55540",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2811",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2067",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2972",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23331",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:6815",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55255",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79630",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10801",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100130311",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3049",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387063",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:594",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4585",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5878",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5881",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5052",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1893",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:135138",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91694",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:2509",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51397",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100132832",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100505767",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:124044",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:653510",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:116541",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:387745",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:89832",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:93164",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79934",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7813",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10057",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:94137",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55213",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:632",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4683",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:404037",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:440503",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:252969",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55591",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:245937",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:339105",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84334",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:122970",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84245",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:118980",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:85465",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9836",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:26134",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51593",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10156",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23587",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100131369",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1000",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:284273",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:388165",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8365",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100462850",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3384",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100505570",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80006",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:283987",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:116512",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:734",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9479",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57704",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:349075",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:57493",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100131031",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:80217",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:729389",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10412",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100271260",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:25829",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3768",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:81873",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:285513",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9648",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100422656",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8682",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100133172",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:54103",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:29090",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5327",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64949",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:728689",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:55054",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10608",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:143187",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:137075",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:56655",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9308",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:51157",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10466",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:340277",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84321",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7390",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:646300",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:342132",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23304",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79087",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:790",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:5116",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9223",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8398",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:144608",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1633",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10936",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:23269",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:340069",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:129080",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79915",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:64067",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:92335",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3240",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1365",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:140739",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1192",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:126070",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91452",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:8991",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84747",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:84765",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7702",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:91369",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:1043",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:11119",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10082",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:374569",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:9276",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:79947",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:3212",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:7542",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100132916",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:197342",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:389383",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:10233",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:4704",
+                "type": "gene"
+            },
+            {
+                "id": "NCBIGene:100125288",
+                "type": "gene"
+            }
+        ]
+    },
+    "query_graph": {},
+    "results": []
+}
