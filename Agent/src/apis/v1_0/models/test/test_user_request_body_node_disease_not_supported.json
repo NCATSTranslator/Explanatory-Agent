@@ -1,0 +1,22 @@
+{
+    "message": {
+        "query_graph": {
+            "edges": {
+                "e00": {
+                    "subject": "n00",
+                    "object": "n01",
+                    "type": "biolink:associated"
+                }
+            },
+            "nodes": {
+                "n00": {
+                    "curie": "garbage",
+                    "type": "biolink:Disease"
+                },
+                "n01": {
+                    "type": "biolink:Gene"
+                }
+            }
+        }
+    }
+}
