@@ -61,8 +61,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Query'
-            example:
-
         description: A message with question graph.
         required: true
       responses:
@@ -72,6 +70,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Response'
           description: A message with knowledge graph and answers.
+        '400':
+          description: The request provided does not conform to the TRAPI standard.
+        '500':
+          description: An internal server error has occurred.
       summary: Get answers to a question
       tags:
       - "Query"
