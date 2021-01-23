@@ -59,22 +59,10 @@ paths:
       requestBody:
         content:
           application/json:
-            example:
-              message:
-                query_graph:
-                  edges:
-                    e0:
-                      predicate: biolink:condition_associated_with_gene
-                      subject: n0
-                      object: n1
-                  nodes:
-                    n0:
-                      category: biolink:Disease
-                      id: EFO:0000275
-                    n1:
-                      category: biolink:Gene
             schema:
               $ref: '#/components/schemas/Query'
+            example:
+
         description: A message with question graph.
         required: true
       responses:
@@ -82,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/Response'
           description: A message with knowledge graph and answers.
       summary: Get answers to a question
       tags:
@@ -106,13 +94,21 @@ components:
       properties:
         message:
           $ref: '#/components/schemas/Message'
-          description: >-
-            The query Message is a serialization of the user request. Content
-            of the Message object depends on the intended TRAPI operation. For
-            example, the fill operation requires a non-empty query_graph field
-            as part of the Message, whereas other operations, e.g. overlay,
-            require non-empty results and knowledge_graph fields.
       additionalProperties: true
+      example:
+        message:
+          query_graph:
+            edges:
+              e0:
+                predicate: biolink:condition_associated_with_gene
+                subject: n0
+                object: n1
+              nodes:
+                n0:
+                  category: biolink:Disease
+                  id: EFO:0000275
+                n1:
+                  category: biolink:Gene
       required:
         - message
     Response:
@@ -126,9 +122,6 @@ components:
         about the response.
       properties:
         message:
-          description: >-
-            Contains the knowledge of the response (query graph, knowledge
-            graph, and results).
           $ref: '#/components/schemas/Message'
         status:
           description: >-
@@ -185,6 +178,19 @@ components:
           allOf:
             - $ref: '#/components/schemas/KnowledgeGraph'
           nullable: true
+      example:
+        query_graph:
+          edges:
+            e0:
+              predicate: biolink:condition_associated_with_gene
+              subject: n0
+              object: n1
+            nodes:
+              n0:
+                category: biolink:Disease
+                id: EFO:0000275
+              n1:
+                category: biolink:Gene
       additionalProperties: false
     LogEntry:
       description: >-
@@ -269,12 +275,6 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/CURIE'
-          description: >-
-            An instance of NodeBinding is a single KnowledgeGraph Node mapping,
-            identified by the corresponding 'id' object key identifier of the
-            Node within the Knowledge Graph. Instances of NodeBinding may
-            include extra annotation (such annotation is not yet fully
-            standardized).
       additionalProperties: true
       required:
         - id
@@ -478,14 +478,6 @@ components:
             Value of the attribute. May be any data type, including a list.
         type:
           $ref: '#/components/schemas/CURIE'
-          description: >-
-            CURIE of the semantic type of the attribute. For properties
-            defined by the Biolink model this should be a biolink CURIE,
-            otherwise, if possible, from the EDAM ontology. If a suitable
-            identifier does not exist, enter a descriptive phrase here and
-            submit the new type for consideration by the appropriate
-            authority.
-          example: EDAM:data_1187
         url:
           type: string
           description: >-
@@ -523,16 +515,8 @@ components:
           nullable: true
         subject:
           $ref: '#/components/schemas/CURIE'
-          example: OMIM:603903
-          description: >-
-            Corresponds to the map key CURIE of the
-            subject concept node of this relationship edge.
         object:
           $ref: '#/components/schemas/CURIE'
-          example: UniProtKB:P00738
-          description: >-
-            Corresponds to the map key CURIE of the
-            object concept node of this relationship edge.
         attributes:
           type: array
           description: A list of additional attributes for this edge

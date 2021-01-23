@@ -100,7 +100,7 @@ class clsQueryView(Resource):
         if not query.userRequestBodyIsSupported(userRequestBody):
             query.generateEmptyKnowledgeGraph()
             query.generateEmptyResults()
-            return query.generateMessage(), 200
+            return query.generateTRAPIUnsupportedResponse(), 200
 
         try:
             response = requests.post(url=knowledgeProviderUrl, json=userRequestBody)
@@ -122,9 +122,9 @@ class clsQueryView(Resource):
 
         query.generateResults()
 
-        response_message = query.generateMessage()
+        response_message = query.generateTRAPISuccessResponse()
 
-        if not query.userRequestBodyIsValid(response_message):
+        if not query.userResponseBodyIsValid(response_message):
             raise BadRequest("An error occurred during processing.")
 
         return response_message, 200
