@@ -38,8 +38,23 @@ class clsQuery:
         self.knowledge_graph = None  # the information retrieved from the outbound api call
         self.results = None  # the created mapping between the query_graph and knowledge_graph
 
-    def generateMessage(self):
+    def generateTRAPIUnsupportedResponse(self):
         return {
+            "description": "Unsupported query. Please refer to predicates/.",
+            "logs": [],
+            "status": "Unsupported",
+            "message": {
+                "query_graph": self.query_graph,
+                "knowledge_graph": self.knowledge_graph,
+                "results": self.results,
+            }
+        }
+
+    def generateTRAPISuccessResponse(self):
+        return {
+            "description": "Success. {} results found".format(len(self.results), ),
+            "logs": [],
+            "status": "Success",
             "message": {
                 "query_graph": self.query_graph,
                 "knowledge_graph": self.knowledge_graph,
@@ -57,6 +72,20 @@ class clsQuery:
 
         try:
             reasoner_validator.validate_Query(body)
+            return True
+        except Exception as e:
+            return False
+
+    @staticmethod
+    def userResponseBodyIsValid(body: dict):
+        """
+        A function to evaluate whether the JSON body received from the client conforms to the proper input standard.
+        :param body: A dictionary representing a JSON body
+        :return: Boolean: True meaning the body is valid, False meaning the body is not valid
+        """
+
+        try:
+            reasoner_validator.validate_Response(body)
             return True
         except Exception as e:
             return False

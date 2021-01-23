@@ -1,4 +1,7 @@
 {
+  "description": "Success. 5 results found",
+  "logs": [],
+  "status": "Success",
   "message": {
     "knowledge_graph": {
       "edges": {

@@ -1,4 +1,7 @@
 {
+    "description": "Unsupported query. Please refer to predicates/.",
+    "logs": [],
+    "status": "Unsupported",
     "message": {
         "query_graph": {
             "edges": {
