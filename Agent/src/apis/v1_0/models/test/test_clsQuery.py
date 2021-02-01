@@ -70,47 +70,47 @@ class test_clsQuery(unittest.TestCase):
     def test_user_request_body_bad_schema_not_valid(self):
         self.assertEqual(False, clsQuery().userRequestBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
-    def test_user_request_body_nominal_is_supported(self):
-        self.assertEqual(True, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_node_disease_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_type_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_disease_ids_mismatch_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_id_blank_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_subject_id_null_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_subject_id_blank_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_object_id_null_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_object_id_blank_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edges_length_not_equal_1_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_nodes_length_not_equal_2_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_gene_ids_mismatch_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_node_keys_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
-
-    def test_user_request_body_edge_keys_not_supported(self):
-        self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    # def test_user_request_body_nominal_is_supported(self):
+    #     self.assertEqual(True, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_node_disease_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_type_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_disease_ids_mismatch_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_id_blank_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_subject_id_null_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_subject_id_blank_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_object_id_null_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_object_id_blank_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edges_length_not_equal_1_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_nodes_length_not_equal_2_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_gene_ids_mismatch_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_node_keys_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
+    #
+    # def test_user_request_body_edge_keys_not_supported(self):
+    #     self.assertEqual(False, clsQuery().userRequestBodyIsSupported(self.loadJsonFromFile(stack()[0][3] + ".json")))
 
     def test_knowledge_provider_response_body_nominal_is_valid(self):
         self.assertEqual(True, clsQuery().knowledgeProviderResponseBodyIsValid(self.loadJsonFromFile(stack()[0][3] + ".json")))
