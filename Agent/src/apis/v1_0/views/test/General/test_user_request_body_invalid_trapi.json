@@ -1,0 +1,20 @@
+{
+    "message": {
+        "query_graph": {
+            "nodes": {
+                "n00": {
+                    "curie": "MONDO:0004981",
+                    "type": "biolink:Disease"
+                },
+                "n01": {
+                    "type": "biolink:Gene"
+                }
+            }
+        },
+        "knowledge_graph": {
+            "edges": {},
+            "nodes": {}
+        },
+        "results": []
+    }
+}

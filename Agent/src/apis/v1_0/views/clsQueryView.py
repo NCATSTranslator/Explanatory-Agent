@@ -9,6 +9,11 @@ WHO: SL 2020-09-10
 from flask import request
 from flask_restx import Resource, Namespace, fields
 from apis.v1_0.models.clsQuery import clsQuery
+from apis.v1_0.views.clsDiseaseAssociatedGeneView import DiseaseAssociatedGeneView
+from apis.v1_0.views.clsGeneAssociatedDiseaseView import GeneAssociatedDiseaseView
+from apis.v1_0.views.clsDrugTreatsDiseaseView import DrugTreatsDiseaseView
+from apis.v1_0.views.clsDiseaseAssociatedGeneContributesChemicalSubstanceView import DiseaseAssociatedGeneContributesChemicalSubstanceView
+from apis.v1_0.views.clsDiseaseToChemicalView import DiseaseToChemicalView
 import requests
 import json
 from werkzeug.exceptions import BadRequest, InternalServerError
@@ -63,14 +68,16 @@ body = namespace.model(
     }
 )
 
-knowledgeProviderUrl = "https://translator.broadinstitute.org/genetics_provider/trapi/v1.0/query"
-
 
 @namespace.route("/")
 class clsQueryView(Resource):
     """
     See header
     """
+
+    registered_query_views = [DiseaseAssociatedGeneView, GeneAssociatedDiseaseView, DrugTreatsDiseaseView, DiseaseAssociatedGeneContributesChemicalSubstanceView,
+                              DiseaseToChemicalView]
+    KP_ERROR_RESPONSE = "An error occurred while accessing a Knowledge Provider."
 
     @namespace.doc(body=body)
     def post(self):
@@ -91,40 +98,39 @@ class clsQueryView(Resource):
         try:
             userRequestBody = request.json if request.is_json else json.loads(request.data)
         except json.decoder.JSONDecodeError:
-            raise BadRequest("Supplied request body does not conform to TRAPI v1.0.0 standard.")
-        if not query.userRequestBodyIsValid(userRequestBody):
-            raise BadRequest("Supplied request body does not conform to TRAPI v1.0.0 standard.")
+            raise BadRequest("Request contains invalid JSON.")
+        trapi_validation = query.userRequestBodyValidate(userRequestBody)
+        if trapi_validation is not None:
+            raise BadRequest("Supplied request body does not conform to TRAPI v1.0.0 standard. Error: {}".format(trapi_validation.message,))
 
         query.applyQueryGraphFromUserRequestBody(userRequestBody)
 
-        if not query.userRequestBodyIsSupported(userRequestBody):
+        matched_views = set()
+        for view in clsQueryView.registered_query_views:
+            view_instance = view(query)
+            if view_instance.supports_query(userRequestBody):
+                matched_views.add(view_instance)
+
+        # TODO: Logic for deciding which view to select if multiples are supported? For now this shouldn't happen, because we don't have any overlapping views.
+        if len(matched_views) > 0:
+            selected_view_instance = sorted(list(matched_views))[0]
+
+            try:
+                workflow = selected_view_instance
+                workflow.run()
+            except requests.exceptions.HTTPError as http_error:
+                raise InternalServerError(clsQueryView.KP_ERROR_RESPONSE)
+            except Exception as e:
+                raise InternalServerError("Internal server error")
+        else:
             query.generateEmptyKnowledgeGraph()
             query.generateEmptyResults()
             return query.generateTRAPIUnsupportedResponse(), 200
 
-        try:
-            response = requests.post(url=knowledgeProviderUrl, json=userRequestBody)
-            response.raise_for_status()
-        except Exception:
-            return json.loads(response.text), response.status_code
-
-        del userRequestBody
-
-        try:
-            knowledgeProviderResponseBody = json.loads(response.text)
-        except json.decoder.JSONDecodeError:
-            raise InternalServerError("Knowledge Provider response body does not conform, have they changed their API?")
-        if not query.knowledgeProviderResponseBodyIsValid(knowledgeProviderResponseBody):
-            raise InternalServerError("Knowledge Provider response body does not conform, have they changed their API?")
-
-        query.applyKnowledgeGraphFromKnowledgeProviderResponseBody(knowledgeProviderResponseBody)
-        del knowledgeProviderResponseBody
-
-        query.generateResults()
-
         response_message = query.generateTRAPISuccessResponse()
 
-        if not query.userResponseBodyIsValid(response_message):
+        # Multiomics provider does not provide valid knowledge graph nodes, so we have to forgo trapi response checking
+        if not query.userResponseBodyIsValid(response_message) and not isinstance(selected_view_instance, DiseaseAssociatedGeneContributesChemicalSubstanceView):
             raise BadRequest("An error occurred during processing.")
 
         return response_message, 200

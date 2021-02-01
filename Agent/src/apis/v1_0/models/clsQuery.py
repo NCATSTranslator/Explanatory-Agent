@@ -14,6 +14,8 @@ WHO: SL 2020-09-10
 from apis.common.utils.modTextUtils import isNullOrWhiteSpace
 from collections import OrderedDict
 import reasoner_validator
+from jsonschema import ValidationError
+
 
 explanations = {
     0: "Disease-Gene association was not identified to be MAGMA_GENE or INTEGRATED_GENETICS. As such, no explanation can be made.",  # default
@@ -38,9 +40,19 @@ class clsQuery:
         self.knowledge_graph = None  # the information retrieved from the outbound api call
         self.results = None  # the created mapping between the query_graph and knowledge_graph
 
+    def generateQueryOnlyMessage(self):
+        """
+        Generates a message with only a Query Graph as content. Useful for sending to KPs.
+        """
+        return {
+            "message": {
+                "query_graph": self.query_graph,
+            }
+        }
+
     def generateTRAPIUnsupportedResponse(self):
         return {
-            "description": "Unsupported query. Please refer to predicates/.",
+            "description": "Unsupported query.",
             "logs": [],
             "status": "Unsupported",
             "message": {
@@ -73,8 +85,22 @@ class clsQuery:
         try:
             reasoner_validator.validate_Query(body)
             return True
-        except Exception as e:
+        except ValidationError as e:
             return False
+
+    @staticmethod
+    def userRequestBodyValidate(body: dict):
+        """
+        A function to evaluate whether the JSON body received from the client conforms to the proper input standard.
+        :param body: A dictionary representing a JSON body
+        :return: Boolean: True meaning the body is valid, False meaning the body is not valid
+        """
+
+        try:
+            reasoner_validator.validate_Query(body)
+            return None
+        except ValidationError as e:
+            return e
 
     @staticmethod
     def userResponseBodyIsValid(body: dict):
@@ -89,75 +115,6 @@ class clsQuery:
             return True
         except Exception as e:
             return False
-
-    @staticmethod
-    def userRequestBodyIsSupported(body: dict):
-        """
-        A function to evaluate whether the valid response is supported by our api
-        :param body: A dictionary representing a JSON body
-        :return: Boolean: True meaning our api supports these parameters, False meaning our api does not support these parameters
-        """
-        edges = body['message']['query_graph']['edges']
-        if len(edges) != 1: return False
-
-        edgeId = list(edges.keys())[0]
-        if isNullOrWhiteSpace(edgeId): return False
-        edge = edges[edgeId]
-
-        if type(edge) != dict: return False
-        if sorted(list(edge.keys())) != ['object', 'predicate', 'subject']: return False
-        if isNullOrWhiteSpace(edge['subject']): return False
-        if isNullOrWhiteSpace(edge['object']): return False
-        if edge['predicate'] != 'biolink:condition_associated_with_gene': return False
-
-        nodes = body['message']['query_graph']['nodes']
-        if len(nodes) != 2: return False
-
-        geneNodeFound = False
-        diseaseNodeFound = False
-        geneId = None
-        diseaseId = None
-        validCuries = ["EFO:0000249", "EFO:0000253", "EFO:0000270", "EFO:0000275", "EFO:0000289", "EFO:0000341",
-                       "EFO:0000378", "EFO:0000384", "EFO:0000401", "EFO:0000551", "EFO:0000612", "EFO:0000692",
-                       "EFO:0000729", "EFO:0001359", "EFO:0001360", "EFO:0001365", "EFO:0002506", "EFO:0003144",
-                       "EFO:0003761", "EFO:0003767", "EFO:0003884", "EFO:0003931", "EFO:0004190", "EFO:0004305",
-                       "EFO:0004312", "EFO:0004314", "EFO:0004326", "EFO:0004338", "EFO:0004339", "EFO:0004340",
-                       "EFO:0004342", "EFO:0004343", "EFO:0004458", "EFO:0004462", "EFO:0004465", "EFO:0004466",
-                       "EFO:0004469", "EFO:0004471", "EFO:0004501", "EFO:0004502", "EFO:0004509", "EFO:0004518",
-                       "EFO:0004530", "EFO:0004532", "EFO:0004533", "EFO:0004534", "EFO:0004535", "EFO:0004541",
-                       "EFO:0004555", "EFO:0004570", "EFO:0004574", "EFO:0004611", "EFO:0004612", "EFO:0004614",
-                       "EFO:0004615", "EFO:0004616", "EFO:0004623", "EFO:0004631", "EFO:0004683", "EFO:0004698",
-                       "EFO:0004703", "EFO:0004704", "EFO:0004705", "EFO:0004713", "EFO:0004735", "EFO:0004736",
-                       "EFO:0004741", "EFO:0004761", "EFO:0004808", "EFO:0004838", "EFO:0004844", "EFO:0004861",
-                       "EFO:0004997", "EFO:0005000", "EFO:0005001", "EFO:0005055", "EFO:0005058", "EFO:0005093",
-                       "EFO:0005094", "EFO:0005208", "EFO:0005246", "EFO:0005271", "EFO:0005665", "EFO:0005680",
-                       "EFO:0005763", "EFO:0006335", "EFO:0006336", "EFO:0006340", "EFO:0006807", "EFO:0006831",
-                       "EFO:0006832", "EFO:0007630", "EFO:0007778", "EFO:0007788", "EFO:0007789", "EFO:0007800",
-                       "EFO:0007817", "EFO:0007828", "EFO:0007878", "EFO:0007929", "EFO:0008000", "EFO:0008036",
-                       "EFO:0008037", "EFO:0008039", "EFO:0008328", "EFO:0008373", "EFO:0008455", "EFO:0008456",
-                       "EFO:0008595", "EFO:0008596", "EFO:0009270", "EFO:0009282", "EFO:0009283", "EFO:0009284",
-                       "EFO:0009718", "EFO:0009765", "EFO:0009767", "EFO:0009768", "EFO:0009769", "EFO:0009770",
-                       "EFO:0009792", "EFO:0009793", "EFO:0009881", "EFO:0009961", "EFO:0010074", "EFO:0010075",
-                       "EFO:0010076", "EFO:0010111", "EFO:0010112", "EFO:0010114", "EFO:0010115", "EFO:0010116",
-                       "EFO:0010117", "EFO:0010118", "EFO:0010119", "EFO:0010120", "EFO:0010177", "EFO:0010178",
-                       "EFO:0010465", "EFO:0010555", "EFO:1000783", "EFO:1000786", "EFO:1001506",
-                       'MONDO:0004981', 'MONDO:0005010', 'MONDO:0005300', 'MONDO:0007455']
-
-        for nodeId, node in nodes.items():
-            if isNullOrWhiteSpace(nodeId): return False
-            if sorted(list(node.keys())) == ['category'] and node['category'] == 'biolink:Gene':
-                geneNodeFound = True
-                geneId = nodeId
-            elif sorted(list(node.keys())) == ['category', 'id'] and node['category'] == 'biolink:Disease':
-                if node['id'] not in validCuries: return False
-                diseaseNodeFound = True
-                diseaseId = nodeId
-            else:
-                return False
-        if not geneNodeFound or not diseaseNodeFound: return False
-        if geneId != edge['object'] or diseaseId != edge['subject']: return False
-
-        return True
 
     @staticmethod
     def knowledgeProviderResponseBodyIsValid(body: dict):
@@ -265,3 +222,40 @@ class clsQuery:
         :return: None
         """
         self.results = []
+
+    @staticmethod
+    def build_one_hop_query(node_1, node_2, edge):
+        """
+        Builds a TRAPI one hop query message.
+        """
+
+        message = {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        "e0": {
+                            "subject": "n0",
+                            "predicate": edge["predicate"],
+                            "object": "n1"
+                        }
+                    },
+                    "nodes": {
+                        "n0": {
+                            "category": node_1["category"]
+                        },
+                        "n1": {
+                            "category": node_2["category"]
+                        }
+                    }
+                }
+            }
+        }
+        if "id" in node_1:
+            message["message"]["query_graph"]["nodes"]["n0"]["id"] = node_1["id"]
+        if "id" in node_2:
+            message["message"]["query_graph"]["nodes"]["n0"]["id"] = node_2["id"]
+
+        # ensure the message is valid before returning it
+        reasoner_validator.validate_Query(message)
+
+        return message
