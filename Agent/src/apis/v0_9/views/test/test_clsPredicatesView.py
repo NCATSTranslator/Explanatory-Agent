@@ -1,18 +1,22 @@
 import unittest
-from modApp import app
-from apis.v0_9.models.clsPredicates import clsPredicates
+from modApp import appFactory
+from ...viewModels.clsPredicates import clsPredicates
+from ... import version
 
 
 class test_clsPredicatesView(unittest.TestCase):
 
-    def setUp(self):
-        self.app = app.test_client()
+    @classmethod
+    def setUpClass(cls):
+        cls.client = appFactory().test_client()
+        cls.maxDiff = None
 
-    def tearDown(self):
-        self.app = None
+    @classmethod
+    def tearDownClass(cls):
+        cls.client = None
 
     def test_predicate_response(self):
-        response = self.app.get('/v0.9.2/predicates', follow_redirects=True)
+        response = self.client.get(f'/{version}/predicates', follow_redirects=True)
         self.assertEqual(200, response.status_code)
         self.assertEqual(vars(clsPredicates()), response.json)
 

@@ -1,20 +1,26 @@
 import unittest
-from modApp import app
-from apis.v1_0.models.clsPredicates import clsPredicates
+from modApp import appFactory
+from ...predicates.clsPredicateManager import clsPredicateManager
+from ... import version
 
 
 class test_clsPredicatesView(unittest.TestCase):
 
-    def setUp(self):
-        self.app = app.test_client()
+    @classmethod
+    def setUpClass(cls):
+        cls.client = appFactory().test_client()
+        cls.maxDiff = None
 
-    def tearDown(self):
-        self.app = None
+    @classmethod
+    def tearDownClass(cls):
+        cls.client = None
 
     def test_predicate_response(self):
-        response = self.app.get('/v1.0/predicates', follow_redirects=True)
+        predicateManager = clsPredicateManager()
+        predicateManager.generateUserResponsePredicates()
+        response = self.client.get(f'/{version}/predicates', follow_redirects=True)
         self.assertEqual(200, response.status_code)
-        self.assertEqual(clsPredicates.return_accepted(), response.json)
+        self.assertEqual(predicateManager.userResponsePredicates, response.json)
 
 
 if __name__ == '__main__':

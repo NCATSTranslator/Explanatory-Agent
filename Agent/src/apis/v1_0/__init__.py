@@ -12,10 +12,11 @@ from flask import Blueprint
 from .views.clsQueryView import namespace as clsQueryNamespace
 from .views.clsPredicatesView import namespace as clsPredicatesNamespace
 
-blueprint = Blueprint('v1.0', __name__, url_prefix='/v1.0')
+version = "v1.0"
+blueprint = Blueprint(version, __name__, url_prefix=f'/{version}')
 namespaces = Api(
     blueprint,
-    title="Explanatory Agent API (TRAPI v1.0.0)",
+    title=f"Explanatory Agent API (TRAPI {version})",
     version=modConfig.buildNumber,
     description="REST API"
 )

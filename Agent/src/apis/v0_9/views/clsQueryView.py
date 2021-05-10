@@ -8,7 +8,7 @@ WHO: SL 2020-09-10
 
 from flask import request
 from flask_restx import Resource, Namespace, fields
-from apis.v0_9.models.clsQuery import clsQuery
+from ..viewModels.clsQuery import clsQuery
 import requests
 import json
 from werkzeug.exceptions import BadRequest, InternalServerError
