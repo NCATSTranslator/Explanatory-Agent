@@ -13,7 +13,7 @@ info:
     url: TBD
   termsOfService: TBD
   x-translator:
-    component: KP
+    component: ARA
     team:
       - Explanatory Agent
     biolink-version: 1.8.0
