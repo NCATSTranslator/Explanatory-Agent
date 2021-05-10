@@ -7,7 +7,7 @@ WHO: SL 2020-12-14
 """
 
 from flask_restx import Resource, Namespace
-from apis.v0_9.models.clsPredicates import clsPredicates
+from ..viewModels.clsPredicates import clsPredicates
 
 namespace = Namespace("predicates", description="Predicates Endpoints")
 

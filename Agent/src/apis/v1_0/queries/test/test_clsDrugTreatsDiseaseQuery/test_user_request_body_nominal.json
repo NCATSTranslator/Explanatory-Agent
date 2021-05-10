@@ -1,0 +1,22 @@
+{
+  "message": {
+    "query_graph": {
+      "edges": {
+        "e0": {
+          "subject": "n0",
+          "predicate": "biolink:treats",
+          "object": "n1"
+        }
+      },
+      "nodes": {
+        "n1": {
+          "id": "MONDO:0007254",
+          "category": "biolink:Disease"
+        },
+        "n0": {
+          "category": "biolink:Drug"
+        }
+      }
+    }
+  }
+}

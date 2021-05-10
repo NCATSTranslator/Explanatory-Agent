@@ -1,18 +1,22 @@
 import unittest
 import json
 import os
-from modApp import app
+from modApp import appFactory
 import requests_mock
-from apis.v0_9.views.clsQueryView import knowledgeProviderUrl
+from ...views.clsQueryView import knowledgeProviderUrl
+from ... import version
 
 
 class test_clsQueryView(unittest.TestCase):
 
-    def setUp(self):
-        self.app = app.test_client()
+    @classmethod
+    def setUpClass(cls):
+        cls.client = appFactory().test_client()
+        cls.maxDiff = None
 
-    def tearDown(self):
-        self.app = None
+    @classmethod
+    def tearDownClass(cls):
+        cls.client = None
 
     @staticmethod
     def loadJsonFromFile(fileName):
@@ -27,7 +31,7 @@ class test_clsQueryView(unittest.TestCase):
         queryResponseBody = self.loadJsonFromFile("test_query_response_body_nominal.json")
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
-            response = self.app.post('/v0.9.2/query', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
+            response = self.client.post(f'/{version}/query', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
         self.assertEqual(200, response.status_code)
         self.assertEqual(queryResponseBody, response.json)
 
@@ -38,7 +42,7 @@ class test_clsQueryView(unittest.TestCase):
         queryResponseBody = self.loadJsonFromFile("test_query_response_body_nominal.json")
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
-            response = self.app.post('/v0.9.2/query', headers={"Content-Type": "text/json"}, data=userRequestBody, follow_redirects=True)
+            response = self.client.post(f'/{version}/query', headers={"Content-Type": "text/json"}, data=userRequestBody, follow_redirects=True)
         self.assertEqual(200, response.status_code)
         self.assertEqual(queryResponseBody, response.json)
 
@@ -49,7 +53,7 @@ class test_clsQueryView(unittest.TestCase):
         queryResponseBody = self.loadJsonFromFile("test_query_response_body_nominal.json")
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
-            response = self.app.post('/v0.9.2/query', data=userRequestBody, follow_redirects=True)
+            response = self.client.post(f'/{version}/query', data=userRequestBody, follow_redirects=True)
         self.assertEqual(200, response.status_code)
         self.assertEqual(queryResponseBody, response.json)
 
@@ -59,7 +63,7 @@ class test_clsQueryView(unittest.TestCase):
         queryResponseBody = self.loadJsonFromFile("test_query_response_body_empty.json")
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
-            response = self.app.post('/v0.9.2/query', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
+            response = self.client.post(f'/{version}/query', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
         self.assertEqual(200, response.status_code)
         self.assertEqual(queryResponseBody, response.json)
 
@@ -69,7 +73,7 @@ class test_clsQueryView(unittest.TestCase):
         queryResponseBody = {"message": "Supplied request body does not conform"}
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
-            response = self.app.post('/v0.9.2/query', data=userRequestBody, follow_redirects=True)
+            response = self.client.post(f'/{version}/query', data=userRequestBody, follow_redirects=True)
         self.assertEqual(400, response.status_code)
         self.assertEqual(queryResponseBody, response.json)
 
@@ -79,7 +83,7 @@ class test_clsQueryView(unittest.TestCase):
         queryResponseBody = {"message": "Knowledge Provider response body does not conform, have they changed their API?"}
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProviderUrl, text=knowledgeProviderResponseBody)
-            response = self.app.post('/v0.9.2/query', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
+            response = self.client.post(f'/{version}/query', headers={"Content-Type": "application/json"}, data=userRequestBody, follow_redirects=True)
         self.assertEqual(500, response.status_code)
         self.assertEqual(queryResponseBody, response.json)
 

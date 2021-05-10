@@ -6,18 +6,16 @@
 	},
 	"item": [
 		{
-			"name": "At Agent",
+			"name": "At Agent Query",
 			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
+				"disabledSystemHeaders": {}
 			},
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\r\n        \"message\": {\r\n            \"query_graph\": {\r\n                \"edges\": [\r\n                    {\r\n                        \"id\": \"e00\",\r\n                        \"source_id\": \"n00\",\r\n                        \"target_id\": \"n01\",\r\n                        \"type\": \"associated\"\r\n                    }\r\n                ],\r\n                \"nodes\": [\r\n                    {\r\n                        \"curie\": \"EFO:0004465\",\r\n                        \"id\": \"n00\",\r\n                        \"type\": \"disease\"\r\n                    },\r\n                    {\r\n                        \"id\": \"n01\",\r\n                        \"type\": \"gene\"\r\n                    }\r\n                ]\r\n            }\r\n        }\r\n    }",
+					"raw": "    {\r\n        \"message\": {\r\n            \"query_graph\": {\r\n                \"edges\": [\r\n                    {\r\n                        \"id\": \"e00\",\r\n                        \"source_id\": \"n00\",\r\n                        \"target_id\": \"n01\",\r\n                        \"type\": \"associated\"\r\n                    }\r\n                ],\r\n                \"nodes\": [\r\n                    {\r\n                        \"curie\": \"EFO:0005208\",\r\n                        \"id\": \"n00\",\r\n                        \"type\": \"disease\"\r\n                    },\r\n                    {\r\n                        \"id\": \"n01\",\r\n                        \"type\": \"gene\"\r\n                    }\r\n                ]\r\n            }\r\n        }\r\n    }\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -25,13 +23,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}:80/agent",
+					"raw": "{{host}}:80/{{version}}/query",
 					"host": [
 						"{{host}}"
 					],
 					"port": "80",
 					"path": [
-						"agent"
+						"{{version}}",
+						"query"
 					]
 				}
 			},
@@ -44,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\r\n        \"message\": {\r\n            \"query_graph\": {\r\n                \"edges\": [\r\n                    {\r\n                        \"id\": \"e00\",\r\n                        \"source_id\": \"n00\",\r\n                        \"target_id\": \"n01\",\r\n                        \"type\": \"associated\"\r\n                    }\r\n                ],\r\n                \"nodes\": [\r\n                    {\r\n                        \"curie\": \"EFO:0004465\",\r\n                        \"id\": \"n00\",\r\n                        \"type\": \"disease\"\r\n                    },\r\n                    {\r\n                        \"id\": \"n01\",\r\n                        \"type\": \"gene\"\r\n                    }\r\n                ]\r\n            }\r\n        }\r\n    }\r\n",
+					"raw": "    {\r\n        \"message\": {\r\n            \"query_graph\": {\r\n                \"edges\": [\r\n                    {\r\n                        \"id\": \"e00\",\r\n                        \"source_id\": \"n00\",\r\n                        \"target_id\": \"n01\",\r\n                        \"type\": \"associated\"\r\n                    }\r\n                ],\r\n                \"nodes\": [\r\n                    {\r\n                        \"curie\": \"EFO:0005208\",\r\n                        \"id\": \"n00\",\r\n                        \"type\": \"disease\"\r\n                    },\r\n                    {\r\n                        \"id\": \"n01\",\r\n                        \"type\": \"gene\"\r\n                    }\r\n                ]\r\n            }\r\n        }\r\n    }\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -62,6 +61,25 @@
 					"path": [
 						"genetics_data_provider",
 						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "At Agent Predicates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:80/{{version}}/predicates",
+					"host": [
+						"{{host}}"
+					],
+					"port": "80",
+					"path": [
+						"{{version}}",
+						"predicates"
 					]
 				}
 			},

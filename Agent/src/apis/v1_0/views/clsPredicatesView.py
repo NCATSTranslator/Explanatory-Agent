@@ -7,7 +7,7 @@ WHO: SL 2020-12-14
 """
 
 from flask_restx import Resource, Namespace
-from apis.v1_0.models.clsPredicates import clsPredicates
+from ..predicates.clsPredicateManager import clsPredicateManager
 
 namespace = Namespace("predicates", description="Predicates Endpoints")
 
@@ -25,4 +25,7 @@ class clsPredicatesView(Resource):
         :return: Predicate view model
         """
 
-        return clsPredicates.return_accepted(), 200
+        predicateManager = clsPredicateManager()
+        predicateManager.generateUserResponsePredicates()
+
+        return predicateManager.userResponsePredicates, 200

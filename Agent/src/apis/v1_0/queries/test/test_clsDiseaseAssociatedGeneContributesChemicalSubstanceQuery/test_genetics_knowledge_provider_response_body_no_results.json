@@ -1,0 +1,27 @@
+{
+    "message": {
+        "knowledge_graph": {
+            "edges": {},
+            "nodes": {}
+        },
+        "query_graph": {
+            "edges": {
+                "e00": {
+                    "object": "n01",
+                    "predicate": "biolink:condition_associated_with_gene",
+                    "subject": "n00"
+                }
+            },
+            "nodes": {
+                "n00": {
+                    "category": "biolink:Disease",
+                    "id": "MONDO:0004981"
+                },
+                "n01": {
+                    "category": "biolink:Gene"
+                }
+            }
+        },
+        "results": []
+    }
+}

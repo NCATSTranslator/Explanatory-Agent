@@ -1,0 +1,12 @@
+Id,Name,Url
+1,Automat,https://automat.renci.org/covid-phenotypes/1.1/query
+2,Clinical-COHD,http://cohd.io/api/query
+3,Clinical-KnowledgeCollaboratory,https://api.collaboratory.semanticscience.org/query
+4,Clinical-OpenPredict,https://openpredict.semanticscience.org/query
+5,Genetics,https://translator.broadinstitute.org/genetics_provider/trapi/v1.1/query
+6,MolePro,https://translator.broadinstitute.org/molepro/trapi/v1.1/query
+7,Multiomics-BigGIM2DrugResponse,https://api.bte.ncats.io/v1/smartapi/adf20dd6ff23dfe18e8e012bde686e31/query
+8,Multiomics-BigGIM2TCGA,https://api.bte.ncats.io/v1/smartapi/adf20dd6ff23dfe18e8e012bde686e31/query
+9,Multiomics-EHR,https://api.bte.ncats.io/v1/smartapi/1bef5ecbb0b9aee90023ce9faa2c8974/query
+10,Multiomics-Wellness,https://api.bte.ncats.io/v1/smartapi/4974ebbf2c1ae31a25a7a7b2d9e4b0d4/query
+11,Text Mining,https://smart-api.info/ui/978fe380a147a8641caf72320862697b#/association/post_association

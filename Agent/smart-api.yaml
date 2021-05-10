@@ -187,12 +187,12 @@ components:
               predicate: biolink:condition_associated_with_gene
               subject: n0
               object: n1
-          nodes:
-            n0:
-              category: biolink:Disease
-              id: EFO:0000275
-            n1:
-              category: biolink:Gene
+            nodes:
+              n0:
+                category: biolink:Disease
+                id: EFO:0000275
+              n1:
+                category: biolink:Gene
       additionalProperties: false
     LogEntry:
       description: >-
