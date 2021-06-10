@@ -1,0 +1,53 @@
+{
+  "description": "Supplied request body does not conform to TRAPI v1.1.0 standard. Error: [] is not of type 'object'",
+  "logs": [],
+  "status": "BadRequest",
+  "message": {
+    "query_graph": {
+      "edges": {
+        "e00": {
+          "subject": "n00",
+          "predicates": [
+            "biolink:correlated_with"
+          ],
+          "object": "n01",
+          "constraints": [
+            {
+              "id": "CHP:PredicateProxy",
+              "name": "Predicate Proxy",
+              "operator": "==",
+              "value": [
+                "EFO:0000714"
+              ],
+              "unit_id": null,
+              "unit_name": null
+            }
+          ]
+        }
+      },
+      "nodes": {
+        "n00": {
+          "ids": [
+            "PUBCHEM.COMPOUND:2244"
+          ],
+          "categories": [
+            "biolink:ChemicalSubstance"
+          ],
+          "constraints": [
+            []
+          ]
+        },
+        "n01": {
+          "categories": [
+            "biolink:Gene"
+          ]
+        }
+      }
+    },
+    "knowledge_graph": {
+      "edges": {},
+      "nodes": {}
+    },
+    "results": []
+  }
+}

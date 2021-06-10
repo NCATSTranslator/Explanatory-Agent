@@ -29,17 +29,17 @@ class clsPredicateManager:
         userResponsePredicates = {}
         for registeredQueryClass in clsQueryManager.registeredQueryClasses:
             registeredQuery = registeredQueryClass(None)
-            for subject, objPredicates in registeredQuery.predicates.items():
+            for subject, objectPredicates in registeredQuery.predicates.items():
                 if subject not in userResponsePredicates:
                     userResponsePredicates[subject] = {}
-                for obj, predicates in objPredicates.items():
-                    if obj not in userResponsePredicates[subject]:
-                        userResponsePredicates[subject][obj] = set()
-                    userResponsePredicates[subject][obj] |= set(predicates)
+                for object, predicates in objectPredicates.items():
+                    if object not in userResponsePredicates[subject]:
+                        userResponsePredicates[subject][object] = set()
+                    userResponsePredicates[subject][object] |= set(predicates)
 
         # convert all finalized sets to sorted lists for consistency.
-        for subject, objPredicates in userResponsePredicates.items():
-            for obj in objPredicates.keys():
-                userResponsePredicates[subject][obj] = sorted(list(userResponsePredicates[subject][obj]))
+        for subject, objectPredicates in userResponsePredicates.items():
+            for object in objectPredicates.keys():
+                userResponsePredicates[subject][object] = sorted(list(userResponsePredicates[subject][object]))
 
         self.userResponsePredicates = userResponsePredicates

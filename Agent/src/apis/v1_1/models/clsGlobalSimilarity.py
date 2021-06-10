@@ -13,9 +13,9 @@ class clsGlobalSimilarity(db.Model):
         ),
     )
 
-    Id = db.Column(db.BigInteger, primary_key=True, autoincrement=False)
-    Subject = db.Column(db.String(255))
-    Object = db.Column(db.String(255))
-    Predicate = db.Column(db.String(255))
-    CaseId = db.Column(db.String(255))
-    CaseValue = db.Column(db.Float)
+    Id = db.Column(db.BigInteger, primary_key=True, autoincrement=False, nullable=False)
+    Subject = db.Column(db.String(255), nullable=False)
+    Object = db.Column(db.String(255), nullable=False)
+    Predicate = db.Column(db.String(255), nullable=False)
+    CaseId = db.Column(db.String(255), nullable=False)
+    CaseValue = db.Column(db.Float, nullable=False)

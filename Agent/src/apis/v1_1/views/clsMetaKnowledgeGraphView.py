@@ -1,5 +1,9 @@
 """
-todo
+WHAT: A class which represents a view for all metadata related operations
+WHY: Need an api view
+ASSUMES: No user input
+FUTURE IMPROVEMENTS: N/A
+WHO: SL 2021-05-11
 """
 
 from flask_restx import Resource, Namespace
@@ -17,7 +21,7 @@ class clsMetaKnowledgeGraphView(Resource):
     def get(self):
         """
         HTTP GET request
-        * todo
+        * Query database to determine supported metadata
         :return: Meta Knowledge Graph view model
         """
 

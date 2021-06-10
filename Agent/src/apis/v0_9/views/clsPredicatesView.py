@@ -1,6 +1,6 @@
 """
 WHAT: A class which represents a view for all predicate related operations
-WHY: Need to define input/output paths whether running in Docker or running directly on a Windows/Mac/Linux OS, paths would be different
+WHY: Need an api view
 ASSUMES: No user input
 FUTURE IMPROVEMENTS: N/A
 WHO: SL 2020-12-14

@@ -1,0 +1,16 @@
+{
+  "description": "Request contains invalid JSON.",
+  "logs": [],
+  "status": "BadRequest",
+  "message": {
+    "query_graph": {
+      "edges": {},
+      "nodes": {}
+    },
+    "knowledge_graph": {
+      "edges": {},
+      "nodes": {}
+    },
+    "results": []
+  }
+}

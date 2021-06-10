@@ -1,0 +1,52 @@
+{
+  "PUBCHEM.COMPOUND:2244": {
+    "id": {
+      "identifier": "PUBCHEM.COMPOUND:2244",
+      "label": "Aspirin"
+    },
+    "equivalent_identifiers": [
+      {
+        "identifier": "PUBCHEM.COMPOUND:2244",
+        "label": "Aspirin"
+      },
+      {
+        "identifier": "CHEMBL.COMPOUND:CHEMBL25",
+        "label": "ASPIRIN"
+      },
+      {
+        "identifier": "UNII:R16CO5Y76E"
+      },
+      {
+        "identifier": "CHEBI:15365",
+        "label": "acetylsalicylic acid"
+      },
+      {
+        "identifier": "DRUGBANK:DB00945"
+      },
+      {
+        "identifier": "MESH:D001241",
+        "label": "Aspirin"
+      },
+      {
+        "identifier": "GTOPDB:4139"
+      },
+      {
+        "identifier": "HMDB:HMDB0001879"
+      },
+      {
+        "identifier": "KEGG.COMPOUND:C01405",
+        "label": "Aspirin"
+      },
+      {
+        "identifier": "INCHIKEY:OXBFBPQXYBLXFZ-UHFFFAOYSA-N"
+      }
+    ],
+    "type": [
+      "biolink:ChemicalSubstance",
+      "biolink:Entity",
+      "biolink:NamedThing",
+      "biolink:BiologicalEntity",
+      "biolink:MolecularEntity"
+    ]
+  }
+}
