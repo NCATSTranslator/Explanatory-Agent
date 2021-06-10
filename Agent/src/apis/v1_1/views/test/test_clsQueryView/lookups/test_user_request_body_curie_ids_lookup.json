@@ -1,0 +1,51 @@
+{
+  "message": {
+    "query_graph": {
+      "edges": {
+        "e00": {
+          "subject": "n00",
+          "predicates": [
+            "biolink:correlated_with"
+          ],
+          "object": "n01",
+          "constraints": [
+            {
+              "id": "CHP:PredicateProxy",
+              "name": "Predicate Proxy",
+              "operator": "==",
+              "value": [
+                "EFO:0000714"
+              ],
+              "unit_id": null,
+              "unit_name": null
+            }
+          ]
+        }
+      },
+      "nodes": {
+        "n00": {
+          "names": [
+            "Aspirin"
+          ],
+          "constraints": [
+            {
+              "id": "CHP:PredicateProxy",
+              "name": "Predicate Proxy",
+              "operator": "==",
+              "value": [
+                "EFO:0000714"
+              ],
+              "unit_id": null,
+              "unit_name": null
+            }
+          ]
+        },
+        "n01": {
+          "categories": [
+            "biolink:Gene"
+          ]
+        }
+      }
+    }
+  }
+}

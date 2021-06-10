@@ -8,3 +8,5 @@ class clsCaseSolutionPath:
         self.object = None
         self.predicate = None
         self.knowledgeProvider = None
+
+        self.logs = None

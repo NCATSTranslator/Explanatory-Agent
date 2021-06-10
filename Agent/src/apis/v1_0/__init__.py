@@ -20,5 +20,6 @@ namespaces = Api(
     version=modConfig.buildNumber,
     description="REST API"
 )
-namespaces.add_namespace(clsQueryNamespace)
+# list alphabetical
 namespaces.add_namespace(clsPredicatesNamespace)
+namespaces.add_namespace(clsQueryNamespace)

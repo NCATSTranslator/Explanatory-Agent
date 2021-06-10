@@ -3,29 +3,6 @@ from collections import OrderedDict
 import networkx
 
 
-nominalKnowledgeProviderRequestBody = {
-    "message": {
-        "query_graph": {
-            "edges": {
-                "e00": {
-                    "subject": "n00",
-                    "predicates": None,
-                    "object": "n01"
-                }
-            },
-            "nodes": {
-                "n00": {
-                    "categories": None
-                },
-                "n01": {
-                    "categories": None
-                }
-            }
-        }
-    }
-}
-
-
 class clsCaseSolution:
 
     def __init__(self):
@@ -49,6 +26,10 @@ class clsCaseSolution:
         # helper knowledge_graph for merging
         self.networkx_knowledge_graph = None
 
+        self.logs = None
+
+        self.dispatchIdSuffix = None
+
     def solve(self):
         if len(self.paths) == 1:
             self.generateKnowledgeGraphForOnePath()
@@ -61,35 +42,69 @@ class clsCaseSolution:
         else:
             raise AttributeError("Number of knowledge provider paths supported is either 1 or 2")
 
+    @property
+    def nominalKnowledgeProviderRequestBody(self):
+        return {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        ("e00" + self.dispatchIdSuffix): {
+                            "subject": "n00" + self.dispatchIdSuffix,
+                            "predicates": None,
+                            "object": "n01" + self.dispatchIdSuffix
+                        }
+                    },
+                    "nodes": {
+                        ("n00" + self.dispatchIdSuffix): {
+                            "categories": None
+                        },
+                        ("n01" + self.dispatchIdSuffix): {
+                            "categories": None
+                        }
+                    }
+                }
+            }
+        }
+
     def generateKnowledgeGraphForOnePath(self):
 
-        self.paths[0].knowledgeProvider.requestBody = deepcopy(nominalKnowledgeProviderRequestBody)
-        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['edges']['e00']['predicates'] = [self.paths[0].predicate]
-        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['categories'] = [self.paths[0].subject]
-        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']['categories'] = [self.paths[0].object]
+        self.paths[0].knowledgeProvider.requestBody = deepcopy(self.nominalKnowledgeProviderRequestBody)
+        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['edges'][('e00' + self.dispatchIdSuffix)]['predicates'] = [self.paths[0].predicate]
+        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['categories'] = [self.paths[0].subject]
+        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]['categories'] = [self.paths[0].object]
 
         if self.subjectCurieIds is not None:
-            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['ids'] = deepcopy(self.subjectCurieIds)
+            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['ids'] = deepcopy(self.subjectCurieIds)
         if self.objectCurieIds is not None:
-            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']['ids'] = deepcopy(self.objectCurieIds)
+            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]['ids'] = deepcopy(self.objectCurieIds)
 
         if self.subjectConstraints is not None:
-            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['constraints'] = deepcopy(self.subjectConstraints)
+            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['constraints'] = deepcopy(self.subjectConstraints)
         if self.objectConstraints is not None:
-            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']['constraints'] = deepcopy(self.objectConstraints)
+            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]['constraints'] = deepcopy(self.objectConstraints)
         if self.edgeConstraints is not None:
-            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['edges']['e00']['constraints'] = deepcopy(self.edgeConstraints)
+            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['edges'][('e00' + self.dispatchIdSuffix)]['constraints'] = deepcopy(self.edgeConstraints)
 
         self.paths[0].knowledgeProvider.execute()
         self.knowledge_graph = deepcopy(self.paths[0].knowledgeProvider.responseBody['message']['knowledge_graph'])
 
-        for edgeId, edge in self.knowledge_graph['edges'].items():
-            edge.update({
-                "KP_name": [self.paths[0].knowledgeProvider.name],
-                "xARA_Explanation_Rationale": "TBD",
-                "xARA_Explanation_Ranking": 1,
-                "xARA_Explanation_Text": "TBD"
+        # adding knowledge provider to the edge of the knowlege_graph
+        for edgeId in self.knowledge_graph['edges']:
+            if "attributes" not in self.knowledge_graph['edges'][edgeId]:
+                self.knowledge_graph['edges'][edgeId]["attributes"] = []
+            self.knowledge_graph['edges'][edgeId]["attributes"].append({
+                "attribute_type_id": "biolink:aggregator_knowledge_source",
+                "value": self.paths[0].knowledgeProvider.name
             })
+
+        # todo, how to add these and still pass validation? A: inject in "Attributes", but need correct biolink CURIEs
+        # for edgeId, edge in self.knowledge_graph['edges'].items():
+        #     edge.update({
+        #         "KP_name": [self.paths[0].knowledgeProvider.name],
+        #         "xARA_Explanation_Rationale": "TBD",
+        #         "xARA_Explanation_Ranking": 1,
+        #         "xARA_Explanation_Text": "TBD"
+        #     })
 
     def generateQueryGraphForOnePath(self):
         self.query_graph = deepcopy(self.paths[0].knowledgeProvider.requestBody['message']['query_graph'])
@@ -99,16 +114,18 @@ class clsCaseSolution:
         # sorting for deterministic results. This can go away after index isn't used for rank.
         for index, (edgeId, edge) in enumerate(sorted(list(self.knowledge_graph['edges'].items()), key=lambda i: i[0])):
             result = OrderedDict()
-            result['edge_bindings'] = {"e00": [{
-                "id": edgeId,
-                "KP_name": [self.paths[0].knowledgeProvider.name],
-                "xARA_Explanation_Rationale": "TBD",
-                "xARA_Explanation_Ranking": 1,
-                "xARA_Explanation_Text": "TBD"
-            }]}
+            result['edge_bindings'] = {
+                ("e00" + self.dispatchIdSuffix): [{
+                    "id": edgeId,
+                    "KP_name": [self.paths[0].knowledgeProvider.name],
+                    "xARA_Explanation_Rationale": "TBD",
+                    "xARA_Explanation_Ranking": 1,
+                    "xARA_Explanation_Text": "TBD"
+                }]
+            }
             result['node_bindings'] = {
-                "n00": [{"id": edge['subject']}],
-                "n01": [{"id": edge['object']}],
+                ("n00" + self.dispatchIdSuffix): [{"id": edge['subject']}],
+                ("n01" + self.dispatchIdSuffix): [{"id": edge['object']}],
             }
 
             self.results.append(result)
@@ -116,13 +133,13 @@ class clsCaseSolution:
     def generateKnowledgeGraphForTwoPaths(self):
         # constraints not used for 2 path
 
-        self.paths[0].knowledgeProvider.requestBody = deepcopy(nominalKnowledgeProviderRequestBody)
-        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['edges']['e00']['predicates'] = [self.paths[0].predicate]
-        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['categories'] = [self.paths[0].subject]
-        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']['categories'] = [self.paths[0].object]
+        self.paths[0].knowledgeProvider.requestBody = deepcopy(self.nominalKnowledgeProviderRequestBody)
+        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['edges'][('e00' + self.dispatchIdSuffix)]['predicates'] = [self.paths[0].predicate]
+        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['categories'] = [self.paths[0].subject]
+        self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]['categories'] = [self.paths[0].object]
 
         if self.subjectCurieIds is not None:
-            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['ids'] = self.subjectCurieIds
+            self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['ids'] = self.subjectCurieIds
 
         self.paths[0].knowledgeProvider.execute()
 
@@ -133,15 +150,15 @@ class clsCaseSolution:
 
         # todo, if empty set then just be done here and assume only a 1 KP Path
 
-        self.paths[1].knowledgeProvider.requestBody = deepcopy(nominalKnowledgeProviderRequestBody)
-        self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['edges']['e00']['predicates'] = [self.paths[1].predicate]
-        self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['categories'] = [self.paths[1].subject]
-        self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']['categories'] = [self.paths[1].object]
+        self.paths[1].knowledgeProvider.requestBody = deepcopy(self.nominalKnowledgeProviderRequestBody)
+        self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['edges'][('e00' + self.dispatchIdSuffix)]['predicates'] = [self.paths[1].predicate]
+        self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['categories'] = [self.paths[1].subject]
+        self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]['categories'] = [self.paths[1].object]
 
         if subjectCurieIdsForNextPath != set():
-            self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']['ids'] = sorted(list(subjectCurieIdsForNextPath))
+            self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]['ids'] = sorted(list(subjectCurieIdsForNextPath))
         if self.objectCurieIds is not None:
-            self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']['ids'] = deepcopy(self.objectCurieIds)
+            self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]['ids'] = deepcopy(self.objectCurieIds)
         # todo, what to do with empty set?
 
         self.paths[1].knowledgeProvider.execute()
@@ -164,40 +181,53 @@ class clsCaseSolution:
         # merge edges
         for edgeId, edge in self.paths[0].knowledgeProvider.responseBody["message"]["knowledge_graph"]["edges"].items():
             self.knowledge_graph["edges"][edgeId] = deepcopy(edge)
+            if "attributes" not in self.knowledge_graph['edges'][edgeId]:
+                self.knowledge_graph['edges'][edgeId]["attributes"] = []
+            self.knowledge_graph['edges'][edgeId]["attributes"].append({
+                "attribute_type_id": "biolink:aggregator_knowledge_source",
+                "value": self.paths[0].knowledgeProvider.name
+            })
             self.networkx_knowledge_graph.add_edge(edge["subject"], edge["object"], id=edgeId, **deepcopy(edge))
 
         for edgeId, edge in self.paths[1].knowledgeProvider.responseBody["message"]["knowledge_graph"]["edges"].items():
             self.knowledge_graph["edges"][edgeId] = deepcopy(edge)
+            if "attributes" not in self.knowledge_graph['edges'][edgeId]:
+                self.knowledge_graph['edges'][edgeId]["attributes"] = []
+            self.knowledge_graph['edges'][edgeId]["attributes"].append({
+                "attribute_type_id": "biolink:aggregator_knowledge_source",
+                "value": self.paths[1].knowledgeProvider.name
+            })
             self.networkx_knowledge_graph.add_edge(edge["subject"], edge["object"], id=edgeId, **deepcopy(edge))
 
-        for edgeId, edge in self.knowledge_graph['edges'].items():
-            edge.update({
-                "KP_name": [self.paths[0].knowledgeProvider.name, self.paths[1].knowledgeProvider.name],
-                "xARA_Explanation_Rationale": "TBD",
-                "xARA_Explanation_Ranking": 1,
-                "xARA_Explanation_Text": "TBD"
-            })
+        # todo, how to add these and still pass validation?
+        # for edgeId, edge in self.knowledge_graph['edges'].items():
+        #     edge.update({
+        #         "KP_name": [self.paths[0].knowledgeProvider.name, self.paths[1].knowledgeProvider.name],
+        #         "xARA_Explanation_Rationale": "TBD",
+        #         "xARA_Explanation_Ranking": 1,
+        #         "xARA_Explanation_Text": "TBD"
+        #     })
 
     def generateQueryGraphForTwoPaths(self):
         # constraints not used for 2 path
 
         self.query_graph = {
             "edges": {
-                "e00": {
-                    "subject": "n00",
+                ("e00" + self.dispatchIdSuffix): {
+                    "subject": ("n00" + self.dispatchIdSuffix),
                     "predicates": [self.paths[0].predicate],
-                    "object": "n01"
+                    "object": ("n01" + self.dispatchIdSuffix)
                 },
-                "e01": {
-                    "subject": "n01",
+                ("e01" + self.dispatchIdSuffix): {
+                    "subject": ("n01" + self.dispatchIdSuffix),
                     "predicates": [self.paths[1].predicate],
-                    "object": "n02"
+                    "object": ("n02" + self.dispatchIdSuffix)
                 },
             },
             "nodes": {
-                "n00": deepcopy(self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n00']),
-                "n01": deepcopy(self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']),
-                "n02": deepcopy(self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes']['n01']),
+                ("n00" + self.dispatchIdSuffix): deepcopy(self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n00' + self.dispatchIdSuffix)]),
+                ("n01" + self.dispatchIdSuffix): deepcopy(self.paths[0].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]),
+                ("n02" + self.dispatchIdSuffix): deepcopy(self.paths[1].knowledgeProvider.requestBody['message']['query_graph']['nodes'][('n01' + self.dispatchIdSuffix)]),
             }
         }
 
@@ -219,14 +249,14 @@ class clsCaseSolution:
                     result = OrderedDict()
 
                     result['edge_bindings'] = {
-                        "e00": [{
+                        ("e00" + self.dispatchIdSuffix): [{
                             "id": edge00['id'],
                             "KP_name": [self.paths[0].knowledgeProvider.name, self.paths[1].knowledgeProvider.name],
                             "xARA_Explanation_Rationale": "TBD",
                             "xARA_Explanation_Ranking": 1,
                             "xARA_Explanation_Text": "TBD"
                         }],
-                        "e01": [{
+                        ("e01" + self.dispatchIdSuffix): [{
                             "id": edge01['id'],
                             "KP_name": [self.paths[0].knowledgeProvider.name, self.paths[1].knowledgeProvider.name],
                             "xARA_Explanation_Rationale": "TBD",
@@ -236,9 +266,9 @@ class clsCaseSolution:
                     }
 
                     result['node_bindings'] = {
-                        "n00": [{"id": subjectCurieId}],
-                        "n01": [{"id": intermediateCurieId}],
-                        "n02": [{"id": objectCurieId}],
+                        ("n00" + self.dispatchIdSuffix): [{"id": subjectCurieId}],
+                        ("n01" + self.dispatchIdSuffix): [{"id": intermediateCurieId}],
+                        ("n02" + self.dispatchIdSuffix): [{"id": objectCurieId}],
                     }
 
                     self.results.append(result)

@@ -13,6 +13,6 @@ class clsKnowledgeProviders(db.Model):
         ),
     )
 
-    Id = db.Column(db.BigInteger, primary_key=True, autoincrement=False)
-    Name = db.Column(db.String(255))
-    Url = db.Column(db.Text)
+    Id = db.Column(db.BigInteger, primary_key=True, autoincrement=False, nullable=False)
+    Name = db.Column(db.String(255), nullable=False)
+    Url = db.Column(db.Text, nullable=False)

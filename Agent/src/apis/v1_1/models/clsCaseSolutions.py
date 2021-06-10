@@ -39,25 +39,25 @@ class clsCaseSolutions(db.Model):
         ),
     )
 
-    Id = db.Column(db.BigInteger, primary_key=True, autoincrement=False)
-    CaseId = db.Column(db.String(255))
-    Origin = db.Column(db.String(255))
+    Id = db.Column(db.BigInteger, primary_key=True, autoincrement=False, nullable=False)
+    CaseId = db.Column(db.String(255), nullable=False)
+    Origin = db.Column(db.String(255), nullable=False)
 
-    KnowledgeProviderPathCount = db.Column(db.SmallInteger)
-    KnowledgeProviderPath1Name = db.Column(db.String(255))
+    KnowledgeProviderPathCount = db.Column(db.SmallInteger, nullable=False)
+    KnowledgeProviderPath1Name = db.Column(db.String(255), nullable=False)
     KnowledgeProviderPath2Name = db.Column(db.String(255), nullable=True)
 
-    Node1Path1Category = db.Column(db.String(255))
-    Node1Path1Type = db.Column(db.String(255))
-    Node1Path1Reference = db.Column(db.String(255))
+    Node1Path1Category = db.Column(db.String(255), nullable=False)
+    Node1Path1Type = db.Column(db.String(255), nullable=False)
+    Node1Path1Reference = db.Column(db.String(255), nullable=False)
 
-    Node2Path1Category = db.Column(db.String(255))
-    Node2Path1Type = db.Column(db.String(255))
-    Node2Path1Reference = db.Column(db.String(255))
+    Node2Path1Category = db.Column(db.String(255), nullable=False)
+    Node2Path1Type = db.Column(db.String(255), nullable=False)
+    Node2Path1Reference = db.Column(db.String(255), nullable=False)
 
-    Edge1Path1Predicate = db.Column(db.String(255))
-    Edge1Path1Ends = db.Column(db.String(255))
-    Edge1Path1Reference = db.Column(db.String(255))
+    Edge1Path1Predicate = db.Column(db.String(255), nullable=False)
+    Edge1Path1Ends = db.Column(db.String(255), nullable=False)
+    Edge1Path1Reference = db.Column(db.String(255), nullable=False)
 
     Node1Path2Category = db.Column(db.String(255), nullable=True)
     Node1Path2Type = db.Column(db.String(255), nullable=True)

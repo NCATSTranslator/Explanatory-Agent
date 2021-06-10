@@ -11,7 +11,7 @@ from flask_restx import Api
 from flask import Blueprint
 from .views.clsQueryView import namespace as clsQueryNamespace
 from .views.clsMetaKnowledgeGraphView import namespace as clsMetaKnowledgeGraphNamespace
-from .views.clsDummyView import namespace as clsDummyNamespace
+from .views.clsPredicatesView import namespace as clsPredicatesNamespace
 
 version = "v1.1"
 blueprint = Blueprint(version, __name__, url_prefix=f'/{version}')
@@ -21,6 +21,7 @@ namespaces = Api(
     version=modConfig.buildNumber,
     description="REST API"
 )
-namespaces.add_namespace(clsQueryNamespace)
+# list alphabetical
 namespaces.add_namespace(clsMetaKnowledgeGraphNamespace)
-# namespaces.add_namespace(clsDummyNamespace)
+namespaces.add_namespace(clsPredicatesNamespace)
+namespaces.add_namespace(clsQueryNamespace)
