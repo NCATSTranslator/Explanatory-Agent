@@ -44,7 +44,7 @@ pipeline {
            when { expression { return env.BUILD == 'true' }}
             steps {
                 script {
-                    docker.build(env.DOCKER_REPO_NAME, "--build-arg ${BUILD_VERSION} --no-cache ./")
+                    docker.build(env.DOCKER_REPO_NAME, "--build-arg ${BUILD_VERSION} --no-cache ./Agent")
                     docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws-ifx-deploy') {
                         docker.image(env.DOCKER_REPO_NAME).push("${BUILD_VERSION}")
                     }
