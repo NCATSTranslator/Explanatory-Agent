@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explanatoryagent
+  namespace: trnsltr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: explanatoryagent
+  template:
+    metadata:
+      labels:
+        app: explanatoryagent
+      annotations:
+        configHash: CONFIG_HASH_VALUE
+    spec:
+      containers:
+        - name: explanatoryagentserver
+          image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent:DOCKER_VERSION_VALUE
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          restartPolicy: Always
+      # nodeSelection affinity(application=ea) such that this deployment will only select the node with that label
+      affinity:
+        # this ensures only ONE pod will run on each node
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - explanatoryagent
+            topologyKey: "kubernetes.io/hostname"
+        # this ensures pod only runs on node with label application=ea
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: application
+                operator: In
+                values:
+                - ea      
+      # With the following two sections, we can restrict the deployment on and only on the specific node
+      # toleration to node taint such that this deployment can be scheduled on the tainted node while others without the toleration can not     
+      tolerations:
+        - key: "rtx"
+          value: "ea"
+          operator: "Equal"
+          effect: "NoSchedule"
+
