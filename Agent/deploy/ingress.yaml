@@ -15,7 +15,7 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: '/query/'
 spec:
   rules:
-    - host: PDB_HOSTNAME_VALUE
+    - host: EA_HOSTNAME_VALUE
       http:
         paths:
         - path: /*
