@@ -30,3 +30,4 @@ dbConfig = {
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
 }
 
+maxThreadCount = 4
