@@ -200,7 +200,7 @@ class clsCaseSolutionManager(clsElement):
         self.extractMetadataFromUserRequestBody()
         self.findMostSimilarCase()
         self.findCaseSolution()
-        if self.caseId is None: return
+        if self.caseSolution is None: return
         self.caseSolution.solve()
         self.query_graph = self.caseSolution.query_graph
         self.knowledge_graph = self.caseSolution.knowledge_graph

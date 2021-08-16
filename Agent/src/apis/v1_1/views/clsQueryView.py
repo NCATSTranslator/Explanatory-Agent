@@ -15,6 +15,30 @@ import json
 
 namespace = Namespace("query", description="Query Endpoints")
 
+sampleBodyVerySimple = \
+    {
+      "message": {
+        "query_graph": {
+          "edges": {
+            "e00": {
+              "subject": "n00",
+              "predicates": ["biolink:condition_associated_with_gene"],
+              "object": "n01"
+            }
+          },
+          "nodes": {
+            "n00": {
+              "ids": ["DOID:1612"],
+              "categories": ["biolink:Disease"]
+            },
+            "n01": {
+              "categories": ["biolink:Gene"]
+            }
+          }
+        }
+      }
+    }
+
 sampleBodyOnePathCaseIdQ000019 = \
     {
         "message": {
@@ -156,7 +180,8 @@ sampleBodyThread0OnePathCaseIdQ000019Thread1TwoPathCaseIdQ000127 = \
         "log_level": "ERROR"
     }
 
-sampleBody = sampleBodyThread0OnePathCaseIdQ000019Thread1TwoPathCaseIdQ000127
+# sampleBody = sampleBodyThread0OnePathCaseIdQ000019Thread1TwoPathCaseIdQ000127
+sampleBody = sampleBodyVerySimple
 
 query_graph = namespace.model(
     name="query_graph",
