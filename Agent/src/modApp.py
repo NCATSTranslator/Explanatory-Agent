@@ -10,6 +10,7 @@ import modConfig
 from waitress import serve
 from paste.translogger import TransLogger
 from flask import Flask, redirect, url_for
+from flask_compress import Compress
 from modDatabase import db
 from werkzeug.middleware.proxy_fix import ProxyFix
 from apis.v0_9 import blueprint as blueprint_v0_9
@@ -27,6 +28,9 @@ def appFactory():
 
     # create flask app object with a name
     app = Flask(__name__)
+
+    # add compression
+    Compress(app)
 
     # required so we can get client IP address in logs
     app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -61,7 +65,10 @@ def healthCheck():
     An endpoint that checks the api is responding and the database is responding
     :return: message json with 200 response
     """
-    serverTimestamp = db.engine.execute("select current_timestamp").fetchone()[0]
+    try:
+        serverTimestamp = db.engine.execute("select current_timestamp").fetchone()[0]
+    except Exception as tb:
+        return {"message": f"API is up but Database host {modConfig.dbHost} is down."}, 500
     return {"message": f"API and Database are up! Database host {modConfig.dbHost} with timestamp: {str(serverTimestamp)}"}, 200
 
 
@@ -74,4 +81,12 @@ if __name__ == '__main__':
     # https://docs.pylonsproject.org/projects/waitress/en/stable/arguments.html
     # waitress is lightweight and cross platform
     # performance is not as fast as uwsgi or gunicorn, but still "very acceptable"
-    serve(app=TransLogger(application=app, setup_console_handler=False), host=modConfig.host, port=modConfig.port)
+    serve(
+        app=TransLogger(
+            application=app,
+            setup_console_handler=False
+        ),
+        host=modConfig.host,
+        port=modConfig.port,
+        threads=modConfig.maxThreadCount
+    )

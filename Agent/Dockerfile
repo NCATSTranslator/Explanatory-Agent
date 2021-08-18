@@ -33,11 +33,12 @@ COPY /src /app
 
 # run unit tests in container (hacky but easy)
 COPY .coveragerc /app
-RUN pipenv run nose2 --coverage . --with-coverage
+RUN pipenv run nose2 --coverage . --with-coverage --log-level CRITICAL
 
 # run pending DDL changes against database
 # don't use "flask db upgrade", avoiding circular import errors
-RUN pipenv run python modManage.py db upgrade
+# disabled for now, as the DB will be built from a dump file on each update
+#RUN pipenv run python modManage.py db upgrade
 
 # start app
 # don't use "flask run", avoiding circular import errors

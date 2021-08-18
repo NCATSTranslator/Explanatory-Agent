@@ -1,0 +1,1 @@
+nose2 --coverage . --with-coverage --log-level CRITICAL
