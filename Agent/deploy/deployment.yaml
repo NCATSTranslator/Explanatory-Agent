@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ea
-  namespace: trnsltr
+  namespace: rtx
 spec:
   replicas: 1
   selector:
@@ -15,13 +15,6 @@ spec:
       annotations:
         configHash: CONFIG_HASH_VALUE
     spec:
-      containers:
-        - name: easerver
-          image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent:DOCKER_VERSION_VALUE
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 80
-          restartPolicy: Always
       # nodeSelection affinity(application=ea) such that this deployment will only select the node with that label
       affinity:
         # this ensures only ONE pod will run on each node
@@ -42,7 +35,13 @@ spec:
               - key: application
                 operator: In
                 values:
-                - ea      
+                - ea
+        containers:
+        - name: easerver
+          image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent:DOCKER_VERSION_VALUE
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
       # With the following two sections, we can restrict the deployment on and only on the specific node
       # toleration to node taint such that this deployment can be scheduled on the tainted node while others without the toleration can not     
       tolerations:
@@ -50,4 +49,5 @@ spec:
           value: "ea"
           operator: "Equal"
           effect: "NoSchedule"
+      restartPolicy: Always
 
