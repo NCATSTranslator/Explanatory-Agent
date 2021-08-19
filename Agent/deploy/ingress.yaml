@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: explanatoryagent
+  name: ea
   namespace: trnsltr
   annotations:
     kubernetes.io/ingress.class: alb
@@ -23,6 +23,6 @@ spec:
             serviceName: ssl-redirect
             servicePort: use-annotation
         - backend:
-            serviceName: explanatoryagent
+            serviceName: ea
             servicePort: 80
           path: /*

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: explanatoryagent
+  name: ea
   namespace: trnsltr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: explanatoryagent
+      app: ea
   template:
     metadata:
       labels:
-        app: explanatoryagent
+        app: ea
       annotations:
         configHash: CONFIG_HASH_VALUE
     spec:
       containers:
-        - name: explanatoryagentserver
+        - name: easerver
           image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent:DOCKER_VERSION_VALUE
           imagePullPolicy: Always
           ports:
@@ -32,7 +32,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - explanatoryagent
+                - ea
             topologyKey: "kubernetes.io/hostname"
         # this ensures pod only runs on node with label application=ea
         nodeAffinity:
