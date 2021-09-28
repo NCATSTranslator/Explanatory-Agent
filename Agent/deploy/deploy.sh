@@ -17,6 +17,7 @@ sed -i.bak \
 rm ingress.yaml.bak
 
 kubectl apply -f namespace.yaml
+kubectl create -f secret.yml
 kubectl apply -f deployment.yaml
 kubectl apply -f services.yaml
 kubectl apply -f ingress.yaml
