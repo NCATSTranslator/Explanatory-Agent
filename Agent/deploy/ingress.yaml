@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ea
-  namespace: transltr
+  namespace: chp
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing

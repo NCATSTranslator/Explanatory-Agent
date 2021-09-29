@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ea
-  namespace: transltr
+  namespace: chp
 spec:
   replicas: 1
   selector:
@@ -56,7 +56,7 @@ spec:
       # With the following two sections, we can restrict the deployment on and only on the specific node
       # toleration to node taint such that this deployment can be scheduled on the tainted node while others without the toleration can not     
       tolerations:
-        - key: "transltr"
+        - key: "chp"
           value: "ea"
           operator: "Equal"
           effect: "NoSchedule"
