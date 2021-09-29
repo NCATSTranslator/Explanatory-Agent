@@ -18,8 +18,8 @@ sed -i.bak \
     ingress.yaml
 rm ingress.yaml.bak
 
-kubectl apply -f namespace.yaml
-kubectl apply -f secret.yaml
-kubectl apply -f deployment.yaml
-kubectl apply -f services.yaml
-kubectl apply -f ingress.yaml
+kubectl delete -f namespace.yaml
+kubectl delete -f secret.yaml
+kubectl delete -f deployment.yaml
+kubectl delete -f services.yaml
+kubectl delete -f ingress.yaml
