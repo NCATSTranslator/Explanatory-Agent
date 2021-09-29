@@ -5,8 +5,9 @@ export $(egrep -v '^#' .env)
 sed -i.bak \
     -e "s/DOCKER_VERSION_VALUE/${BUILD_VERSION}/g" \
     -e "s/ARS_ALLOWED_HOSTS_VALUE/${ARS_ALLOWED_HOSTS}/g" \
-    -e "s|DB_USER_VALUE|${DB_USER}|g" \
+    -e "s|DB_USERNAME_VALUE|${DB_USERNAME}|g" \
     -e "s|DB_PASSWORD_VALUE|${DB_PASSWORD}|g" \
+    -e "s|DB_HOST_VALUE|${DB_HOST}|g" \
     deployment.yaml
 rm deployment.yaml.bak
 
