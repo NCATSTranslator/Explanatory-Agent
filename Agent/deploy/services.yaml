@@ -13,17 +13,4 @@ spec:
     app: ea
   type: NodePort
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: psql-rds
-spec:
-  externalName: transltr-ci-rds-ea-chp-postgresql.ceyknq0yekb3.us-east-1.rds.amazonaws.com
-  ports:
-  - port: 5432
-    protocol: TCP
-    targetPort: 5432
-  sessionAffinity: None
-  type: ExternalName
-
 
