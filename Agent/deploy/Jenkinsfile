@@ -58,8 +58,7 @@ pipeline {
                 ]){
                     withAWS(credentials:'aws-ifx-deploy') {
                         sh '''
-                        pwd
-                        ls
+                        kubectl delete deployment ea -n chp
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
                         cd Agent/deploy && /bin/bash deploy.sh
                         '''
