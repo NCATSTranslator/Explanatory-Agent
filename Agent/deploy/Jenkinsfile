@@ -54,13 +54,13 @@ pipeline {
         stage('Deploy to AWS EKS Blue') {
             steps {
                 configFileProvider([
-                    configFile(fileId: 'explanatoryagent-ci-env', targetLocation: 'deploy/.env')
+                    configFile(fileId: 'explanatoryagent-ci-env', targetLocation: 'Agent/deploy/.env')
                 ]){
                     withAWS(credentials:'aws-ifx-deploy') {
                         sh '''
                         kubectl delete deployment ea -n chp
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
-                        cd deploy && /bin/bash deploy.sh
+                        cd Agent/deploy && /bin/bash deploy.sh
                         '''
                     }
                 }
