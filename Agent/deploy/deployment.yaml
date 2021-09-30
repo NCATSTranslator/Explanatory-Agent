@@ -15,27 +15,6 @@ spec:
       annotations:
         configHash: CONFIG_HASH_VALUE
     spec:
-      # nodeSelection affinity(application=ea) such that this deployment will only select the node with that label
-      affinity:
-        # this ensures only ONE pod will run on each node
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - ea
-            topologyKey: "kubernetes.io/hostname"
-        # this ensures pod only runs on node with label application=ea
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: application
-                operator: In
-                values:
-                - ea
       containers:
       - name: easerver
         image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent:DOCKER_VERSION_VALUE
