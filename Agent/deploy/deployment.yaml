@@ -44,9 +44,15 @@ spec:
           - containerPort: 80
         env:
           - name: DB_USERNAME
-            value: DB_USERNAME_VALUE
+            valueFrom:
+              secretKeyRef:
+                name: postgres-config
+                key: username
           - name: DB_PASSWORD
-            value: DB_PASSWORD_VALUE
+            valueFrom:
+              secretKeyRef:
+                name: postgres-config
+                key: password
           - name: DB_HOST
             value: DB_HOST_VALUE
       # With the following two sections, we can restrict the deployment on and only on the specific node
