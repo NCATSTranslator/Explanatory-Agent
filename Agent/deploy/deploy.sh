@@ -24,7 +24,6 @@ sed -i.bak \
 rm ingress.yaml.bak
 
 kubectl apply -f namespace.yaml
-cat secret.yaml
 kubectl apply -f secret.yaml
 kubectl apply -f deployment.yaml
 kubectl apply -f services.yaml
