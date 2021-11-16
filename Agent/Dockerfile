@@ -1,5 +1,5 @@
 # start from base image
-FROM python:3.8-buster
+FROM python:3.7-buster
 
 # put build number variable first to force new build every time
 ARG BUILD_NUMBER_ARG
@@ -33,11 +33,11 @@ COPY /src /app
 
 # run unit tests in container (hacky but easy)
 COPY .coveragerc /app
-RUN pipenv run nose2 --coverage . --with-coverage
+#RUN pipenv run nose2 --coverage . --with-coverage --log-level CRITICAL
 
 # run pending DDL changes against database
 # don't use "flask db upgrade", avoiding circular import errors
-RUN pipenv run python modManage.py db upgrade
+#RUN pipenv run python modManage.py db upgrade
 
 # start app
 # don't use "flask run", avoiding circular import errors
