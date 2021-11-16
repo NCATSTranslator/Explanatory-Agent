@@ -1,3 +1,10 @@
+[run]
+omit=
+    */models/*
+
 [report]
 fail_under=80
 precision=2
+skip_empty=True
+omit=
+    */test/*
