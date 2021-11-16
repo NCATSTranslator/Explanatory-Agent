@@ -2,6 +2,7 @@ import unittest
 from ..clsElement import clsElement
 from ..clsNode import clsNode
 import threading
+from timeit import default_timer as timer
 import time
 
 
@@ -68,9 +69,9 @@ class test_clsNode(unittest.TestCase):
         child1 = clsDummyElement(dispatchId=101, dispatchDescription="child 1")
         child2 = clsDummyElement(dispatchId=102, dispatchDescription="child 2")
         rootNode = clsNode(dispatchId=100, dispatchDescription="root node", dispatchMode="serial", dispatchList=[child1, child2])
-        startTime = time.time()
+        startTime = timer()
         rootNode.execute()
-        endTime = time.time()
+        endTime = timer()
         totalSeconds = endTime - startTime
         self.assertGreaterEqual(totalSeconds, 10, "Expected serial run time to be at least 10 seconds (2x)")
         self.assertEqual(child1.var, "preserved!", "Expected serial run to preserve variable reference for child 1")
@@ -80,10 +81,10 @@ class test_clsNode(unittest.TestCase):
         child1 = clsDummyElement(dispatchId=101, dispatchDescription="child 1")
         child2 = clsDummyElementWithCrash(dispatchId=102, dispatchDescription="child 2")
         rootNode = clsNode(dispatchId=100, dispatchDescription="root node", dispatchMode="serial", dispatchList=[child1, child2])
-        startTime = time.time()
+        startTime = timer()
         with self.assertRaises(ZeroDivisionError, msg="Expected ZeroDivisionError"):
             rootNode.execute()
-        endTime = time.time()
+        endTime = timer()
         totalSeconds = endTime - startTime
         self.assertGreaterEqual(totalSeconds, 7, "Expected serial run time to be at least 7 seconds (1x child 1 + 1x child 2)")
         self.assertEqual(child1.var, "preserved!", "Expected serial run to preserve variable reference for child 1")
@@ -93,9 +94,9 @@ class test_clsNode(unittest.TestCase):
         child1 = clsDummyElement(dispatchId=101, dispatchDescription="child 1")
         child2 = clsDummyElement(dispatchId=102, dispatchDescription="child 2")
         rootNode = clsNode(dispatchId=100, dispatchDescription="root node", dispatchMode="parallel", dispatchList=[child1, child2])
-        startTime = time.time()
+        startTime = timer()
         rootNode.execute()
-        endTime = time.time()
+        endTime = timer()
         totalSeconds = endTime - startTime
         self.assertGreaterEqual(totalSeconds, 5, "Expected parallel run time to be at least 5 seconds (1x)")
         self.assertLessEqual(totalSeconds, 10, "Expected parallel run time to be less than 10 seconds (2x)")
@@ -106,10 +107,10 @@ class test_clsNode(unittest.TestCase):
         child1 = clsDummyElement(dispatchId=101, dispatchDescription="child 1")
         child2 = clsDummyElementWithCrash(dispatchId=102, dispatchDescription="child 2")
         rootNode = clsNode(dispatchId=100, dispatchDescription="root node", dispatchMode="parallel", dispatchList=[child1, child2])
-        startTime = time.time()
+        startTime = timer()
         with self.assertRaises(ZeroDivisionError, msg="Expected ZeroDivisionError"):
             rootNode.execute()
-        endTime = time.time()
+        endTime = timer()
         totalSeconds = endTime - startTime
         self.assertGreaterEqual(totalSeconds, 2, "Expected parallel run time to be at least 2 seconds (1x child 2)")
         self.assertLessEqual(totalSeconds, 5, "Expected parallel run time to be less than 5 seconds (1x child 1")
@@ -121,9 +122,9 @@ class test_clsNode(unittest.TestCase):
         child2 = clsDummyElement(dispatchId=102, dispatchDescription="child 2")
         rootNode = clsNode(dispatchId=100, dispatchDescription="root node", dispatchMode="parallel", dispatchList=[child1, child2])
         rootNode.dispatchThreadLock = threading.Lock()
-        startTime = time.time()
+        startTime = timer()
         rootNode.execute()
-        endTime = time.time()
+        endTime = timer()
         totalSeconds = endTime - startTime
         self.assertGreaterEqual(totalSeconds, 10, "Expected parallel run time to be at least 10 seconds (1x child 1 + 1x child 2)")
         self.assertEqual(child1.var, "preserved!", "Expected parallel run to preserve variable reference for child 1")

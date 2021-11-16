@@ -13,6 +13,7 @@ info:
     url: TBD
   termsOfService: TBD
   x-translator:
+    infores: "infores:explanatory-agent"
     component: ARA
     team:
       - Explanatory Agent
@@ -25,6 +26,7 @@ info:
         production/x-translator/
   x-trapi:
     version: 1.2.0
+    asyncquery: false
     operations:
       - lookup
     externalDocs:
@@ -36,6 +38,10 @@ info:
 servers:
   - url: https://explanatory-agent.azurewebsites.net/v1.2/
     description: Production Server
+    x-maturity: production
+  - url: https://explanatory-agent-dev.azurewebsites.net/v1.2/
+    description: Development Server
+    x-maturity: development
 externalDocs:
   description: >-
     Documentation for the NCATS Biomedical Translator Reasoners web services

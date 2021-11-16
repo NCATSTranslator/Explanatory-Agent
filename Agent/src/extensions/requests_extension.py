@@ -11,7 +11,8 @@ def _request_runner(method, url, response_proxy, **kwargs):
 
 def request_with_global_timeout(method, url, global_timeout, **kwargs):
     if global_timeout is None or global_timeout == 0:
-        return requests.request(method, url, **kwargs)
+        return requests.request(method, url, timeout=5*60, **kwargs)
+        # return requests.request(method, url, timeout=3, **kwargs)
     manager = Manager()
     response_proxy = manager.dict()
     process = Process(

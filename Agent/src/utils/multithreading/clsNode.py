@@ -1,3 +1,4 @@
+import logging
 from .modDispatcher import dispatch
 from .clsElement import clsElement
 
@@ -19,12 +20,23 @@ class clsNode(clsElement):
 
     def applyThreadLockToChildren(self):
 
-        for object in self.dispatchList:
-            object.dispatchThreadLock = self.dispatchThreadLock
+        if self.dispatchList is not None:
+            for object in self.dispatchList:
+                object.dispatchThreadLock = self.dispatchThreadLock
+
+    # to be overridden if desired, but not abstract
+    def preExecute(self):
+        pass
+
+    def dispatch(self):
+        if self.dispatchList is not None:
+            dispatch(
+                objects=self.dispatchList,
+                method=self.dispatchMode,
+                parentId=self.dispatchId,
+            )
 
     def execute(self):
-
         self.applyThreadLockToChildren()
-
-        if self.dispatchList is not None:
-            dispatch(objects=self.dispatchList, method=self.dispatchMode, parentId=self.dispatchId)
+        self.preExecute()
+        self.dispatch()
