@@ -1,4 +1,4 @@
 ENVIRONMENT_TAG=CI
 PDB_HOSTNAME=explanatoryagent.ci.translator.io
-ARS_ALB_TAG=transltr-eks-ci-blue-ars
-ARS_ALB_SG=translator-ci-alb-http-sg
+EA_ALB_TAG=transltr-eks-ci-blue-ea
+EA_ALB_SG=translator-ci-alb-http-sg
