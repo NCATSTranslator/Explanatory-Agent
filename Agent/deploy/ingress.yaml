@@ -18,17 +18,17 @@ spec:
     - host: EA_HOSTNAME_VALUE
       http:
         paths:
-        - path: /
-          pathType: Prefix
+        - path: /*
+          pathType: ImplementationSpecific
           backend:
             service:
               name: ssl-redirect
               port:
                 name: use-annotation
-        - path: /
-          pathType: Prefix
+        - path: /*
+          pathType: ImplementationSpecific
           backend:
-            service: 
+            service:
               name: ea
               port:
                 number: 80
