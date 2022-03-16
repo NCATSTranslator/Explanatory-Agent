@@ -14,6 +14,7 @@ from flask_compress import Compress
 from modDatabase import db
 from werkzeug.middleware.proxy_fix import ProxyFix
 from apis.v1_2 import blueprint as blueprint_v1_2
+import traceback
 
 
 def appFactory():
@@ -64,6 +65,7 @@ def healthCheck():
     try:
         serverTimestamp = db.engine.execute("select current_timestamp").fetchone()[0]
     except Exception as tb:
+        logging.debug(f"Error during accessing of DB: {traceback.format_exc()}")
         return {"message": f"API is up but Database host {modConfig.dbHost} is down."}, 500
     return {"message": f"API and Database are up! Database host {modConfig.dbHost} with timestamp: {str(serverTimestamp)}"}, 200
 
@@ -81,7 +83,20 @@ if __name__ == '__main__':
     # performance is not as fast as uwsgi or gunicorn, but still "very acceptable"
     # import requests_mock
     # import requests
+    # from modMockResponses import *
     # with requests_mock.Mocker(real_http=True) as mocker:
+    #     def match_entity_positively_regulates_entity(request):
+    #         trapi = json.loads(request.text)
+    #         edges = list(trapi['message']['query_graph']['edges'].keys())
+    #         return trapi['message']['query_graph']['edges'][edges[0]]['predicates'][0] == 'biolink:entity_positively_regulates_entity'
+    #
+    #
+    #     def match_coexists_with(request):
+    #         trapi = json.loads(request.text)
+    #         edges = list(trapi['message']['query_graph']['edges'].keys())
+    #         return trapi['message']['query_graph']['edges'][edges[0]]['predicates'][0] == 'biolink:coexists_with'
+    #     mocker.register_uri('POST', 'https://arax.ncats.io/api/rtxkg2/v1.2/query', additional_matcher=match_entity_positively_regulates_entity, json=rtx_kg2_entity_positively_regulates_entity)
+    #     mocker.register_uri('POST', 'https://arax.ncats.io/api/rtxkg2/v1.2/query', additional_matcher=match_coexists_with, json=rtx_kg2_coexists_with)
     #     mocker.register_uri('POST', 'https://name-resolution-sri.renci.org/lookup', exc=requests.exceptions.ConnectTimeout)
     #     mocker.register_uri('POST', "https://cohd.io/api/query", json=cohd_response)
     if True:

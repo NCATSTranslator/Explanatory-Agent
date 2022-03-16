@@ -24,11 +24,13 @@ from .clsNodeNormalizerProvider import clsNodeNormalizerProvider
 from .clsNameResolutionProvider import clsNameResolutionProvider
 from utils.biobert.relationship_classification import relationship_classification
 from utils.clsLog import clsLogEvent
+from modConfig import ZERO_RESULT_SCORE
 import re
 import logging
 
+from .clsExplanationBase import clsExplanationBase
 
-class ExplanationX00002:
+class ExplanationX00002(clsExplanationBase):
     def __init__(self, app):
         self.case_id = "X00002"
         self.app = app
@@ -50,6 +52,14 @@ class ExplanationX00002:
         explanation, score = self.value_combinations[frozenset(found_edge_values)]
 
         return explanation, score
+
+    def edgeAttributeValidate(self, edge):
+        """
+        No attribute criteria, so this explanation should not be used.
+        :param edge:
+        :return:
+        """
+        return False
 
     def find_references(self, synonyms, categories):
         """
@@ -188,11 +198,7 @@ class ExplanationX00002:
         query_graph = case_solution.query_graph
         knowledge_graph = case_solution.knowledge_graph
 
-        e00_id = list(query_graph["edges"].keys())[0]
-        node_ids = sorted(list(query_graph["nodes"].keys()))
-        n00_id = node_ids[0]
-        n01_id = node_ids[1]
-
+        e00_id, n00_id, n01_id = self.find_node_edge_ids(case_solution.query_graph)
         results = []
 
         start_time = time.time()
@@ -290,7 +296,7 @@ class ExplanationX00002:
 
             # if either the subject's or object's categories don't have tables representing them, stop.
             if len(set(subject_categories_lower) & self.valid_categories) == 0 or len(set(object_categories_lower) & self.valid_categories) == 0:
-                result['score'] = 0.0
+                result['score'] = ZERO_RESULT_SCORE
                 result['attributes'] = ExplanationX00002.no_found_references_attributes
                 results.append(result)
                 continue
@@ -313,7 +319,7 @@ class ExplanationX00002:
             ))
 
             if len(subject_references) <= 0:
-                result['score'] = 0.0
+                result['score'] = ZERO_RESULT_SCORE
                 result['attributes'] = ExplanationX00002.no_found_references_attributes
                 results.append(result)
                 continue
@@ -348,7 +354,7 @@ class ExplanationX00002:
                     code="",
                     message=f"Edge {edgeId} No object references found, stopping."
                 ))
-                result['score'] = 0.0
+                result['score'] = ZERO_RESULT_SCORE
                 result['attributes'] = ExplanationX00002.no_found_references_attributes
                 results.append(result)
                 continue
@@ -370,7 +376,7 @@ class ExplanationX00002:
             ))
 
             if len(matching_reference_pairs_by_article) <= 0:
-                result['score'] = 0.0
+                result['score'] = ZERO_RESULT_SCORE
                 attributes = copy.deepcopy(ExplanationX00002.no_matching_reference_pairs_attributes)
                 # get all unique PMIDs to return to the user
                 pmids = set()

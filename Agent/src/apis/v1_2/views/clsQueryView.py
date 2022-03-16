@@ -506,13 +506,91 @@ x00003_sample = {
   }
 }
 
+derived_sample = {
+  "message": {
+    "query_graph": {
+      "nodes": {
+        "n00": {
+          "categories": [
+            "biolink:ChemicalEntity"
+          ],
+          "ids": [
+            "UNII:63CZ7GJN5I"
+          ]
+        },
+        "n01": {
+          "categories": [
+            "biolink:SmallMolecule"
+          ]
+        }
+      },
+      "edges": {
+        "e00": {
+          "subject": "n00",
+          "object": "n01",
+          "predicates": [
+            "biolink:abundance_affected_by"
+          ]
+        }
+      }
+    }
+  }
+}
+
+workflow_lookup_sample = {
+    "workflow": [
+        {
+            "id": "fill",
+            "parameters": {
+                "allowlist": ["icees"]
+            }
+        },
+        {
+            "id": "bind",
+            "parameters": {}
+        },
+        {
+            "id": "complete_results",
+            "parameters": {}
+        }
+    ],
+    "message": {
+        "query_graph": {
+            "edges": {
+                "e01": {
+                    "object": "n0",
+                    "subject": "n1",
+                    "predicates": [
+                        "biolink:correlated_with"
+                    ]
+                }
+            },
+            "nodes": {
+                "n0": {
+                    "ids": [
+                        "NCBIGene:7157"
+                    ],
+                    "categories": [
+                        "biolink:Gene"
+                    ]
+                },
+                "n1": {
+                    "categories": [
+                        "biolink:Gene"
+                    ]
+                }
+            }
+        }
+    }
+}
+
 # sampleBody = similarity_score_test
 # sampleBody = use_case_1
 # sampleBody = use_case_2
 # sampleBody = sampleCOHD
 # sampleBody = x00002_sample
 # sampleBody = reverse_one_hop_test
-sampleBody = ace_sample_query
+sampleBody = workflow_lookup_sample
 
 query_graph = namespace.model(
     name="query_graph",
@@ -559,6 +637,9 @@ class clsQueryView(Resource):
         :return: Query view model
         """
 
+        # import time
+        # time.sleep(10*60)
+
         # initialize query manager class
         queryManager = clsQueryManager()
 
@@ -573,6 +654,11 @@ class clsQueryView(Resource):
         userRequestBodyValidationResults = queryManager.userRequestBodyValidation()
         if not userRequestBodyValidationResults["isValid"]:
             queryManager.generateEmptyUserResponseBody(status="BadRequest", description="Supplied request body does not conform to TRAPI v{} standard. Error: {}".format(trapi_version, userRequestBodyValidationResults["error"].message))
+            return queryManager.userResponseBody, 400
+
+        workflowResults = queryManager.extractWorkflow()
+        if "error" in workflowResults:
+            queryManager.generateEmptyUserResponseBody(status="Error", description="An error occurred while parsing the workflow.")
             return queryManager.userResponseBody, 400
 
         # make sure user request body only supports 2 nodes and 1 edge
