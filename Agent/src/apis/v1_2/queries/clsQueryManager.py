@@ -24,6 +24,7 @@ from ..modSettings import version, trapi_version
 from utils.clsLog import clsLogEvent
 from .clsBioLinkSimilarity import clsBiolinkSimilarity
 from .clsExplanationSolutionFinder import ExplanationSolutionFinder
+from ..models.workflow.clsWorkflow import Workflow
 
 
 class clsQueryManager(clsNode):
@@ -45,6 +46,7 @@ class clsQueryManager(clsNode):
 
         self.caseSolutions = None
 
+        self.workflow = None
         self.query_graph = None
         self.batch_query_graphs = None
         self.knowledge_graph = None
@@ -52,7 +54,9 @@ class clsQueryManager(clsNode):
         # start a clock to determine when solutions should be aborted
         self.started_time = time.time()
         # time allowed to process all cases before the remaining are cancelled and results are merged
+        # self.processing_timeout = 5.0 * 60
         self.processing_timeout = 3.0 * 60
+        # self.processing_timeout = 0.5 * 60
 
     def userRequestBodyValidation(self):
         """
@@ -92,6 +96,27 @@ class clsQueryManager(clsNode):
             validity_status = {"isValid": False, "error": e}
 
         return validity_status
+
+    def extractWorkflow(self):
+        """
+        Creates a Workflow object to direct what operations should be executed for this query. If no workflow is provided a standard "Lookup" operation
+        will be performed.
+        :return:
+        """
+
+        DEFAULT_LOOKUP_DEFINITION = [
+            {
+                "id": "lookup",
+                "parameters": {}
+            }
+        ]
+
+        try:
+            self.workflow = Workflow(self.userRequestBody.get("workflow", DEFAULT_LOOKUP_DEFINITION))
+            self.workflow.parse()
+            return {}
+        except Exception as e:
+            return {"error": e}
 
     @property
     def userRequestBodyStructureIsSupported(self):
@@ -337,21 +362,20 @@ class clsQueryManager(clsNode):
         Assigning them to a dispatchList property to run async to improve speed of request.
         :return: None
         """
+        from copy import copy
 
         app = current_app._get_current_object()
         # use the same searcher class across all solution managers
-        # case_problem_searcher = clsBiolinkSimilarity.instance()
-        # if clsBiolinkSimilarity.instance().app is None:
-        #     clsBiolinkSimilarity.instance().app = current_app._get_current_object()
         case_problem_searcher = clsBiolinkSimilarity(app)
         explanation_solution_finder = ExplanationSolutionFinder(app)
+        # explanation_solution_finder = None
 
         for dispatchId, query_graph in enumerate(self.batch_query_graphs):
 
             # create a deep copy of the user request body
             # override with single edge predicates, 1 at a time
             userRequestBodyCopy = deepcopy(self.userRequestBody)
-            userRequestBodyCopy["query_graph"] = query_graph
+            userRequestBodyCopy['message']["query_graph"] = query_graph
             # edgesCopy = userRequestBodyCopy['message']['query_graph']['edges']
             # edgeCopy = edgesCopy[list(edgesCopy.keys())[0]]
             # edgeCopy['predicates'] = [edgePredicate]
@@ -361,11 +385,15 @@ class clsQueryManager(clsNode):
             caseSolutionManager = clsCaseSolutionManager(
                 dispatchId=dispatchId * self.dispatchIdScaleFactor,
                 dispatchDescription=query_graph,
-                userRequestBody=userRequestBodyCopy
+                userRequestBody=userRequestBodyCopy,
+                workflow=self.workflow
             )
             caseSolutionManager.app = current_app._get_current_object()  # pass app by reference
             caseSolutionManager.initialize_db_data()
-            caseSolutionManager.case_problem_searcher = case_problem_searcher
+            # create a shallow copy of the searchers, so the app reference stays the same.
+            # We are only copying so it doesn't need to re-retrieve the initialization data.
+            caseSolutionManager.case_problem_searcher = copy(case_problem_searcher)
+            # caseSolutionManager.explanation_solution_finder = copy(explanation_solution_finder)
             caseSolutionManager.explanation_solution_finder = explanation_solution_finder
 
             # caseSolutionManager.logs = self.logs  # pass logs by reference
@@ -477,6 +505,9 @@ class clsQueryManager(clsNode):
             self.query_graph = deepcopy(self.userRequestBody["message"]["query_graph"])
             self.knowledge_graph = {'nodes': {}, 'edges': {}}
             self.results = []
+
+        # sort all results from largest to smallest
+        self.results.sort(key=lambda result: result['score'], reverse=True)
 
         # delete all predicates with the value "ANY", as that is our own internal special case
         for edge_id, edge in self.query_graph["edges"].items():

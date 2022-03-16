@@ -5,9 +5,10 @@ No explanation at all. Invoked when a KP is present in the Explanation Excluded 
 from collections import OrderedDict
 from utils.clsLog import clsLogEvent
 import logging
+from .clsExplanationBase import clsExplanationBase
 
 
-class ExplanationNone:
+class ExplanationNone(clsExplanationBase):
     def __init__(self):
         self.case_id = "None"
         self.logs = []

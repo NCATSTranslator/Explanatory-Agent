@@ -1,9 +1,10 @@
 from collections import OrderedDict
 from utils.clsLog import clsLogEvent
 import logging
+from .clsExplanationBase import clsExplanationBase
 
 
-class ExplanationMissing:
+class ExplanationMissing(clsExplanationBase):
     def __init__(self):
         self.case_id = "None"
         self.logs = []
