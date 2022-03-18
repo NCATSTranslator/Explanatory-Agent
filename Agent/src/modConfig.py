@@ -25,7 +25,7 @@ dbHost = resolveDefaultValue(value=os.getenv("DB_HOST"), default="localhost")
 if dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
     dbHost = "host.docker.internal"
 dbPort = int(resolveDefaultValue(value=os.getenv("DB_PORT"), default=5432))
-dbSchema = resolveDefaultValue(value=os.getenv("DB_SCHEMA"), default="xARA")
+dbSchema = resolveDefaultValue(value=os.getenv("DB_SCHEMA"), default="xara")
 dbConfig = {
     'SQLALCHEMY_DATABASE_URI': f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbSchema}',
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
