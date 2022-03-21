@@ -65,8 +65,8 @@ class clsKnowledgeProvider:
             response = request_with_global_timeout(
                 method="post",
                 url=self.url,
-                # global_timeout=None,
-                global_timeout=self.timeoutSeconds,
+                global_timeout=None,
+                # global_timeout=self.timeoutSeconds,
                 json=self.requestBody
             )
             response.raise_for_status()
@@ -83,7 +83,7 @@ class clsKnowledgeProvider:
                 identifier=self.name,
                 level="ERROR",
                 code="KPNotAvailable",
-                message=f"Knowledge Provider {self.url} returned HTTP error code {str(response.status_code)}"
+                message=f"Knowledge Provider {self.url} returned HTTP error code {str(response.status_code)} for message: {self.requestBody}"
             ))
             raise
         self.logs.append(clsLogEvent(
@@ -110,9 +110,10 @@ class clsKnowledgeProvider:
                 identifier=self.name,
                 level="ERROR",
                 code="KPMalformedResponse",
-                message=f"Knowledge Provider {self.url} did not return a valid TRAPI v1.2 response"
+                message=f"Knowledge Provider {self.url} did not return a valid TRAPI v1.2 response for message: {self.requestBody}"
             ))
-            raise requests.exceptions.InvalidSchema  # force raise a request.exception to know its the KP's fault
+            error_message = str(e).split('\n')[0]
+            raise requests.exceptions.InvalidSchema(f"Knowledge Provider {self.url} did not return a valid TRAPI v1.2 response: {error_message} for message: {self.requestBody}")  # force raise a request.exception to know its the KP's fault
 
     def checkForEmptyResponseBody(self):
         """
@@ -138,7 +139,7 @@ class clsKnowledgeProvider:
                 identifier=self.name,
                 level="WARNING",
                 code="KPEmptyResponse",
-                message=f"Knowledge Provider {self.url} returned an empty knowledge graph"
+                message=f"Knowledge Provider {self.url} returned an empty knowledge graph for message: {self.requestBody}"
             ))
 
             return True

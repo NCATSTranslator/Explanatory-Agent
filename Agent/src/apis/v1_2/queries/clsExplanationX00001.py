@@ -64,11 +64,11 @@ value_for_score: Scorei (based on the combination of EdgeValues found)
 """
 
 from collections import OrderedDict
-from utils.clsLog import clsLogEvent
-import logging
+from modConfig import ZERO_RESULT_SCORE
 
+from .clsExplanationBase import clsExplanationBase
 
-class ExplanationX00001:
+class ExplanationX00001(clsExplanationBase):
     def __init__(self, edge_values: set, value_combinations: dict, rationale: str):
         self.case_id = "X00001"
         self.edge_values = edge_values
@@ -92,37 +92,39 @@ class ExplanationX00001:
 
         return explanation, score
 
+    def edgeAttributeValidate(self, edge):
+        """
+        No attribute criteria, so this explanation should not be used.
+        :param edge:
+        :return:
+        """
+        return False
 
     def create_results_and_explain(self, case_solution):
-        query_graph = case_solution.query_graph
-        knowledge_graph = case_solution.knowledge_graph
-
-        e00_id = list(query_graph["edges"].keys())[0]
-        node_ids = sorted(list(query_graph["nodes"].keys()))
-        n00_id = node_ids[0]
-        n01_id = node_ids[1]
-
+        e00_id, n00_id, n01_id = self.find_node_edge_ids(case_solution.query_graph)
         results = []
 
-        # sorting for deterministic results. This can go away after index isn't used for rank.
-        for index, (edgeId, edge) in enumerate(sorted(list(knowledge_graph['edges'].items()), key=lambda i: i[0])):
-            if index == 0:
-                self.logs.append(clsLogEvent(
-                    identifier=self.case_id,
-                    level="DEBUG",
-                    code="",
-                    message=f"Starting explanations for {len(knowledge_graph['edges'])} edges."
-                ))
-            if index % 50 == 0 and index > 0:
-                logging.debug(f"{self.case_id} edge {index} of {len(knowledge_graph['edges'])}")
-                self.logs.append(clsLogEvent(
-                    identifier=self.case_id,
-                    level="DEBUG",
-                    code="",
-                    message=f"Explained {index} of {len(knowledge_graph['edges'])} edges."
-                ))
+        for index, (edgeId, edge) in self.enumerate_edges(case_solution.knowledge_graph):
+            # if index == 0:
+            #     self.logs.append(clsLogEvent(
+            #         identifier=self.case_id,
+            #         level="DEBUG",
+            #         code="",
+            #         message=f"Starting explanations for {len(knowledge_graph['edges'])} edges."
+            #     ))
+            # if index % 50 == 0 and index > 0:
+            #     logging.debug(f"{self.case_id} edge {index} of {len(knowledge_graph['edges'])}")
+            #     self.logs.append(clsLogEvent(
+            #         identifier=self.case_id,
+            #         level="DEBUG",
+            #         code="",
+            #         message=f"Explained {index} of {len(knowledge_graph['edges'])} edges."
+            #     ))
 
             explanation, score = self.identify_edge(edgeId)
+
+            if score == 0:
+                score = ZERO_RESULT_SCORE
 
             result = OrderedDict()
             result['edge_bindings'] = {
@@ -152,12 +154,12 @@ class ExplanationX00001:
 
             results.append(result)
 
-        self.logs.append(clsLogEvent(
-            identifier=self.case_id,
-            level="DEBUG",
-            code="",
-            message=f"Explained all {len(knowledge_graph['edges'])} edges."
-        ))
+        # self.logs.append(clsLogEvent(
+        #     identifier=self.case_id,
+        #     level="DEBUG",
+        #     code="",
+        #     message=f"Explained all {len(knowledge_graph['edges'])} edges."
+        # ))
 
         return results
 

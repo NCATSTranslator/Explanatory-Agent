@@ -5,7 +5,8 @@ from utils.multithreading.clsNode import clsNode
 from copy import deepcopy
 from utils.clsLog import clsLogEvent
 import networkx
-from itertools import product
+from itertools import product, chain
+import traceback
 
 
 class clsMultiHop(clsNode):
@@ -19,8 +20,11 @@ class clsMultiHop(clsNode):
 
         self.logs = []
 
-        for case_solution in self.case_solutions:
-            case_solution.logs = self.logs
+        # for case_solution in self.case_solutions:
+        #     case_solution.logs = self.logs
+            # for path in case_solution.paths:
+            #     path.logs = case_solution.logs
+            #     path.knowledgeProvider.logs = path.logs
 
         self.successful = False
         self.finished = False
@@ -50,7 +54,7 @@ class clsMultiHop(clsNode):
                         subject_new_ids = sorted(list(response_node_ids[case_solution.subject_query_graph_node_id]))
                         if len(subject_new_ids) > 50:
                             self.logs.append(clsLogEvent(
-                                identifier=self.dispatchId,
+                                identifier=f"MH{self.dispatchId}",
                                 level="INFO",
                                 code="Info",
                                 message=f"Too many previous hop subject ids to provide {len(subject_new_ids)}, reducing to 50."
@@ -63,7 +67,7 @@ class clsMultiHop(clsNode):
                         object_new_ids = sorted(list(response_node_ids[case_solution.object_query_graph_node_id]))
                         if len(object_new_ids) > 50:
                             self.logs.append(clsLogEvent(
-                                identifier=self.dispatchId,
+                                identifier=f"MH{self.dispatchId}",
                                 level="INFO",
                                 code="Info",
                                 message=f"Too many previous hop object ids to provide {len(object_new_ids)}, reducing to 50."
@@ -90,7 +94,7 @@ class clsMultiHop(clsNode):
             if case_solution.knowledge_graph:
                 self.knowledge_graph['edges'].update(deepcopy(case_solution.knowledge_graph['edges']))
                 self.knowledge_graph['nodes'].update(deepcopy(case_solution.knowledge_graph['nodes']))
-                self.knowledge_graph.update(case_solution.knowledge_graph)
+                # self.knowledge_graph.update(case_solution.knowledge_graph)
 
     def merge_results(self):
         """
@@ -111,21 +115,26 @@ class clsMultiHop(clsNode):
 
         nx_results_node_format = "{}_{}"
         for i, case_solution in enumerate(self.case_solutions):
+            # if any case doesn't have results then we can't complete the multihop query, so just abort.
+            if len(case_solution.results) <= 0:
+                return
+
             if case_solution.results:
                 for result in case_solution.results:
                     if i == 0:
-                        starting_node_id = sorted(list(result["node_bindings"].keys()))[0]
-                        for node_binding in result["node_bindings"][starting_node_id]:
-                            start_nodes.add(nx_results_node_format.format(starting_node_id, node_binding['id']))
+                        # n0 will ALWAYS be specified! If this changes a lot more will need to be done.
+                        starting_node_qg_id = sorted(list(result["node_bindings"].keys()))[0]
+                        for node_binding in result["node_bindings"][starting_node_qg_id]:
+                            start_nodes.add(nx_results_node_format.format(starting_node_qg_id, node_binding['id']))
 
                     for edge_qg_id, edge_bindings in result["edge_bindings"].items():
                         for edge_binding in edge_bindings:
                             edge_kg_id = edge_binding["id"]
 
-                            # ALWAYS 2 bindings!
-                            node_binding_ids = sorted(list(result["node_bindings"]))
-                            node1_qg_id = node_binding_ids[0]
-                            node2_qg_id = node_binding_ids[1]
+                            # ALWAYS 2 nodes! The edge directionality isn't implied, so we must refer to the query graph to find the node ids.
+                            # node_binding_ids = sorted(list(result["node_bindings"]))
+                            node1_qg_id = case_solution.query_graph['edges'][edge_qg_id]['subject']
+                            node2_qg_id = case_solution.query_graph['edges'][edge_qg_id]['object']
                             node_pairs = product(*[result["node_bindings"][node1_qg_id], result["node_bindings"][node2_qg_id]])
                             for node1_binding, node2_binding in node_pairs:
                                 node1_id = nx_results_node_format.format(node1_qg_id, node1_binding['id'])
@@ -137,29 +146,42 @@ class clsMultiHop(clsNode):
 
         # nx_results.remove_edges_from(networkx.selfloop_edges(nx_results))  # not needed anymore due to qg id disambiguation?
 
-        def add_to_result(new_result, source_node):
+        def add_to_result(new_result, source_node, excluded_qg_ids):
             successors = nx_results.successors(source_node)
-            for successor in successors:
-                edge_result = nx_results.get_edge_data(source_node, successor)["result"]
+            predecessors = nx_results.predecessors(source_node)
+            for neighbor in chain(successors, predecessors):
+                node = nx_results.nodes[neighbor]
+                if node['query_graph_id'] in excluded_qg_ids:
+                    continue
 
-                successor_result = deepcopy(new_result)
-                successor_result["node_bindings"].update(edge_result["node_bindings"])
-                successor_result["edge_bindings"].update(edge_result["edge_bindings"])
+                nx_edge = nx_results.get_edge_data(source_node, neighbor)
+                # since we are looking in both directions the source -> neighbor edge may not exist, so look in the other direction.
+                if nx_edge is None:
+                    nx_edge = nx_results.get_edge_data(neighbor, source_node)
+                edge_result = nx_edge["result"]
+
+                # edge_result = nx_results.get_edge_data(source_node, successor)["result"]
+
+                neighbor_result = deepcopy(new_result)
+                neighbor_result["node_bindings"].update(edge_result["node_bindings"])
+                neighbor_result["edge_bindings"].update(edge_result["edge_bindings"])
 
                 # add the explanations from the result to the edge binding
-                edge_bindings = successor_result["edge_bindings"][list(edge_result["edge_bindings"].keys())[0]]
+                edge_bindings = neighbor_result["edge_bindings"][list(edge_result["edge_bindings"].keys())[0]]
                 for edge_binding in edge_bindings:
                     edge_binding["attributes"] = edge_result["attributes"]
                     edge_binding["score"] = edge_result["score"]
 
-                add_to_result(successor_result, successor)
-                if len(successor_result["edge_bindings"]) == len(self.case_solutions):
-                    self.results.append(successor_result)
+                path_excluded_qg_ids = deepcopy(excluded_qg_ids)
+                path_excluded_qg_ids.add(node['query_graph_id'])
+                add_to_result(neighbor_result, neighbor, path_excluded_qg_ids)
+                if len(neighbor_result["edge_bindings"]) == len(self.case_solutions):
+                    self.results.append(neighbor_result)
 
-        for starting_node_id in start_nodes:
+        for starting_node_kg_id in start_nodes:
             new_result = {"node_bindings": {}, "edge_bindings": {}, "score": 0.0}
 
-            add_to_result(new_result, starting_node_id)
+            add_to_result(new_result, starting_node_kg_id, {starting_node_qg_id})
 
         # compute the score for each result by averaging all edge binding scores
         for result in self.results:
@@ -186,19 +208,22 @@ class clsMultiHop(clsNode):
             self.successful = True
         except AbortMultihopException as e:
             self.logs.append(clsLogEvent(
-                identifier=self.dispatchId,
+                identifier=f"MH{self.dispatchId}",
                 level="DEBUG",
                 code="",
                 message=f"Aborting Multihop execution: {e}"
             ))
         except Exception as e:
+            print(traceback.format_exc())
             self.logs.append(clsLogEvent(
-                identifier=self.dispatchId,
+                identifier=f"MH{self.dispatchId}",
                 level="ERROR",
                 code="Error",
                 message=f"Unhandled {type(e).__name__} Exception: {e}"
             ))
-        self.finished = True
+        finally:
+            self.merge_logs()
+            self.finished = True
 
 import sys
 # import tblib.pickling_support

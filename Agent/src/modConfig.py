@@ -38,4 +38,8 @@ bert_checkpoints_folder = "/media/storage/biobert/re_outputs" if isDocker else "
 
 maxThreadCount = 4
 
+# Request on 2021-12-05 RE: xARA Update to set result score to very small value instead of zero.
+ZERO_RESULT_SCORE = 0.0001
+
 defaultLoggingLevel = logging.DEBUG
+

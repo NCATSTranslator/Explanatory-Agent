@@ -36,10 +36,12 @@ Score and   "attribute_type_id": "biolink:has_evidence",
 
 from collections import OrderedDict
 from utils.clsLog import clsLogEvent
+from modConfig import ZERO_RESULT_SCORE
 import logging
 
+from .clsExplanationBase import clsExplanationBase
 
-class ExplanationX00003:
+class ExplanationX00003(clsExplanationBase):
     def __init__(self, score_attribute: str, kp_name: str):
         self.case_id = "X00003"
         self.score_attribute = score_attribute
@@ -50,10 +52,7 @@ class ExplanationX00003:
         query_graph = case_solution.query_graph
         knowledge_graph = case_solution.knowledge_graph
 
-        e00_id = list(query_graph["edges"].keys())[0]
-        node_ids = sorted(list(query_graph["nodes"].keys()))
-        n00_id = node_ids[0]
-        n01_id = node_ids[1]
+        e00_id, n00_id, n01_id = self.find_node_edge_ids(case_solution.query_graph)
 
         results = []
         score_attribute_lower = self.score_attribute.lower()
@@ -61,22 +60,12 @@ class ExplanationX00003:
         score_attribute_lower_no_underscores = score_attribute_lower.replace("_", " ")
 
         # first pass on edges to get all scores
-        similarity_scores = []
-        for edge_id, edge in knowledge_graph['edges'].items():
-            for attribute in edge["attributes"]:
-                attribute_type_id_lower = attribute['attribute_type_id'].lower()
-                if attribute_type_id_lower == score_attribute_lower or attribute_type_id_lower == score_attribute_lower_no_underscores:
-                    similarity_scores.append(float(attribute['value']))
-
-        if len(similarity_scores) > 0:
-            min_similarity_score = min(similarity_scores)
-            max_similarity_score = max(similarity_scores)
-        else:
-            min_similarity_score = -1
-            max_similarity_score = -1
+        min_similarity_score, max_similarity_score = self.find_min_max_similarity_scores(knowledge_graph, score_attribute_lower)
+        if min_similarity_score is None:
+            return []
 
         # sorting for deterministic results. This can go away after index isn't used for rank.
-        for index, (edgeId, edge) in enumerate(sorted(list(knowledge_graph['edges'].items()), key=lambda i: i[0])):
+        for index, (edgeId, edge) in self.enumerate_edges(knowledge_graph):
             if index == 0:
                 self.logs.append(clsLogEvent(
                     identifier=self.case_id,
@@ -103,17 +92,16 @@ class ExplanationX00003:
                 n00_id: [{"id": edge['subject']}],
                 n01_id: [{"id": edge['object']}],
             }
+            similarity_score = self.find_edge_similarity_scores(edge, score_attribute_lower)
+            if len(similarity_score) <= 0:
+                continue
 
-            similarity_score = None
-            for attribute in edge["attributes"]:
-                attribute_type_id_lower = attribute['attribute_type_id'].lower()
-                if attribute_type_id_lower == score_attribute_lower or attribute_type_id_lower == score_attribute_lower_no_underscores:
-                    similarity_score = float(attribute['value'])
+            score = similarity_score[-1] / max_similarity_score
 
-            if similarity_score is None:
-                similarity_score = -1
+            if score == 0:
+                score = ZERO_RESULT_SCORE
 
-            result['score'] = similarity_score / max_similarity_score
+            result['score'] = score
             result['attributes'] = [
                 {
                     "original_attribute_name": "Explanation Rationale",
@@ -140,25 +128,41 @@ class ExplanationX00003:
 
         return results
 
+    def edgeAttributeValidate(self, edge):
+        """
+        criteria 1: "attribute_type_id": "biolink:aggregator_knowledge_source" "value": "infores:molepro"
+        criteria 2: “attribute_type_id” = “CMAP:similarity_score” AND "value" = NOT EMPTY
+        """
+        criteria_1_met = False
+        criteria_2_met = False
+        for attribute in edge["attributes"]:
+            if attribute['attribute_type_id'] == 'biolink:aggregator_knowledge_source' and attribute['value'] ==  'infores:molepro':
+                criteria_1_met = True
+            elif attribute['attribute_type_id'] == 'CMAP:similarity_score' and self.value_not_empty(attribute):
+                criteria_2_met = True
+        return criteria_1_met and criteria_2_met
+
 
 if __name__ == "__main__":
     x = ExplanationX00003("CMAP:similarity_score", "awesome_kp")
 
-    results = x.create_results_and_explain({
-        "edges": {
-            "e1": {"subject": "s1", "object": "o1", "attributes": [
-                {"attribute_type_id": "CMAP:similarity_score", "value": 100.0},
-                {"attribute_type_id": "something else", "value": 1.0},
-            ]},
-            "e2": {"subject": "s1", "object": "o1", "attributes": [
-                {"attribute_type_id": "something else", "value": 1.0},
-                {"attribute_type_id": "CMAP:similarity_score", "value": 50.0},
-            ]},
-            "e3": {"subject": "s1", "object": "o1", "attributes": [
-                {"attribute_type_id": "CMAP:similarity_score", "value": 10.0},
-                {"attribute_type_id": "something else", "value": 1.0},
-            ]},
-        }
-    })
+    edges = {
+        "e1": {"subject": "s1", "object": "o1", "attributes": [
+            {"attribute_type_id": "CMAP:similarity_score", "value": 100.0},
+            {"attribute_type_id": "something else", "value": 1.0},
+        ]},
+        "e2": {"subject": "s1", "object": "o1", "attributes": [
+            {"attribute_type_id": "something else", "value": 1.0},
+            {"attribute_type_id": "CMAP:similarity_score", "value": 50.0},
+        ]},
+        "e3": {"subject": "s1", "object": "o1", "attributes": [
+            {"attribute_type_id": "CMAP:similarity_score", "value": 10.0},
+            {"attribute_type_id": "something else", "value": 1.0},
+        ]}
+    }
+    # results = x.create_results_and_explain({'edges': edges})
 
-    q = 0
+    res = 0
+    for edge in edges.values():
+        res += x.edgeAttributeValidate(edge)
+    assert res == 3

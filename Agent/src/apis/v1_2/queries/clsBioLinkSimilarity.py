@@ -9,6 +9,11 @@ WHO: YR 2021-08-13
 from modDatabase import db
 from bmt import Toolkit
 import logging
+from time import time
+import pandas as pd
+import numpy as np
+import os
+from typing import List
 
 # t = Toolkit()
 
@@ -22,7 +27,7 @@ class clsBiolinkSimilarity:
         select
             x."Similarity_score"
             from "xARA_LocalSimNodes" x
-            where 
+            where
             x."Node_1"=:node1
             and x."Node_2"=:node2
         """
@@ -39,8 +44,8 @@ class clsBiolinkSimilarity:
     sqlGetAllPredicateSimilarityScore = \
         """
         select
-            x."NEW_CASE_PREDICATE", 
-            x."CANDIDATE_CASE_PREDICATE", 
+            x."NEW_CASE_PREDICATE",
+            x."CANDIDATE_CASE_PREDICATE",
             x."SIMILARITY_SCORE"
             from "xARA_LocalSimPredicates" x
         """
@@ -56,11 +61,23 @@ class clsBiolinkSimilarity:
 
         self.node_similarities = None
         self.predicate_similarities = None
-    
+
         self.logs = None
 
         self.cache_node_similarity()
         self.cache_predicate_similarity()
+
+        self.allow_list: List[str] | None = None
+        self.deny_list: List[str] | None = None
+
+        self.second_highest_max_reuse = 20  # to be updated from xARA_Config table
+
+        # read pickled case problems from project's root folder
+        pkl_path = os.path.join(os.getcwd(), 'case_problems.pkl')
+        try:
+            self.case_problems_df = pd.read_pickle(pkl_path)
+        except FileNotFoundError:
+            self.case_problems_df = None
 
     _instance = None
 
@@ -106,10 +123,10 @@ class clsBiolinkSimilarity:
 
             self.predicate_similarities[predicate_pair] = similarity
 
-    def get_local_sim_score_nodes(self, node1, node2):        
+    def get_local_sim_score_nodes(self, node1, node2):
         """
         This function calculates the local similarity between the nodes
-        If the passed nodes exist int the file local_sim_file, the similarity score will be selected from it.
+        If the passed nodes exist in the file local_sim_file, the similarity score will be selected from it.
         Else, equalizer will be used.. if node1 == node 2, return 1 else 0
         :param node1: new node
         :param node2: candidate node
@@ -117,15 +134,14 @@ class clsBiolinkSimilarity:
         """
 
         node_pair = (node1, node2)
-        similarity = self.node_similarities.get(node_pair, None)
-        if similarity:
-            return similarity
-        else:
-            # If the node pair is not found in the file, directly compare the nodes
-            if node1 == node2:
-                return 1
-            else:
-                return 0
+        # If the node pair is not found in the file, directly compare the nodes
+        score = self.node_similarities.get(node_pair, int(node1 == node2))
+
+        # As per "still pruning responses" on 2022-02-07 4:38 pm if score is 0, set to -20
+        if score == 0:
+            score = -20
+
+        return score
 
     def get_ancestors(self, pred1: str, level=0, hier=[]):
         if pred1 == 'None':
@@ -177,34 +193,45 @@ class clsBiolinkSimilarity:
         else:
             return 99999, 99999  # Arbitrary large number since they are not in the same tree
 
-    def get_top_global_sim_cases(self, global_similarity, query_threshold, global_precision, max_cases: int):
+    def get_top_global_sim_cases(self, global_similarity: pd.DataFrame, query_threshold, global_precision, max_cases: int):
         """
         Sort Global_Similarity
         return top  caseid's from global_similarity
         """
-        # filtered_global_similarities = list(filter(lambda x: (x[1] - query_threshold) > global_precision, global_similarity))
-        # Per "RE: 2 ITEMS" email, remove any filter logic.
-        filtered_global_similarities = global_similarity
-        # sorts by prio then case id BOTH descending!
-        # sorted_global_similarity = sorted(filtered_global_similarities, key=lambda x: (float(x[1]), x[0]), reverse=True)
-        # sorts prio desc 1st, then case asc
-        new_sort = sorted(filtered_global_similarities, key=lambda x: x[0])
-        new_sort.sort(key=lambda x: x[1], reverse=True)
-        sorted_global_similarity = new_sort
+        sorted_global_similarity = global_similarity.sort_values(['global_sim', 'CASE_ID'], ascending=[False, True])
+
+        # As Per RE: xARA Multihop Results Issues 2021-12-08
+        # When we get the results the similarity scores are sorted. Then, if at the highest similarity score, there is a fromKP, then ignore the derived. But,
+        # if at the highest similarity score, there is only a derived, then consider the derived.
+        # It is only when there is a fromKP that has higher similarity score than the derived that the derived is to be ignored.
+        top_case = sorted_global_similarity.iloc[0]
+        top_case_origin = top_case['ORIGIN']
+        if top_case_origin == "fromKP":
+            sorted_global_similarity = sorted_global_similarity[sorted_global_similarity['ORIGIN'] != 'derived']
+        # logic from 12-8 call: if the top case is a derived query ONLY use that case
+        elif top_case_origin == "derived":
+            sorted_global_similarity = sorted_global_similarity[:1]
+        else:
+            raise ValueError(f"Case origin '{top_case_origin}' not known!")
 
         # Use all cases with the top score. If the second highest score is > 0.9499 include all of those cases as well.
-        top_score = sorted_global_similarity[0][1]
-        selected_cases = list(filter(lambda x: x[1] == top_score, sorted_global_similarity))
+        top_two_scores = sorted_global_similarity['global_sim'].unique()[:2]
 
-        # get a list of all coses that don't have the top score
-        runner_up_sorted_global_similarity = list(filter(lambda x: x[1] != top_score, sorted_global_similarity))
-        runner_up_score = runner_up_sorted_global_similarity[0][1]
+        top_score = top_two_scores[0]
+
+        # if only one score was viable, set the runner up score to -1 so that logic won't be triggered
+        if len(top_two_scores) == 1:
+            runner_up_score = -1
+        else:
+            runner_up_score = top_two_scores[1]
+
+        selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == top_score]
         if runner_up_score > 0.9499:
-            selected_cases += list(filter(lambda x: x[1] == runner_up_score, runner_up_sorted_global_similarity))
+            runner_up_selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == runner_up_score].head(self.second_highest_max_reuse)
+            selected_cases = pd.concat((selected_cases, runner_up_selected_cases))
 
+        self.selected_case_ids_and_similarities = list(selected_cases.iloc[:max_cases][['CASE_ID', 'global_sim']].to_records(index=False))
         # get top n caseId from sorted list
-        self.selected_case_ids_and_similarities = selected_cases[:max_cases]
-
         return [x[0] for x in self.selected_case_ids_and_similarities]
 
     def get_local_sim_score_preds(self, pred1, pred2):
@@ -221,15 +248,38 @@ class clsBiolinkSimilarity:
             return 1
 
         predicate_pair = (pred1, pred2)
-        similarity = self.predicate_similarities.get(predicate_pair, None)
-        if similarity:
-            return similarity
-        else:
-            # If the node pair is not found in the file, directly compare the nodes
-            if pred1 == pred2:
-                return 1
+        # If the node pair is not found in the file, directly compare the nodes
+        score = self.predicate_similarities.get(predicate_pair, int(pred1 == pred2))
+
+        # As per "still pruning responses" on 2022-02-07 4:38 pm if score is 0, set to -20
+        if score == 0:
+            score = -20
+
+        return score
+
+    def fetch_cases_from_db(self, origins, exclude_matching_n0_n1):
+        logging.debug('Fetching cases FROM DB!!!')
+        with self.app.app_context():
+            if exclude_matching_n0_n1:
+                query = 'SELECT "N00_NODE_CATEGORY", "N01_NODE_CATEGORY", "E00_EDGE_PREDICATE", "CASE_ID", "ORIGIN" FROM "xARA_CaseProblems" WHERE "N00_NODE_CATEGORY" != "N01_NODE_CATEGORY" AND "ORIGIN" = ANY(array[:origins]);'
             else:
-                return 0
+                query = 'SELECT "N00_NODE_CATEGORY", "N01_NODE_CATEGORY", "E00_EDGE_PREDICATE", "CASE_ID", "ORIGIN" FROM "xARA_CaseProblems" WHERE "ORIGIN" = ANY(array[:origins]);'
+            data = db.session.execute(statement=query, params={"origins": list(origins)}).fetchall()
+            return pd.DataFrame(data=data, columns=["N00_NODE_CATEGORY", "N01_NODE_CATEGORY", "E00_EDGE_PREDICATE", "CASE_ID", "ORIGIN"])
+
+    def fetch_cases_from_df(self, origins, exclude_matching_n0_n1):
+        logging.debug('Fetching cases FROM DF!!!')
+        df1 = self.case_problems_df[self.case_problems_df.ORIGIN.isin(origins)]
+        if exclude_matching_n0_n1:
+            df1 = df1[df1.N00_NODE_CATEGORY != df1.N01_NODE_CATEGORY]
+        return df1
+
+    def fetch_cases(self, origins, exclude_matching_n0_n1):
+        if self.case_problems_df is None:
+            return self.fetch_cases_from_db(origins, exclude_matching_n0_n1)
+        else:
+            return self.fetch_cases_from_df(origins, exclude_matching_n0_n1)
+
 
     def get_global_sim_triplets(self, new_subject, new_object, new_predicate, origins):
         """
@@ -239,95 +289,41 @@ class clsBiolinkSimilarity:
         :param origins: List of origin types to search on.
         :return:
         """
-        
+
         self.caseProblemsCount = None
         self.candidate_subject = []
         self.candidate_object = []
         self.candidate_predicate = []
         self.candidate_caseId = []
-        
+
         # Get all xARA_caseproblems data
         with self.app.app_context():
             # len_rows_xARA_caseproblems = db.session.execute('SELECT COUNT("CASE_ID") FROM "xARA_CaseProblems";').fetchall()
             weights_results = db.session.execute('SELECT * FROM "xARA_QueryWeights";').fetchall()
-            config_result = db.session.execute('SELECT "GLOBAL_QUERY_THRESHOLD", "GLOBAL_PRECISION", "MAX_REUSE" FROM public."xARA_Config";').fetchall()[0]
+            config_result = db.session.execute('SELECT "GLOBAL_QUERY_THRESHOLD", "GLOBAL_PRECISION", "MAX_REUSE", "SECOND_HIGHEST_MAX_REUSE" FROM public."xARA_Config";').fetchall()[0]
             query_threshold = config_result[0]
             global_precision = config_result[1]
             max_cases = int(config_result[2])
- 
-        ( SUBJECT_NODE_WEIGHT, OBJECT_NODE_WEIGHT, PREDICATE_WEIGHT ) = weights_results[0]
+            self.second_highest_max_reuse = int(config_result[3])
+
+        SUBJECT_NODE_WEIGHT, OBJECT_NODE_WEIGHT, PREDICATE_WEIGHT = weights_results[0]
         weightSum = sum(list(weights_results[0]))
-        
-        # self.caseProblemsCount = [row[0] for row in len_rows_xARA_caseproblems]
-        subject_local_sim=[]
-        object_local_sim=[]
-        pred_local_sim=[]
-        global_similarity=[]
-        self.cases = None
-        # Selecting cols from tables as list with limit 200, remove limit to get all records from table
-        with self.app.app_context():
-            # As per "RE: 2 ITEMS", exclude any case problems with matching n0 and n1 categories IFF the new subject and object categories are not the same
-            if new_subject != new_object:
-                query = 'SELECT "N00_NODE_CATEGORY", "N01_NODE_CATEGORY", "E00_EDGE_PREDICATE", "CASE_ID", "ORIGIN" FROM "xARA_CaseProblems" WHERE "N00_NODE_CATEGORY" != "N01_NODE_CATEGORY" AND "ORIGIN" = ANY(array[:origins]);'
-            else:
-                query = 'SELECT "N00_NODE_CATEGORY", "N01_NODE_CATEGORY", "E00_EDGE_PREDICATE", "CASE_ID", "ORIGIN" FROM "xARA_CaseProblems" WHERE "ORIGIN" = ANY(array[:origins]);'
-            results = db.session.execute(statement=query, params={"origins": list(origins)}).fetchall()
 
-            # Exclude derived results if there are any fromKP results
-            has_from_kp = False
-            for result in results:
-                if result[4] == "fromKP":
-                    has_from_kp = True
-                    break
+        start = time()
+        # As per "RE: 2 ITEMS", exclude any case problems with matching n0 and n1 categories IFF the new subject and object categories are not the same
+        cases = self.fetch_cases(origins, exclude_matching_n0_n1=(new_subject != new_object))
+        logging.debug(f"Fetched {len(cases)} cases in {time() - start}")
 
-            if has_from_kp:
-                results = filter(lambda x: x[4] != "derived", results)
+        start = time()
+        cases['subject_local_sim'] = np.select([cases['N00_NODE_CATEGORY'] == new_subject], [1])
+        cases['object_local_sim'] = cases['N01_NODE_CATEGORY'].map(lambda x: self.get_local_sim_score_nodes(new_object, x))
+        cases['pred_local_sim'] = cases['E00_EDGE_PREDICATE'].map(lambda x: self.get_local_sim_score_preds(new_predicate, x))
+        cases['global_sim'] = ((cases['subject_local_sim'] * float(SUBJECT_NODE_WEIGHT) + cases['object_local_sim']
+                                * float(OBJECT_NODE_WEIGHT) + cases['pred_local_sim'] * float(PREDICATE_WEIGHT)) / float(weightSum))
+        logging.debug(f'Calculated global similarity in {time() - start}')
 
-            self.cases = list(results)
+        return self.get_top_global_sim_cases(cases, query_threshold, global_precision, max_cases)
 
-            # for item in results:
-            #     self.candidate_subject.append(item[0])
-            #     self.candidate_object.append(item[1])
-            #     self.candidate_predicate.append(item[2])
-            #     self.candidate_caseId.append(item[3])
 
-        logging.debug(f"Retrieved {len(self.cases)} cases")
-
-        # for i in range(0, len(self.candidate_subject)):
-        for case in self.cases:
-            candidate_subject = case[0]
-            candidate_object = case[1]
-            candidate_predicate = case[2]
-            candidate_caseId = case[3]
-
-            # Calculate the subject_local_sim for new_subject and all the candidate_subject in col N00_NODE_CATEGORY in xARA_CaseProblems table
-            subject_local_sim = direct_compare(new_subject, candidate_subject)
-
-            # Calculate the subject_local_sim for new_object and all the candidate_object in col N01_NODE_CATEGORY in xARA_CaseProblems table
-            object_local_sim = self.get_local_sim_score_nodes(new_object, candidate_object)
-
-            # Calculate the subject_local_sim for new_predicate and all the candidate_predicate in col E00_EDGE_PREDICATE in xARA_CaseProblems table
-            pred_local_sim = self.get_local_sim_score_preds(new_predicate, candidate_predicate)
-          
-            calc_global_similarity = ((float(subject_local_sim) * float(SUBJECT_NODE_WEIGHT) + float(object_local_sim)
-                                       * float(OBJECT_NODE_WEIGHT) + float(pred_local_sim) * float(PREDICATE_WEIGHT)) / float(weightSum))
-            
-            # Add case id, calc_global_similarity to global similarity
-            global_similarity.append((candidate_caseId, calc_global_similarity))
-
-        logging.debug("Calculated similarity for all cases")
-
-        return self.get_top_global_sim_cases(global_similarity, query_threshold, global_precision, max_cases)
-
-        """
-        sample output:
-        ['Q000001', 'Q000037', 'Q000039', 'Q000040', 'Q000043', 'Q000045', 
-        'Q000046', 'Q000049', 'Q000136', 'Q000116']
-        """
-
-    
 def direct_compare(new_category, candidate_category):
-    if new_category == candidate_category:
-        return 1
-    else:
-        return 0
+    return int(new_category == candidate_category)
