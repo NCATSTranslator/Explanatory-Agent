@@ -53,6 +53,11 @@ spec:
               secretKeyRef:
                 name: postgres-config
                 key: password
+          - name: DB_SCHEMA
+            valueFrom:
+              secretKeyRef:
+                name: postgres-config
+                key: schema
           - name: DB_HOST
             value: DB_HOST_VALUE
       # With the following two sections, we can restrict the deployment on and only on the specific node
