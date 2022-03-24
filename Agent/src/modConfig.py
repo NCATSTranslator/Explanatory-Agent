@@ -42,3 +42,4 @@ maxThreadCount = 4
 ZERO_RESULT_SCORE = 0.0001
 
 defaultLoggingLevel = logging.DEBUG
+
