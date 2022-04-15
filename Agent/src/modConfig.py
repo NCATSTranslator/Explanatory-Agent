@@ -25,7 +25,7 @@ dbHost = resolveDefaultValue(value=os.getenv("DB_HOST"), default="localhost")
 if dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
     dbHost = "host.docker.internal"
 dbPort = int(resolveDefaultValue(value=os.getenv("DB_PORT"), default=5432))
-dbSchema = resolveDefaultValue(value=os.getenv("DB_SCHEMA"), default="xara")
+dbSchema = resolveDefaultValue(value=os.getenv("DB_SCHEMA"), default="xARA")
 dbConfig = {
     'SQLALCHEMY_DATABASE_URI': f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbSchema}',
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
@@ -38,4 +38,8 @@ bert_checkpoints_folder = "/media/storage/biobert/re_outputs" if isDocker else "
 
 maxThreadCount = 4
 
+# Request on 2021-12-05 RE: xARA Update to set result score to very small value instead of zero.
+ZERO_RESULT_SCORE = 0.0001
+
 defaultLoggingLevel = logging.DEBUG
+

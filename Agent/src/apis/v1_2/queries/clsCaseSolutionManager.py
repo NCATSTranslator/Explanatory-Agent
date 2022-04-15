@@ -27,6 +27,9 @@ from utils.multithreading.clsNode import clsNode
 from utils.modMiscUtils import isNullOrEmptyList
 from .clsBioLinkSimilarity import clsBiolinkSimilarity
 from .clsCaseSolutionRetrival import clsCaseSolutionRetrival
+from ..models.workflow.clsWorkflow import Workflow
+from ..models.workflow.clsOperations import FillOperation
+import copy
 from utils.clsLog import clsLogEvent
 import logging
 
@@ -69,48 +72,6 @@ class clsCaseSolutionManager(clsNode):
         limit 2;
         """
 
-    sqlFindCaseSolutions_old = \
-        """
-        with CaseSolutionsWithUrls as (
-            select
-                c.*,
-                k1."Url" as "KnowledgeProviderPath1Url",
-                null as "KnowledgeProviderPath2Url"
-            from "v1_1_CaseSolutions" c
-            inner join "v1_1_KnowledgeProviders" k1
-                on c."KnowledgeProviderPath1Name" = k1."Name"
-            where c."KnowledgeProviderPathCount" = 1
-            union all
-            select
-                c.*,
-                k1."Url" as "KnowledgeProviderPath1Url",
-                k2."Url" as "KnowledgeProviderPath2Url"
-            from "v1_1_CaseSolutions" c
-            inner join "v1_1_KnowledgeProviders" k1
-                on c."KnowledgeProviderPath1Name" = k1."Name"
-            inner join "v1_1_KnowledgeProviders" k2
-                on c."KnowledgeProviderPath2Name" = k2."Name"
-            where c."KnowledgeProviderPathCount" = 2
-        )
-
-        select
-            m.*
-        from CaseSolutionsWithUrls m
-        where m."CaseId" = :caseIdVar
-        order by m."Id" asc
-        limit 1;
-        """
-
-    # sqlFindCaseSolutions = \
-    #     """
-    #     SELECT
-    #     s."SOLUTION_ID", s."CASE_ID",
-    #     s."SOLUTION_FIRST_KP_NAME" as "KP_PATH1", s."NODE1_PATH1_CATEGORY", s."NODE2_PATH1_CATEGORY", s."EDGE1_PATH1_PREDICATE",
-    #     s."SOLUTION_SECOND_KP_NAME" as "KP_PATH2", s."NODE1_PATH2_CATEGORY", s."NODE2_PATH2_CATEGORY", s."EDGE1_PATH2_PREDICATE"
-    #     FROM public."xARA_CaseSolutions" AS s
-    #     WHERE s."CASE_ID" = ANY(array[:caseIds])
-    #     """
-
     sqlFindCaseSolutions = \
         """
         select
@@ -132,7 +93,7 @@ class clsCaseSolutionManager(clsNode):
         ON A."SOLUTION_FIRST_KP_NAME" = "xARA_KP_Info"."KP_Name"
         """
 
-    def __init__(self, dispatchId: int, dispatchDescription: str, userRequestBody: dict):
+    def __init__(self, dispatchId: int, dispatchDescription: str, userRequestBody: dict, workflow: Workflow):
         """
         Constructor
         :param userRequestBody: the request body the user sends
@@ -176,6 +137,8 @@ class clsCaseSolutionManager(clsNode):
         self.multiple_hop_origin = ["fromKP"]
         # set a flag if query graph is "one-hop" (i.e. [node]-[edge]->[node])
         self.is_one_hop = len(dispatchDescription["nodes"]) == 2 and len(dispatchDescription["edges"]) == 1
+
+        self.workflow: Workflow = workflow
 
     def initialize_db_data(self):
         """
@@ -248,32 +211,6 @@ class clsCaseSolutionManager(clsNode):
             ))
             logging.debug(f"Identified {len(self.case_problem_searcher.selected_case_ids_and_similarities)} Case Problems: (Case ID, Similarity) '{self.case_problem_searcher.selected_case_ids_and_similarities}'")
             self.triplets_case_ids.append(triplet_case_ids)
-
-        # logging.debug(f"Finding similar cases for {self.similarSubjects[0]} {self.similarObjects[0]} {self.similarPredicates[0]}")
-        # # self.default_case_similarity = 0
-        # with self.app.app_context():
-        #     self.default_explanation_similarity = db.session.execute('SELECT "GLOBAL_RESULT_THRESHOLD" FROM public."xARA_Config";').fetchall()[0]
-        #
-        # similarCases = clsBiolinkSimilarity(self.app)
-        # similarCases_Ids = similarCases.get_global_sim_triplets(self.similarSubjects[0], self.similarObjects[0], self.similarPredicates[0], 10)
-        # self.caseIds = similarCases_Ids
-        # # case_ids_string = ", ".join(similarCases.selected_case_ids_and_similarities)
-        # case_ids_string = str(similarCases.selected_case_ids_and_similarities)
-        #
-        # self.logs.append(clsLogEvent(
-        #     identifier=f"Given: {self.similarSubjects[0]}, Opposite: {self.similarObjects[0]}, Predicate: {self.similarPredicates[0]}",
-        #     level="DEBUG",
-        #     code="",
-        #     message=f"Identified {len(similarCases_Ids)} Case Problems: (Case ID, Similarity) '{case_ids_string}'"
-        # ))
-        # logging.debug(f"Identified {len(similarCases_Ids)} Case Problems: (Case ID, Similarity) '{case_ids_string}'")
-        #
-        # # if len(similarCases_Ids) > 0:
-        # #     retrievalRows = clsCaseSolutionRetrival()
-        # #     retrievalRows.app = self.app
-        # #     self.caseIds = retrievalRows.retrieveRows_xARA_CaseSolutions(similarCases_Ids)
-        # # else:
-        # #     self.caseIds = []
 
     def getKPURL(self, kp_name):
         """
@@ -348,7 +285,7 @@ class clsCaseSolutionManager(clsNode):
             name=result["KnowledgeProviderPath1Name"],
             url=result["KnowledgeProviderPath1Url"]
         )
-        caseSolutionPath1.knowledgeProvider.logs = caseSolution.logs
+        caseSolutionPath1.knowledgeProvider.logs = caseSolutionPath1.logs
 
         caseSolution.paths = [caseSolutionPath1]
 
@@ -362,7 +299,7 @@ class clsCaseSolutionManager(clsNode):
                 name=result["KnowledgeProviderPath2Name"],
                 url=result["KnowledgeProviderPath2Url"]
             )
-            caseSolutionPath2.knowledgeProvider.logs = caseSolution.logs
+            caseSolutionPath2.knowledgeProvider.logs = caseSolutionPath2.logs
 
             caseSolution.paths.append(caseSolutionPath2)
 
@@ -377,20 +314,51 @@ class clsCaseSolutionManager(clsNode):
         for case_ids in self.triplets_case_ids:
             all_case_ids |= set(case_ids)
 
+        # create a white or blacklist for KPs if there is a Fill operation in the workflow.
+        kp_allow_list = None
+        kp_deny_list = None
+        for operation in self.workflow.operations:
+            if isinstance(operation, FillOperation):
+                kp_allow_list = operation.allow_list
+                kp_deny_list = operation.deny_list
+
         case_id_to_solutions = {}
         with self.app.app_context():
+            # add a WHERE clause to the solution retrieval query to select a subset based on the Fill operation
+            find_case_solutions = copy.copy(self.sqlFindCaseSolutions)
+            if kp_allow_list:
+                kp_list = kp_allow_list
+                find_case_solutions += """ WHERE A."SOLUTION_FIRST_KP_NAME" = ANY(array[:kpList])"""
+                logging.debug(f"Using allow list: {kp_list}")
+            elif kp_deny_list:
+                kp_list = kp_deny_list
+                find_case_solutions += """ WHERE NOT (A."SOLUTION_FIRST_KP_NAME" = ANY(array[:kpList]))"""
+                logging.debug(f"Using deny list: {kp_list}")
+            else:
+                kp_list = None
+                logging.debug(f"No fill list provided, retrieving all solutions")
+
             results = db.session.execute(
-                statement=self.sqlFindCaseSolutions,
+                statement=find_case_solutions,
                 params={
-                    "caseIds": list(all_case_ids)
+                    "caseIds": list(all_case_ids),
+                    "kpList": kp_list
                 }
             ).fetchall()
+            logging.debug(f"Matched {len(results)} Case Solutions.")
+
+            self.logs.append(clsLogEvent(
+                identifier=f"Case Solution Manager",
+                level="DEBUG",
+                code="",
+                message=f"Matched {len(results)} Case Solutions with {'allow' if kp_allow_list else 'deny'} list: {kp_list}"
+            ))
+
             for result in results:
                 case_id = result[1]
                 if case_id not in case_id_to_solutions:
                     case_id_to_solutions[case_id] = []
                 case_id_to_solutions[case_id].append(result)
-
 
         caseSolutionDispatchId = 1
 

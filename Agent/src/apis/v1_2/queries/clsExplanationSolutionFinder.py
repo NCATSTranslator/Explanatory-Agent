@@ -4,15 +4,27 @@ from .clsExplanationNone import ExplanationNone
 from .clsExplanationX00001 import ExplanationX00001
 from .clsExplanationX00002 import ExplanationX00002
 from .clsExplanationX00003 import ExplanationX00003
+from .clsExplanationX00004 import ExplanationX00004
+from .clsExplanationX00005 import ExplanationX00005
+from .clsExplanationX00006 import ExplanationX00006
+from .clsExplanationX00007 import ExplanationX00007
+from .clsExplanationX00008 import ExplanationX00008
+from .clsExplanationX00009 import ExplanationX00009
+from .clsExplanationX00010 import ExplanationX00010
+from .clsExplanationX00011 import ExplanationX00011
+from .clsExplanationX00012 import ExplanationX00012
+from .clsExplanationX00013 import ExplanationX00013
+from .clsExplanationX00014 import ExplanationX00014
+from .clsExplanationX00015 import ExplanationX00015
+from .clsExplanationX00016 import ExplanationX00016
 from modDatabase import db
 
 
 class ExplanationSolutionFinder(clsBiolinkSimilarity):
     sqlRetrieveExplanationProblems = \
         """
-        SELECT "CASE_ID", "CASE_NAME", "KP_NAME", "SUBJECT_NODE", "OBJECT_NODE", "PREDICATE", 
-        "SLOT_LABEL_0", "SLOT_VALUE_0", "SLOT_LABEL_1", "SLOT_VALUE_1", "SLOT_LABEL_2", "SLOT_VALUE_2", "SLOT_LABEL_3", "SLOT_VALUE_3", "SLOT_LABEL_4", 
-        "SLOT_VALUE_4", "SLOT_LABEL_5", "SLOT_VALUE_5", "SLOT_LABEL_6", "SLOT_VALUE_6", "SLOT_LABEL_7", "SLOT_VALUE_7"
+        SELECT "CASE_ID", "CASE_NAME", "KP_NAME", "SUBJECT_NODE", "OBJECT_NODE", "PREDICATE",
+        "SELECTION CRITERION 1", "SELECTION CRITERION 2"
         FROM public."xARA_ExplanationCaseProblems";
         """
 
@@ -52,29 +64,8 @@ class ExplanationSolutionFinder(clsBiolinkSimilarity):
 
         :return:
         """
-        self.explanation_problems = []
         with self.app.app_context():
-            results = db.session.execute(ExplanationSolutionFinder.sqlRetrieveExplanationProblems).mappings().all()
-
-        for result in results:
-            explanation_problem = {
-                "CASE_ID": result["CASE_ID"],
-                "KP_NAME": result["KP_NAME"],
-                "SUBJECT_NODE": result["SUBJECT_NODE"],
-                "OBJECT_NODE": result["OBJECT_NODE"],
-                "PREDICATE": result["PREDICATE"],
-                "attribute_comparisons": {}
-            }
-            for slot_index in range(8):
-                label = result[f"SLOT_LABEL_{slot_index}"]
-                value = result[f"SLOT_VALUE_{slot_index}"]
-
-                if label is None or label == "" or value is None or value == "":
-                    continue
-
-                explanation_problem["attribute_comparisons"][label] = value
-
-            self.explanation_problems.append(explanation_problem)
+            self.explanation_problems = db.session.execute(ExplanationSolutionFinder.sqlRetrieveExplanationProblems).mappings().all()
 
     def cache_explanation_excluded_kps(self):
         """
@@ -142,7 +133,10 @@ class ExplanationSolutionFinder(clsBiolinkSimilarity):
         :return:
         """
         if kp_name in self.explanation_excluded_kps:
-            return ExplanationMissing()
+            return ExplanationX00014(kp_name)
+
+        if len(knowledge_graph["edges"]) <= 0:
+            return ExplanationX00014(kp_name)
 
         new_subject = source_subject[0]
         new_object = source_object[0]
@@ -151,8 +145,14 @@ class ExplanationSolutionFinder(clsBiolinkSimilarity):
         explanation_similarities = []
 
         for explanation_problem in self.explanation_problems:
-            weights = self.explanation_weights.get(explanation_problem['CASE_ID'],
-                                                   {"SUBJECT_NODE_WEIGHT": None, "OBJECT_NODE_WEIGHT": None, "PREDICATE_WEIGHT": None, "KP_WEIGHT": None})
+            weights = self.explanation_weights.get(
+                explanation_problem['CASE_ID'],
+                {"SUBJECT_NODE_WEIGHT": None, "OBJECT_NODE_WEIGHT": None, "PREDICATE_WEIGHT": None, "KP_WEIGHT": None}
+            )
+
+            # currently not implemented due to missing database data
+            if explanation_problem['CASE_ID'] == "X00004":
+                continue
 
             # if there are no weights (not just a missing case ID, they can also be nulls in the DB) skip this explanation case
             if weights['SUBJECT_NODE_WEIGHT'] is None and weights['OBJECT_NODE_WEIGHT'] is None and \
@@ -217,48 +217,39 @@ class ExplanationSolutionFinder(clsBiolinkSimilarity):
             return self.retrieve_explanation_solution(top_explanation[0], kp_name)
 
         """
-        Select which candidate cases to use in this first step: 
-        Get list of slot_values in the input kg, e.g. slot_value_0, slot_value_1,...slot_value_m, and define NR_slot_value_j  
-        
-        For each case CXCi, get CXC_slot_value_ji  
-        
-        call Sim P 2 STEP 1a Delta_Local_Sim and compute the delta similarity  
-        for each [j] and each [i]  
-        slot_LS[j i] = Delta_Local_Sim(NR_slot_value_j,CXC_slot_value_ji) 
-        for each [i]
-            for each [j] 
-                slot_LC[j i] = slot_LC[j i] + slot_LC[j i]
-         If any slot_LC[j i] value > GLOBAL_RESULT_THRESHOLD 
-            THEN select the max as case to be reused  
-            ELSE "no case to reuse"	
+        For each NR edge e
+            For each candidate case CXC attribute a
+                Search for a in the list of attributes a in edge e
+                    IF all 'a' attributes are found in attributes assoicated with 'e' 
+                        Choose Case CXC
+                IF no case found applicable to 'e': 
+                               Choose CaseX000014
         """
-        explanation_similarities_by_attribute = []
-
         for explanation_problem in self.explanation_problems:
-            found_attributes = 0
-            for edge_id, edge in knowledge_graph["edges"].items():
-                for attribute in edge["attributes"]:
-                    for attribute_label, attribute_value in attribute.items():
-                        for compared_attribute_label, compared_attribute_value in explanation_problem["attribute_comparisons"].items():
-                            if attribute_label == compared_attribute_label and attribute_value == compared_attribute_value:
-                                found_attributes += 1
-            explanation_similarities_by_attribute.append((explanation_problem['CASE_ID'], found_attributes))
+            soultion_class = self.retrieve_explanation_solution(explanation_problem['CASE_ID'], kp_name)
 
-        sorted_explanation_similarities_by_attribute = sorted(explanation_similarities_by_attribute, key=lambda x: x[1], reverse=True)
-        top_explanation = sorted_explanation_similarities_by_attribute[0]
-        if top_explanation[1] > self.explanation_similarity_threshold:
-            return self.retrieve_explanation_solution(top_explanation[0], kp_name)
+            # an attribute in the edge needs to be valid, not ALL edges!
+            edges_valid = False
+            for edge in knowledge_graph["edges"].values():
+                edge_valid = soultion_class.edgeAttributeValidate(edge)
+                if edge_valid is True:
+                    edges_valid = True
+                    break
 
-        return ExplanationMissing()
+            if edges_valid:
+                return soultion_class
+
+        return ExplanationX00014(kp_name)
 
     def retrieve_explanation_solution(self, case_id, kp_name):
         """
-
         :param case_id:
-        :return:
+        :param kp_name:
+        :return class:
         """
-        if case_id == "X00001":
-            return ExplanationX00001(
+        # storing it as lambdas so the dict values don't get computed right away
+        case_explanations = {
+            "X00001": lambda: ExplanationX00001(
                 edge_values={"MAGMA_GENE", "RC_GENES", "INTEGRATED_GENETICS"},
                 value_combinations={
                     frozenset(): (
@@ -295,12 +286,22 @@ class ExplanationSolutionFinder(clsBiolinkSimilarity):
                     ),
                 },
                 rationale="The score was obtained based on level of maturity of methods that identify associations."
-            )
-        elif case_id == "X00002":
-            return ExplanationX00002(self.app)
-        elif case_id == "X00003":
-            return ExplanationX00003("CMAP:similarity_score", kp_name)
-        elif case_id == "X00004":
-            return ExplanationMissing()
-        else:
-            return ExplanationMissing()
+            ),
+            "X00002": lambda: ExplanationX00002(self.app),
+            "X00003": lambda: ExplanationX00003("CMAP:similarity_score", kp_name),
+            "X00004": lambda: ExplanationX00004(kp_name),
+            "X00005": lambda: ExplanationX00005("ln_ratio", kp_name),
+            "X00006": lambda: ExplanationX00006("auc_roc", kp_name),
+            "X00007": lambda: ExplanationX00007("biolink:Contribution", kp_name),
+            "X00008": lambda: ExplanationX00008("biolink:p_value", kp_name),
+            "X00009": lambda: ExplanationX00009(kp_name),
+            "X00010": lambda: ExplanationX00010("enrichment_p", kp_name),
+            "X00011": lambda: ExplanationX00011(kp_name),
+            "X00012": lambda: ExplanationX00012(kp_name),
+            "X00013": lambda: ExplanationX00013(kp_name),
+            "X00014": lambda: ExplanationX00014(kp_name),
+            "X00015": lambda: ExplanationX00015(kp_name),
+            "X00016": lambda: ExplanationX00016(kp_name)
+        }
+
+        return case_explanations.get(case_id, lambda: ExplanationX00014(kp_name))()

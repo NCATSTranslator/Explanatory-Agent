@@ -5,6 +5,7 @@ export $(egrep -v '^#' .env)
 sed -i.bak \
     -e "s|DB_USERNAME_VALUE|${DB_USERNAME}|g" \
     -e "s|DB_PASSWORD_VALUE|${DB_PASSWORD}|g" \
+    -e "s|DB_SCHEMA_VALUE|${DB_SCHEMA}|g" \
     secret.yaml
 rm secret.yaml.bak
 

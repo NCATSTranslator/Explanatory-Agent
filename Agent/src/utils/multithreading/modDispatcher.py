@@ -105,7 +105,7 @@ class thingClass:
         self.done = done
 
 
-def query_dispatch(objects: list, method: str, parentId: int, abort_time: int, pool_size: int = 5):
+def query_dispatch(objects: list, method: str, parentId: int, abort_time: int, pool_size: int = 7):
     """
     Dispatches a worker for each Query Manager with a global timeout. Once the timeout is reached all working threads are stopped and any results are returned.
     :param objects:
