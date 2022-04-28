@@ -82,6 +82,24 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Query'
+            example:
+              message:
+                query_graph:
+                  nodes:
+                    n0:
+                      categories:
+                        - biolink:Gene
+                    n1:
+                      ids:
+                        - MONDO:0004969
+                      categories:
+                        - biolink:Disease
+                  edges:
+                    e0:
+                      subject: n0
+                      object: n1
+                      predicates:
+                        - biolink:related_to
       responses:
         '200':
           description: >-
