@@ -54,7 +54,7 @@ pipeline {
         stage('Deploy to AWS EKS Blue') {
             steps {
                 configFileProvider([
-                    configFile(fileId: 'explanatoryagent-ci-env', targetLocation: 'Agent/deploy/.env')
+                    configFile(fileId: 'explanatoryagent-ci-env', targetLocation: 'Agent/deploy/ea/.env')
                 ]){
                     withAWS(credentials:'aws-ifx-deploy') {
                         sh '''
