@@ -57,22 +57,9 @@ tolerations:
 restartPolicy: Always
 
 env:
-  - name: DB_USERNAME
-    value_from:
-      secret_key_ref:
-        name: postgres-secret
-        key: username
-  - name: DB_PASSWORD
-    value_from:
-      secret_key_ref:
-        name: postgres-secret
-        key: password
-  - name: DB_SCHEMA
-    value_from:
-      secret_key_ref:
-        name: postgres-secret
-        key: schema
   - name: DB_HOST
     value: transltr-ci-rds-ea-chp-postgresql.ceyknq0yekb3.us-east-1.rds.amazonaws.com
   
- 
+envFrom:
+  - secretRef:
+      name: postgres-secret
