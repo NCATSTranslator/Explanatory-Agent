@@ -14,9 +14,7 @@ rm templates/secret.yaml.bak
 
 sed -i.bak \
     -e "s/DOCKER_VERSION_VALUE/${BUILD_VERSION}/g" \
-    -e "s/EA_ALLOWED_HOSTS_VALUE/${EA_ALLOWED_HOSTS}/g" \
-    -e "s|DB_HOST_VALUE|${DB_HOST}|g" \
-    templates/deployment.yaml
-rm templates/deployment.yaml.bak
+    values-ci.yaml
+rm values-ci.yaml.bak
 
 helm -n ${namespace} upgrade --install ${projectName} -f values-ci.yaml ./
