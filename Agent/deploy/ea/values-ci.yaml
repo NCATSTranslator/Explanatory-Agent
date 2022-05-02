@@ -58,18 +58,18 @@ restartPolicy: Always
 
 env:
   - name: DB_USERNAME
-    valueFrom:
-      secretKeyRef:
+    value_from:
+      secret_key_ref:
         name: postgres-secret
         key: username
   - name: DB_PASSWORD
-    valueFrom:
-      secretKeyRef:
+    value_from:
+      secret_key_ref:
         name: postgres-secret
         key: password
   - name: DB_SCHEMA
-    valueFrom:
-      secretKeyRef:
+    value_from:
+      secret_key_ref:
         name: postgres-secret
         key: schema
   - name: DB_HOST
