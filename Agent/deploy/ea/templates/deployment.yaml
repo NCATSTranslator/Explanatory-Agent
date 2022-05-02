@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: easerver
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          image: {{ .Values.image.repository }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.env}}
           env:
