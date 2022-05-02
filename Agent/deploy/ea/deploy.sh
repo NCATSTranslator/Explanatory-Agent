@@ -19,4 +19,4 @@ sed -i.bak \
     deployment.yaml
 rm deployment.yaml.bak
 
-helm -n ${namespace} upgrade --install ${projectName} -f values-ci.yaml
+helm -n ${namespace} upgrade --install ${projectName} -f values-ci.yaml ./
