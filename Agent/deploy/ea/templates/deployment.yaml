@@ -20,12 +20,17 @@ spec:
     spec:
       containers:
         - name: easerver
-          image: {{ .Values.image.repository }}modif
+          image: {{ .Values.image.repository }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- with .Values.env}}
           env:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            - name: DB_HOST
+              value: {{ .Values.db.host }}
+            - name: DB_USERNAME
+              value: {{ .Values.db.username }}   
+            - name: DB_PASSWORD
+              value: {{ .Values.db.password }}     
+            - name: DB_SCHEMA
+              value: {{ .Values.db.schema }}
           ports:
             - name: http
               containerPort: 80
