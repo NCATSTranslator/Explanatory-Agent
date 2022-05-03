@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: easerver
-          image: {{ .Values.image.repository }}
+          image: {{ .Values.image.repository}}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DB_HOST
