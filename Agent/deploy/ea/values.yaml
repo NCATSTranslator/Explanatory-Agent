@@ -1,0 +1,59 @@
+# Default values for ea.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+fullnameOverride: "ea"
+
+image:
+  repository: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent
+  tag: DOCKER_VERSION_VALUE
+  imagePullPolicy: Always
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/tags: Name=EA_ALB_TAG_VALUE,Environment=ENVIRONMENT_TAG_VALUE
+    alb.ingress.kubernetes.io/security-groups: EA_ALB_SG_VALUE
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-Ext-2018-06
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/success-codes: '200'
+    alb.ingress.kubernetes.io/healthcheck-path: '/health' 
+  host: EA_HOSTNAME_VALUE
+
+affinity:
+   # this ensures only ONE pod will run on each node
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - ea
+      topologyKey: "kubernetes.io/hostname"
+  # this ensures pod only runs on node with label application=ea
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: application
+          operator: In
+          values:
+          - ea
+tolerations:
+  - key: "transltr"
+    value: "ea"
+    operator: "Equal"
+    effect: "NoSchedule"
+      
+restartPolicy: Always
+
