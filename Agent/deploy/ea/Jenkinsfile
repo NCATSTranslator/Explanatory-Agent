@@ -54,7 +54,7 @@ pipeline {
         stage('Deploy to AWS EKS Blue') {
             steps {
                 configFileProvider([
-                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/ea/values-ci.yaml')
+                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/ea/values-ncats.yaml')
                 ]){
                     withAWS(credentials:'aws-ifx-deploy') {
                         sh '''
