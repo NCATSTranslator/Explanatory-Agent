@@ -21,11 +21,9 @@ ncats:
     gov.nih.ncats.appconnnum: 1
     gov.nih.ncats.appconn1type: postgresql
     gov.nih.ncats.appconn1host: DB_HOST
-    gov.nih.ncats.appconn1port: 5432
+    gov.nih.ncats.appconn1port: "5432"
     gov.nih.ncats.appconn1db: xara
   
-
-
 service:
   type: NodePort
   port: 80
