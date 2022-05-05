@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ea.fullname" . }}
+  labels:
+    {{- include "ea.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ea.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ea.selectorLabels" . | nindent 8 }}
+        {{- toYaml .Values.ncats.labels | nindent 8 }}
+    spec:
+      containers:
+        - name: easerver
+          image: {{ .Values.image.repository}}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DB_HOST
+              value: {{ .Values.db.host }}
+            - name: DB_USERNAME
+              value: {{ .Values.db.username }}   
+            - name: DB_PASSWORD
+              value: {{ .Values.db.password }}     
+            - name: DB_SCHEMA
+              value: {{ .Values.db.schema }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: {{ .Values.restartPolicy }}
+
