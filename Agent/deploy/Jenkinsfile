@@ -54,12 +54,12 @@ pipeline {
         stage('Deploy to AWS EKS Blue') {
             steps {
                 configFileProvider([
-                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/ea/values-ncats.yaml')
+                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml')
                 ]){
                     withAWS(credentials:'aws-ifx-deploy') {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
-                        cd Agent/deploy/ea && /bin/bash deploy.sh
+                        cd Agent/deploy && /bin/bash deploy.sh
                         '''
                     }
                 }
