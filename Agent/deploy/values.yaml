@@ -11,6 +11,21 @@ image:
   tag: DOCKER_VERSION_VALUE
   imagePullPolicy: Always
 
+ncats:
+  labels:
+    gov.nih.ncats.appenv: appenv
+    gov.nih.ncats.appname: ea/agent
+    gov.nih.ncats.appentry: EA_HOSTNAME_VALUE
+    gov.nih.ncats.appentrytype: https
+    gov.nih.ncats.appentryport: tcp
+    gov.nih.ncats.appconnnum: 1
+    gov.nih.ncats.appconn1type: postgresql
+    gov.nih.ncats.appconn1host: DB_HOST
+    gov.nih.ncats.appconn1port: 5432
+    gov.nih.ncats.appconn1db: xara
+  
+
+
 service:
   type: NodePort
   port: 80
@@ -56,4 +71,3 @@ tolerations:
     effect: "NoSchedule"
       
 restartPolicy: Always
-
