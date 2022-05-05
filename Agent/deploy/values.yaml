@@ -14,7 +14,7 @@ image:
 ncats:
   labels:
     gov.nih.ncats.appenv: appenv
-    gov.nih.ncats.appname: ea/agent
+    gov.nih.ncats.appname: ea-agent
     gov.nih.ncats.appentry: EA_HOSTNAME_VALUE
     gov.nih.ncats.appentrytype: https
     gov.nih.ncats.appentryport: tcp
