@@ -36,11 +36,17 @@ info:
       url: https://github.com/NCATSTranslator/translator_extensions/blob/\
         production/x-trapi/
 servers:
-  - url: https://explanatory-agent.azurewebsites.net/v1.2/
-    description: Production Server
+  - url: https://explanatory-agent.transltr.io/v1.2/
+    description: Explanatory Agent Production Server
     x-maturity: production
-  - url: https://explanatory-agent-dev.azurewebsites.net/v1.2/
-    description: Development Server
+  - url: https://explanatory-agent.ci.transltr.io/v1.2/
+    description: Explanatory Agent Staging Server
+    x-maturity: staging
+  - url: https://explanatory-agent.test.transltr.io/v1.2/
+    description: Explanatory Agent Testing Server
+    x-maturity: testing
+  - url: https://explanatory-agent.azurewebsites.net/v1.2/
+    description: Explanatory Agent Development Server
     x-maturity: development
 externalDocs:
   description: >-
