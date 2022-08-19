@@ -1,3 +1,4 @@
 from .clsCaseSolutions import clsCaseSolutions
 from .clsGlobalSimilarity import clsGlobalSimilarity
 from .clsKnowledgeProviders import clsKnowledgeProviders
+from .clsXaraQueryResults import clsXaraQueryResults

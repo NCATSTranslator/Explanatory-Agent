@@ -29,6 +29,7 @@ def runner(object):
         print(traceback.format_exc())
         logging.error(str(tb))
         object.logs.append(clsLogEvent(
+            identifier=str(object.dispatchId),
             level="ERROR",
             code="",
             message=f"Unexpected error in object with dispatchId {object.dispatchId}: {tb}"

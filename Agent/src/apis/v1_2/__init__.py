@@ -10,6 +10,7 @@ import modConfig
 from flask_restx import Api
 from flask import Blueprint
 from .views.clsQueryView import namespace as clsQueryNamespace
+from .views.clsQueryAsyncView import namespace as clsQueryAsyncNamespace
 from .views.clsMetaKnowledgeGraphView import namespace as clsMetaKnowledgeGraphNamespace
 from .views.clsPredicatesView import namespace as clsPredicatesNamespace
 
@@ -25,3 +26,4 @@ namespaces = Api(
 namespaces.add_namespace(clsMetaKnowledgeGraphNamespace)
 # namespaces.add_namespace(clsPredicatesNamespace)
 namespaces.add_namespace(clsQueryNamespace)
+namespaces.add_namespace(clsQueryAsyncNamespace)

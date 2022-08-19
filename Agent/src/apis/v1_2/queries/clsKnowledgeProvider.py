@@ -5,10 +5,11 @@ ASSUMES: None
 FUTURE IMPROVEMENTS: N/A
 WHO: SL 2021-04-25
 """
+import logging
 
 import requests
 from extensions.requests_extension import request_with_global_timeout
-import reasoner_validator
+
 from jsonschema import ValidationError
 from datetime import datetime
 from utils.clsLog import clsLogEvent
@@ -43,6 +44,13 @@ class clsKnowledgeProvider:
         :return: None
         :raises: Will raise if not valid
         """
+        try:
+            import reasoner_validator
+        except requests.HTTPError as e:
+            logging.critical("Reasoner validator web request failing! Assuming all responses are good!")
+            self.logs.append(clsLogEvent(identifier="", level="CRITICAL", code="", message=f"Reasoner validator github request is down! {e}").dict())
+            return
+
         reasoner_validator.validate(self.requestBody, "Query", trapi_version)
         # don't log this crash, it's our fault
 
@@ -102,6 +110,13 @@ class clsKnowledgeProvider:
         :return: None
         :raises: Will raise InvalidSchema if not valid
         """
+        try:
+            import reasoner_validator
+        except requests.HTTPError as e:
+            logging.critical("Reasoner validator web request failing! Assuming all responses are good!")
+            self.logs.append(clsLogEvent(identifier="", level="CRITICAL", code="", message=f"Reasoner validator github request is down! {e}").dict())
+            return
+
         try:
             # reasoner_validator.validate_Response(self.responseBody)
             reasoner_validator.validate(self.responseBody, "Response", trapi_version)

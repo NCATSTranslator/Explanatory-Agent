@@ -52,27 +52,29 @@ class clsMultiHop(clsNode):
                 if case_solution.subjectCurieIds is None:
                     if case_solution.subject_query_graph_node_id in response_node_ids:
                         subject_new_ids = sorted(list(response_node_ids[case_solution.subject_query_graph_node_id]))
-                        if len(subject_new_ids) > 50:
-                            self.logs.append(clsLogEvent(
-                                identifier=f"MH{self.dispatchId}",
-                                level="INFO",
-                                code="Info",
-                                message=f"Too many previous hop subject ids to provide {len(subject_new_ids)}, reducing to 50."
-                            ))
-                            subject_new_ids = subject_new_ids[:50]
+                        # Removed id length clamping as per 2022/04/07 discussion
+                        # if len(subject_new_ids) > 50:
+                        #     self.logs.append(clsLogEvent(
+                        #         identifier=f"MH{self.dispatchId}",
+                        #         level="INFO",
+                        #         code="Info",
+                        #         message=f"Too many previous hop subject ids to provide {len(subject_new_ids)}, reducing to 50."
+                        #     ))
+                        #     subject_new_ids = subject_new_ids[:50]
                         case_solution.subjectCurieIds = subject_new_ids
 
                 if case_solution.objectCurieIds is None:
                     if case_solution.object_query_graph_node_id in response_node_ids:
                         object_new_ids = sorted(list(response_node_ids[case_solution.object_query_graph_node_id]))
-                        if len(object_new_ids) > 50:
-                            self.logs.append(clsLogEvent(
-                                identifier=f"MH{self.dispatchId}",
-                                level="INFO",
-                                code="Info",
-                                message=f"Too many previous hop object ids to provide {len(object_new_ids)}, reducing to 50."
-                            ))
-                            object_new_ids = object_new_ids[:50]
+                        # Removed id length clamping as per 2022/04/07 discussion
+                        # if len(object_new_ids) > 50:
+                        #     self.logs.append(clsLogEvent(
+                        #         identifier=f"MH{self.dispatchId}",
+                        #         level="INFO",
+                        #         code="Info",
+                        #         message=f"Too many previous hop object ids to provide {len(object_new_ids)}, reducing to 50."
+                        #     ))
+                        #     object_new_ids = object_new_ids[:50]
                         case_solution.objectCurieIds = object_new_ids
 
             case_solution.execute(no_results=False)
