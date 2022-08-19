@@ -6,7 +6,7 @@ How to run:
 
 The Agent web service is composed of two Docker containers: A PostgreSQL container containing data to direct processing and a Python container which hosts the REST API. The PostgreSQL container must be populated with data from a dump file first, before the REST API will function.
 
-The following steps will build a container, populate it, and build then run the REST API. These steps were performed on Ubuntu 18.04 LTS.
+The following steps will build a container, populate it, and build then run the REST API.
 
 1. Start the Postgres Docker container (NOTE: a volume will be mounted in the current working directory to store the Postgres data):
 

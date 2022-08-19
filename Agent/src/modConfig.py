@@ -25,14 +25,26 @@ dbHost = resolveDefaultValue(value=os.getenv("DB_HOST"), default="localhost")
 if dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
     dbHost = "host.docker.internal"
 dbPort = int(resolveDefaultValue(value=os.getenv("DB_PORT"), default=5432))
-dbSchema = resolveDefaultValue(value=os.getenv("DB_SCHEMA"), default="xARA")
+dbEtlName = "xARA"  # primary
+dbAppName = "xARA_app"  # secondary
 dbConfig = {
-    'SQLALCHEMY_DATABASE_URI': f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbSchema}',
+    'SQLALCHEMY_DATABASE_URI': f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbEtlName}',
+    'SQLALCHEMY_BINDS': {
+        dbAppName: f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbAppName}',
+    },
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
     'SQLALCHEMY_ENGINE_OPTIONS': {
         'pool_size': 20,
     }
 }
+
+# todo, figure out dynamic way to retrieve host name from azure app service
+if dbHost == "explanatory-agent-dev.postgres.database.azure.com":
+    externalApiHost = "https://explanatory-agent-dev.azurewebsites.net"
+elif dbHost == "explanatory-agent.postgres.database.azure.com":
+    externalApiHost = "https://explanatory-agent.azurewebsites.net"
+else:
+    externalApiHost = "http://127.0.0.1"
 
 bert_checkpoints_folder = "/media/storage/biobert/re_outputs" if isDocker else "/media/engineer1/Data/virtualbox_share/Work_In_Progress/xARA/Transfer_In/biobert/biobert/re_outputs/"
 
@@ -42,4 +54,3 @@ maxThreadCount = 4
 ZERO_RESULT_SCORE = 0.0001
 
 defaultLoggingLevel = logging.DEBUG
-

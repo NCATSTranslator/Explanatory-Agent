@@ -1,0 +1,4 @@
+Commands to dump using pg_dump v14 for DevOps server
+
+/usr/lib/postgresql/14/bin/pg_dump --username=postgres --file "/media/engineer1/Data/virtualbox_share/Work_In_Progress/xARA/Transfer_Out/xARA_2022-08-16.bak" --host "localhost" --port "5432" --verbose --format=c --blobs --section=pre-data --section=data --section=post-data --schema "public" "xARA"
+/usr/lib/postgresql/14/bin/pg_dump --username=postgres --file "/media/engineer1/Data/virtualbox_share/Work_In_Progress/xARA/Transfer_Out/xARA_app_2022-08-16.bak" --host "localhost" --port "5432" --verbose --format=c --blobs --section=pre-data --section=data --section=post-data --schema "public" "xARA_app"

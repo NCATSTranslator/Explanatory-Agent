@@ -275,11 +275,7 @@ class clsBiolinkSimilarity:
         return df1
 
     def fetch_cases(self, origins, exclude_matching_n0_n1):
-        if self.case_problems_df is None:
-            return self.fetch_cases_from_db(origins, exclude_matching_n0_n1)
-        else:
-            return self.fetch_cases_from_df(origins, exclude_matching_n0_n1)
-
+        return self.fetch_cases_from_db(origins, exclude_matching_n0_n1)
 
     def get_global_sim_triplets(self, new_subject, new_object, new_predicate, origins):
         """

@@ -6,25 +6,30 @@ FUTURE IMPROVEMENTS: N/A
 WHO: SL 2021-04-25
 """
 
+from typing import Any
 from jsonschema import ValidationError
-import reasoner_validator
 from utils.modTextUtils import isNullOrWhiteSpace
 from utils.modMiscUtils import isNullOrEmptyList
 from .clsCaseSolutionManager import clsCaseSolutionManager
 from .clsCategoriesProvider import clsCategoriesProvider
 from .clsCurieIdsProvider import clsCurieIdsProvider
 from utils.multithreading.clsNode import clsNode
-from copy import deepcopy
-from flask import current_app
+import json
+from flask import current_app, request
 import time
 from copy import deepcopy
 from itertools import product
 from utils.multithreading.modDispatcher import query_dispatch
-from ..modSettings import version, trapi_version
+from ..modSettings import trapi_version, reasoner_id
 from utils.clsLog import clsLogEvent
 from .clsBioLinkSimilarity import clsBiolinkSimilarity
 from .clsExplanationSolutionFinder import ExplanationSolutionFinder
 from ..models.workflow.clsWorkflow import Workflow
+import requests
+import logging
+from ..models.clsXaraQueryResults import tableName
+from modDatabase import db
+import modConfig
 
 
 class clsQueryManager(clsNode):
@@ -33,12 +38,14 @@ class clsQueryManager(clsNode):
     """
     dispatchIdScaleFactor = 100
 
-    def __init__(self):
+    def __init__(self, app: Any = None, uuid: str = None):
         """
         Constructor
         """
         # super().__init__(dispatchId=-1, dispatchDescription="Query Manager", dispatchMode="serial", dispatchList=[])
         super().__init__(dispatchId=-1, dispatchDescription="Query Manager", dispatchMode="parallel", dispatchList=[])
+        self.app = app
+        self.uuid = uuid
         self.userRequestBody = None
         self.userResponseBody = None
         self.edgePredicates = None
@@ -55,14 +62,25 @@ class clsQueryManager(clsNode):
         self.started_time = time.time()
         # time allowed to process all cases before the remaining are cancelled and results are merged
         # self.processing_timeout = 5.0 * 60
-        self.processing_timeout = 3.0 * 60
+        self.processing_timeout = 1 * 60 * 60  # 1 hour
         # self.processing_timeout = 0.5 * 60
+
+        self.async_timeout = 0
+        self.database_version = None
 
     def userRequestBodyValidation(self):
         """
         A function to evaluate whether the JSON body received from the client conforms to the proper input standard.
         :return: Boolean: True meaning the body is valid, False meaning the body is not valid
         """
+        try:
+            import reasoner_validator
+        except requests.HTTPError as e:
+            logging.critical("Reasoner validator web request failing! Assuming all responses are good!")
+            self.logs.append(clsLogEvent(identifier="", level="CRITICAL", code="",
+                                         message=f"Reasoner validator github request is down! {e}").dict())
+            return {"isValid": True, "error": e}
+
         try:
             # reasoner_validator.validate_Query(self.userRequestBody)
             reasoner_validator.validate(self.userRequestBody, "Query", trapi_version)
@@ -79,16 +97,29 @@ class clsQueryManager(clsNode):
 
         # ensure all edge attribute lists end with the Explanatory Agent provenance attribute
         try:
-            if self.userResponseBody['message']['knowledge_graph'] and "edges" in self.userResponseBody['message']['knowledge_graph']:
+            if self.userResponseBody['message']['knowledge_graph'] and "edges" in self.userResponseBody['message'][
+                'knowledge_graph']:
                 for edge_id, edge in self.userResponseBody['message']['knowledge_graph']['edges'].items():
                     last_attribute = edge['attributes'][-1]
-                    assert last_attribute["attribute_type_id"] == "biolink:aggregator_knowledge_source", "Edge missing xARA provenance data"
-                    assert last_attribute["attribute_source"] == "infores:explanatory-agent", "Edge missing xARA provenance data"
+                    assert last_attribute[
+                               "attribute_type_id"] == "biolink:aggregator_knowledge_source", "Edge missing xARA provenance data"
+                    assert last_attribute[
+                               "attribute_source"] == "infores:explanatory-agent", "Edge missing xARA provenance data"
         except AssertionError as e:
-            self.logs.append(clsLogEvent(identifier="", level="DEBUG", code="", message=f"Provenance assertion failure: {e}").dict())
+            self.logs.append(
+                clsLogEvent(identifier="", level="DEBUG", code="", message=f"Provenance assertion failure: {e}").dict())
             # validity_status = {"isValid": False, "error": e}
         except Exception as e:
-            self.logs.append(clsLogEvent(identifier="", level="DEBUG", code="", message=f"Provenance assertion failure: {e}").dict())
+            self.logs.append(
+                clsLogEvent(identifier="", level="DEBUG", code="", message=f"Provenance assertion failure: {e}").dict())
+
+        try:
+            import reasoner_validator
+        except requests.HTTPError as e:
+            logging.critical("Reasoner validator web request failing! Assuming all responses are good!")
+            self.logs.append(clsLogEvent(identifier="", level="CRITICAL", code="",
+                                         message=f"Reasoner validator github request is down! {e}").dict())
+            return {"isValid": True, "error": e}
 
         try:
             reasoner_validator.validate(self.userResponseBody, "Response", trapi_version)
@@ -295,7 +326,8 @@ class clsQueryManager(clsNode):
                     new_node = deepcopy(node_data)
                     new_node["ids"] = [curie]
                     yield node_id, new_node
-            elif "names" in node_data and len(node_data["names"]) > 1 and "ids" in node_data and len(node_data["ids"]) > 1:
+            elif "names" in node_data and len(node_data["names"]) > 1 and "ids" in node_data and len(
+                    node_data["ids"]) > 1:
                 for curie in node_data["ids"]:
                     new_node = deepcopy(node_data)
                     new_node["ids"] = [curie]
@@ -364,14 +396,13 @@ class clsQueryManager(clsNode):
         """
         from copy import copy
 
-        app = current_app._get_current_object()
+        app = current_app._get_current_object() if self.app is None else self.app
         # use the same searcher class across all solution managers
         case_problem_searcher = clsBiolinkSimilarity(app)
         explanation_solution_finder = ExplanationSolutionFinder(app)
         # explanation_solution_finder = None
 
         for dispatchId, query_graph in enumerate(self.batch_query_graphs):
-
             # create a deep copy of the user request body
             # override with single edge predicates, 1 at a time
             userRequestBodyCopy = deepcopy(self.userRequestBody)
@@ -388,7 +419,7 @@ class clsQueryManager(clsNode):
                 userRequestBody=userRequestBodyCopy,
                 workflow=self.workflow
             )
-            caseSolutionManager.app = current_app._get_current_object()  # pass app by reference
+            caseSolutionManager.app = current_app._get_current_object() if self.app is None else self.app  # pass app by reference
             caseSolutionManager.initialize_db_data()
             # create a shallow copy of the searchers, so the app reference stays the same.
             # We are only copying so it doesn't need to re-retrieve the initialization data.
@@ -478,7 +509,8 @@ class clsQueryManager(clsNode):
         # Query graph is the submitted QG unless derived case solutions were used. In that case the query graph is the one used by the derived cases.
         self.query_graph = deepcopy(self.userRequestBody["message"]["query_graph"])
         for multi_hop in self.caseMultiHops:
-            if len(multi_hop.case_solutions) == 1 and multi_hop.case_solutions[0].derived is True and multi_hop.case_solutions[0].query_graph:
+            if len(multi_hop.case_solutions) == 1 and multi_hop.case_solutions[0].derived is True and \
+                    multi_hop.case_solutions[0].query_graph:
                 self.query_graph = deepcopy(multi_hop.case_solutions[0].query_graph)
 
         all_cases_unsuccessful = True
@@ -567,12 +599,13 @@ class clsQueryManager(clsNode):
     #                 "attribute_source": "infores:explanatory-agent"
     #             })
 
-    def formatLog(self):
+    @property
+    def formattedLogs(self):
         """
-
-        :return:
+        In-lieu of creating a custom json formatter, we do this hack:
+        :return: a list of json serialiazable list of log messages
         """
-        self.logs = [log.dict() for log in self.logs]
+        return [log.dict() for log in self.logs]
 
     def generateSuccessUserResponseBody(self):
         """
@@ -583,10 +616,14 @@ class clsQueryManager(clsNode):
         results_count = 0
         if self.results:
             results_count = len(self.results)
+            # include the reasoner ID extended TRAPI property
+            for result in self.results:
+                result["reasoner_id"] = reasoner_id
 
         self.userResponseBody = {
+            "case_base_version": self.database_version,
             "description": f"Success. {results_count} results found",
-            "logs": self.logs,
+            "logs": self.formattedLogs,
             "status": "Success",
             "message": {
                 "query_graph": self.query_graph,
@@ -594,6 +631,8 @@ class clsQueryManager(clsNode):
                 "results": self.results,
             }
         }
+        if self.uuid is not None:
+            self.userResponseBody["results_url"] = self.resultsUrl
 
     def generateEmptyUserResponseBody(self, status: str, description: str):
         """
@@ -608,12 +647,86 @@ class clsQueryManager(clsNode):
             pass
 
         self.userResponseBody = {
+            "case_base_version": self.database_version,
             "description": description,
-            "logs": self.logs,
+            "logs": self.formattedLogs,
             "status": status,
             "message": {
                 "query_graph": query_graph,
                 "knowledge_graph": {"edges": {}, "nodes": {}},
                 "results": [],
-            }
+            },
         }
+        if self.uuid is not None:
+            self.userResponseBody["results_url"] = self.resultsUrl
+
+    @property
+    def resultsUrl(self) -> str:
+        return f"{modConfig.externalApiHost}/{modConfig.defaultVersion}/query_async/?uuid={self.uuid}"
+
+    @property
+    def userResponseBodyPendingAsync(self):
+        return {
+            "case_base_version": self.database_version,
+            "description": 'Synchronous timeout exceeded. Query will continue processing asynchronously. Please check results_url for results.  Add "should_wait": true or false to payload to adjust this behavior.',
+            "logs": self.formattedLogs,
+            "status": "InProgress",
+            "message": {
+                "query_graph": self.query_graph if self.query_graph is not None else self.userRequestBody["message"]["query_graph"],
+                "knowledge_graph": {
+                    "nodes": {},
+                    "edges": {},
+                },
+                "results": []
+            },
+            "results_url": self.resultsUrl
+        }
+
+    def insertUuidIntoDatabaseIfApplicable(self) -> None:
+        """
+        This function is only meant to run sync before the async query
+        :return:
+        """
+        sql = \
+            f"""
+            insert into "{tableName}"
+            ("UUID", "IP_ADDRESS", "CREATED_ON")
+            values
+            (:uuid, :ip, CURRENT_TIMESTAMP)
+            """
+
+        ip = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
+
+        session = db.create_scoped_session(options={'bind': db.get_engine(app=current_app, bind=modConfig.dbAppName)})
+        session.execute(sql, params={"uuid": self.uuid, "ip": ip})
+        session.commit()
+
+    def uploadResultsIntoDatabaseIfApplicable(self) -> None:
+        """
+        This function is only meant to run async inside the async query
+        :return:
+        """
+        if self.app is None:
+            return
+
+        sql = \
+            f"""
+            update "{tableName}" set
+            "PAYLOAD" = cast(:payload as jsonb)
+            where "UUID" = :uuid
+            """
+        payload = json.dumps(self.userResponseBody)
+        with self.app.app_context():
+            session = db.create_scoped_session(options={'bind': db.get_engine(app=self.app, bind=modConfig.dbAppName)})
+            session.execute(sql, params={"payload": payload, "uuid": self.uuid})
+            session.commit()
+
+    def fetchDatabaseVersion(self) -> None:
+        sql = \
+            """
+            select
+                (pg_stat_file('base/'||oid ||'/PG_VERSION')).modification
+            from pg_database
+            where datname = :dbName
+            """
+        self.database_version = str(db.session.execute(sql, params={"dbName": modConfig.dbEtlName}).fetchone()[0])
