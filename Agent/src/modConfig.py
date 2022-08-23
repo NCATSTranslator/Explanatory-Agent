@@ -19,18 +19,30 @@ isDocker = True if os.getenv("IS_DOCKER") == "TRUE" else False
 host = '0.0.0.0' if isDocker else 'localhost'
 port = int(resolveDefaultValue(value=os.getenv("PORT"), default=80))
 
-dbUserName = resolveDefaultValue(value=os.getenv("DB_USERNAME"), default="postgres")
-dbPassword = resolveDefaultValue(value=os.getenv("DB_PASSWORD"), default="postgres")
-dbHost = resolveDefaultValue(value=os.getenv("DB_HOST"), default="localhost")
-if dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
-    dbHost = "host.docker.internal"
-dbPort = int(resolveDefaultValue(value=os.getenv("DB_PORT"), default=5432))
-dbEtlName = "xARA"  # primary
-dbAppName = "xARA_app"  # secondary
+# Primary "xARA" database connection settings
+xARA_dbUserName = resolveDefaultValue(value=os.getenv("DB_USERNAME"), default="postgres")
+xARA_dbPassword = resolveDefaultValue(value=os.getenv("DB_PASSWORD"), default="postgres")
+xARA_dbHost = resolveDefaultValue(value=os.getenv("DB_HOST"), default="localhost")
+if xARA_dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
+    xARA_dbHost = "host.docker.internal"
+xARA_dbPort = int(resolveDefaultValue(value=os.getenv("DB_PORT"), default=5432))
+xARA_dbEtlName = resolveDefaultValue(value=os.getenv("DB_NAME"), default="xARA")  # primary
+dbEtlName = xARA_dbEtlName
+
+# Secondary "xARA_app" database connection settings
+xARA_app_dbUserName = resolveDefaultValue(value=os.getenv("XARA_APP_DB_USERNAME"), default="postgres")
+xARA_app_dbPassword = resolveDefaultValue(value=os.getenv("XARA_APP_DB_PASSWORD"), default="postgres")
+xARA_app_dbHost = resolveDefaultValue(value=os.getenv("XARA_APP_DB_HOST"), default="localhost")
+if xARA_app_dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
+    xARA_app_dbHost = "host.docker.internal"
+xARA_app_dbPort = int(resolveDefaultValue(value=os.getenv("XARA_APP_DB_PORT"), default=5432))
+xARA_app_dbEtlName = resolveDefaultValue(value=os.getenv("XARA_APP_DB_NAME"), default="xARA_app")  # secondary
+dbAppName = xARA_app_dbEtlName
+
 dbConfig = {
-    'SQLALCHEMY_DATABASE_URI': f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbEtlName}',
+    'SQLALCHEMY_DATABASE_URI': f'postgresql://{xARA_dbUserName}:{xARA_dbPassword}@{xARA_dbHost}:{xARA_dbPort}/{xARA_dbEtlName}',
     'SQLALCHEMY_BINDS': {
-        dbAppName: f'postgresql://{dbUserName}:{dbPassword}@{dbHost}:{dbPort}/{dbAppName}',
+        dbAppName: f'postgresql://{xARA_app_dbUserName}:{xARA_app_dbPassword}@{xARA_app_dbHost}:{xARA_app_dbPort}/{xARA_app_dbEtlName}',
     },
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
     'SQLALCHEMY_ENGINE_OPTIONS': {
@@ -39,9 +51,9 @@ dbConfig = {
 }
 
 # todo, figure out dynamic way to retrieve host name from azure app service
-if dbHost == "explanatory-agent-dev.postgres.database.azure.com":
+if xARA_dbHost == "explanatory-agent-dev.postgres.database.azure.com":
     externalApiHost = "https://explanatory-agent-dev.azurewebsites.net"
-elif dbHost == "explanatory-agent.postgres.database.azure.com":
+elif xARA_dbHost == "explanatory-agent.postgres.database.azure.com":
     externalApiHost = "https://explanatory-agent.azurewebsites.net"
 else:
     externalApiHost = "http://127.0.0.1"

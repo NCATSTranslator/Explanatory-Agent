@@ -59,15 +59,22 @@ def redirectVersion():
 @app.route('/health')
 def healthCheck():
     """
-    An endpoint that checks the api is responding and the database is responding
+    An endpoint that checks the api is responding and the databases are responding
     :return: message json with 200 response
     """
     try:
-        serverTimestamp = db.engine.execute("select current_timestamp").fetchone()[0]
+        etl_timestamp = db.engine.execute("select current_timestamp").fetchone()[0]
     except Exception as tb:
         logging.debug(f"Error during accessing of DB: {traceback.format_exc()}")
-        return {"message": f"API is up but Database host {modConfig.dbHost} is down."}, 500
-    return {"message": f"API and Database are up! Database host {modConfig.dbHost} with timestamp: {str(serverTimestamp)}"}, 200
+        return {"message": f"API is up but Database host {modConfig.dbEtlName} is down."}, 500
+
+    try:
+        app_timestamp = db.get_engine(app, modConfig.dbAppName).execute("select current_timestamp").fetchone()[0]
+    except Exception as tb:
+        logging.debug(f"Error during accessing of DB: {traceback.format_exc()}")
+        return {"message": f"API is up but Database host {modConfig.dbAppName} is down."}, 500
+
+    return {"message": f"API and Database are up! Database host {modConfig.dbEtlName} with timestamp: {str(etl_timestamp)} and host {modConfig.dbAppName} with timestamp: {str(app_timestamp)}"}, 200
 
 
 if __name__ == '__main__':
