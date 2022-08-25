@@ -26,8 +26,16 @@ spec:
               value: {{ .Values.db.username }}   
             - name: DB_PASSWORD
               value: {{ .Values.db.password }}     
-            - name: DB_SCHEMA
-              value: {{ .Values.db.schema }}
+            - name: DB_NAME
+              value: {{ .Values.db.dbname }}
+            - name: XARA_APP_DB_HOST
+              value: {{ .Values.app_db.host }}
+            - name: XARA_APP_DB_USERNAME
+              value: {{ .Values.app_db.username }}   
+            - name: XARA_APP_DB_PASSWORD
+              value: {{ .Values.app_db.password }}     
+            - name: XARA_APP_DB_NAME
+              value: {{ .Values.app_db.dbname }}
           ports:
             - name: http
               containerPort: 80

@@ -18,11 +18,15 @@ ncats:
     gov.nih.ncats.appentry: EA_HOSTNAME_VALUE
     gov.nih.ncats.appentrytype: https
     gov.nih.ncats.appentryport: tcp
-    gov.nih.ncats.appconnnum: "1"
+    gov.nih.ncats.appconnnum: "2"
     gov.nih.ncats.appconn1type: postgresql
     gov.nih.ncats.appconn1host: DB_HOST
     gov.nih.ncats.appconn1port: "5432"
     gov.nih.ncats.appconn1db: xara
+    gov.nih.ncats.appconn2type: postgresql
+    gov.nih.ncats.appconn2host: XARA_APP_DB_HOST
+    gov.nih.ncats.appconn2port: "5432"
+    gov.nih.ncats.appconn2db: xara_app
   
 service:
   type: NodePort
