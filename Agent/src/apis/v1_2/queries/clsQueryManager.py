@@ -729,4 +729,6 @@ class clsQueryManager(clsNode):
             from pg_database
             where datname = :dbName
             """
-        self.database_version = str(db.session.execute(sql, params={"dbName": modConfig.dbEtlName}).fetchone()[0])
+        # Currently disabled due to AWS user privileges explicitly disabling the pg_stat_file() command!
+        #self.database_version = str(db.session.execute(sql, params={"dbName": modConfig.dbEtlName}).fetchone()[0])
+        self.database_version = "N/A"
