@@ -698,6 +698,7 @@ class clsQueryManager(clsNode):
         ip = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
 
         session = db.create_scoped_session(options={'bind': db.get_engine(app=current_app, bind=modConfig.dbAppName)})
+        logging.debug(f"insertUuidIntoDatabaseIfApplicable: Bound to: '{modConfig.dbAppName}'  Connected via '{session.bind}'")
         session.execute(sql, params={"uuid": self.uuid, "ip": ip})
         session.commit()
 
