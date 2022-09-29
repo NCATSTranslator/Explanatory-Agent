@@ -13,7 +13,7 @@ from flask import Flask, redirect, url_for
 from flask_compress import Compress
 from modDatabase import db
 from werkzeug.middleware.proxy_fix import ProxyFix
-from apis.v1_2 import blueprint as blueprint_v1_2
+from apis.v1_3 import blueprint as blueprint_v1_3
 import traceback
 
 
@@ -28,6 +28,8 @@ def appFactory():
     # create flask app object with a name
     app = Flask(__name__)
 
+    app.url_map.strict_slashes = False
+
     # add compression
     Compress(app)
 
@@ -35,7 +37,7 @@ def appFactory():
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
     # register versions
-    app.register_blueprint(blueprint_v1_2)
+    app.register_blueprint(blueprint_v1_3)
 
     # store database config
     app.config.update(modConfig.dbConfig)

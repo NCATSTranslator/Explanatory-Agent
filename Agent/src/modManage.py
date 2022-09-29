@@ -14,7 +14,7 @@ from modApp import appFactory
 from modDatabase import db
 
 # import models here to track ddl changes
-from apis.v1_2.models import *
+from apis.v1_3.models import *
 
 
 app = appFactory()  # create flask app object

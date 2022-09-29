@@ -13,7 +13,7 @@ import logging
 # injected into container image build in Azure DevOps with: '--build-arg BUILD_NUMBER_ARG=$(Build.BuildNumber)'
 buildNumber = resolveDefaultValue(value=os.getenv("BUILD_NUMBER"), default="LOCAL BUILD")
 
-defaultVersion = "v1.2"  # redirect swagger
+defaultVersion = "v1.3"  # redirect swagger
 
 isDocker = True if os.getenv("IS_DOCKER") == "TRUE" else False
 host = '0.0.0.0' if isDocker else 'localhost'
@@ -30,9 +30,9 @@ xARA_dbEtlName = resolveDefaultValue(value=os.getenv("DB_NAME"), default="xARA")
 dbEtlName = xARA_dbEtlName
 
 # Secondary "xARA_app" database connection settings
-xARA_app_dbUserName = resolveDefaultValue(value=os.getenv("XARA_APP_DB_USERNAME"), default="postgres")
-xARA_app_dbPassword = resolveDefaultValue(value=os.getenv("XARA_APP_DB_PASSWORD"), default="postgres")
-xARA_app_dbHost = resolveDefaultValue(value=os.getenv("XARA_APP_DB_HOST"), default="localhost")
+xARA_app_dbUserName = resolveDefaultValue(value=os.getenv("XARA_APP_DB_USERNAME"), default=xARA_dbUserName)
+xARA_app_dbPassword = resolveDefaultValue(value=os.getenv("XARA_APP_DB_PASSWORD"), default=xARA_dbPassword)
+xARA_app_dbHost = resolveDefaultValue(value=os.getenv("XARA_APP_DB_HOST"), default=xARA_dbHost)
 if xARA_app_dbHost == "localhost" and isDocker and buildNumber == "LOCAL BUILD":
     xARA_app_dbHost = "host.docker.internal"
 xARA_app_dbPort = int(resolveDefaultValue(value=os.getenv("XARA_APP_DB_PORT"), default=5432))
