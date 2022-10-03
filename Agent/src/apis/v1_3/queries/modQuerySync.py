@@ -50,6 +50,8 @@ def querySyncPreSteps(queryManager: clsQueryManager) -> Union[Tuple[dict, int], 
     # this is meaningful only when called from async endpoint, otherwise this is unused
     queryManager.async_timeout = 220 if queryManager.userRequestBody.get("should_wait") else 0  # azure max limit is 230 seconds
 
+    queryManager.callback_url = queryManager.userRequestBody.get("callback", None)
+
     workflowResults = queryManager.extractWorkflow()
     if "error" in workflowResults:
         queryManager.generateEmptyUserResponseBody(status="Error",
@@ -137,6 +139,9 @@ def querySync(queryManager: clsQueryManager) -> Tuple[dict, int]:
 
     # only upload the results if it originated async
     queryManager.uploadResultsIntoDatabaseIfApplicable()
+
+    # send the results to the callback url, if provided in /asyncquery
+    queryManager.sendResultsToCallback()
 
     # return results
     return queryManager.userResponseBody, 200

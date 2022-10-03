@@ -68,6 +68,9 @@ class clsQueryManager(clsNode):
         self.async_timeout = 0
         self.database_version = None
 
+        # Callback URL for asynchronous query. If present, a request will be sent out to this URL when a response is ready to return.
+        self.callback_url = None
+
     def userRequestBodyValidation(self):
         """
         A function to evaluate whether the JSON body received from the client conforms to the proper input standard.
@@ -732,3 +735,16 @@ class clsQueryManager(clsNode):
         # Currently disabled due to AWS user privileges explicitly disabling the pg_stat_file() command!
         # self.database_version = str(db.session.execute(sql, params={"dbName": modConfig.dbEtlName}).fetchone()[0])
         self.database_version = "N/A"
+
+    def sendResultsToCallback(self):
+        """
+        Sends the response object to the specified callback URL for an asynchronous query.
+        :return:
+        """
+        if self.callback_url:
+            logging.debug(f"Sending callback response to '{self.callback_url}'")
+            try:
+                headers = {'Content-type': 'application/json'}
+                requests.post(url=self.callback_url, data=json.dumps(self.userResponseBody), headers=headers)
+            except Exception as e:
+                logging.error(f"Failed to send response to '{self.callback_url}'! {e}")
