@@ -59,6 +59,7 @@ class clsQueryAsyncView(Resource):
             return preStepResults
 
         queryManager = preStepResults
+
         queryManager.insertUuidIntoDatabaseIfApplicable()
 
         pool = ThreadPool(processes=1)
