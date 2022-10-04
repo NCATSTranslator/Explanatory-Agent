@@ -36,7 +36,7 @@ info:
       url: https://github.com/NCATSTranslator/translator_extensions/blob/\
         production/x-trapi/
 servers:
-  - url: https://explanatory-agent-creative.azurewebsites.net/
+  - url: https://explanatory-agent-creative.azurewebsites.net/ARA/v1.3/
     description: Explanatory Agent Creative Mode Testing Server
     x-maturity: staging
 externalDocs:
