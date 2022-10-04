@@ -389,15 +389,16 @@ components:
         query_graph:
           edges:
             e0:
-              predicates: [biolink:correlated_with]
-              subject: n0
-              object: n1
+              knowledge_type: "inferred"
+              subject: n1
+              object: n0
+              predicates: ["biolink:ameliorates", "biolink:treats", "biolink:prevents", "biolink:affects"]
           nodes:
             n0:
-              categories: [biolink:ChemicalSubstance]
-              ids: [PUBCHEM.COMPOUND:2244]
+              categories: [biolink:Disease]
+              ids: [MONDO:0004975]
             n1:
-              categories: [biolink:Gene]
+              categories: [biolink:ChemicalEntity]
     LogEntry:
       description: >-
         The LogEntry object contains information useful for tracing
