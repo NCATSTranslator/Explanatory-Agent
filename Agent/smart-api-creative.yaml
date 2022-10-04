@@ -92,21 +92,18 @@ paths:
             example:
               message:
                 query_graph:
-                  nodes:
-                    n0:
-                      categories:
-                        - biolink:Gene
-                    n1:
-                      ids:
-                        - MONDO:0004969
-                      categories:
-                        - biolink:Disease
                   edges:
                     e0:
-                      subject: n0
-                      object: n1
-                      predicates:
-                        - biolink:related_to
+                      knowledge_type: "inferred"
+                      subject: n1
+                      object: n0
+                      predicates: [ "biolink:ameliorates", "biolink:treats", "biolink:prevents", "biolink:affects" ]
+                  nodes:
+                    n0:
+                      categories: [ biolink:Disease ]
+                      ids: [ MONDO:0004975 ]
+                    n1:
+                      categories: [ biolink:ChemicalEntity ]
       responses:
         '200':
           description: >-
