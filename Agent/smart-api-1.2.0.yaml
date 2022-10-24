@@ -29,6 +29,7 @@ info:
     asyncquery: true
     operations:
       - lookup
+    test_data_location: https://raw.githubusercontent.com/NCATSTranslator/Explanatory-Agent/master/Agent/sri_test_config_file.json
     externalDocs:
       description: >-
         The values for version are restricted according to the regex in
