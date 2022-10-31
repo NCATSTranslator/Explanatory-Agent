@@ -1,0 +1,26 @@
+db:
+  host: transltr-prod-rds-ea-chp-postgresql.ceyknq0yekb3.us-east-1.rds.amazonaws.com
+  username: xara_user
+  password: HpwK0QfNimkJALqwC0nT
+  dbname: xara
+
+app_db:
+  host: transltr-prod-rds-ea-chp-postgresql02.ceyknq0yekb3.us-east-1.rds.amazonaws.com
+  username: xara_user
+  password: HpwK0QfNimkJALqwC0nT
+  dbname: xara_app
+
+api_host: explanatory-agent.transltr.io
+
+ingress:
+  annotations:
+    alb.ingress.kubernetes.io/tags: Name=transltr-eks-prod-blue-ea,Environment=PROD
+    alb.ingress.kubernetes.io/security-groups: translator-prod-alb-http-sg
+  host: explanatory-agent.transltr.io
+
+ncats:
+  labels:
+    gov.nih.ncats.appenv: prod
+    gov.nih.ncats.appentry: explanatory-agent.transltr.io
+    gov.nih.ncats.appconn1host: transltr-prod-rds-ea-chp-postgresql
+    gov.nih.ncats.appconn2host: transltr-prod-rds-ea-chp-postgresql02

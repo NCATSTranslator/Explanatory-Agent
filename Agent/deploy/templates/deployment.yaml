@@ -36,6 +36,8 @@ spec:
               value: {{ .Values.app_db.password }}     
             - name: XARA_APP_DB_NAME
               value: {{ .Values.app_db.dbname }}
+            - name: EXTERNAL_API_HOST
+              value: {{ .Values.api_host }}
           ports:
             - name: http
               containerPort: 80
