@@ -50,13 +50,7 @@ dbConfig = {
     }
 }
 
-# todo, figure out dynamic way to retrieve host name from azure app service
-if xARA_dbHost == "explanatory-agent-dev.postgres.database.azure.com":
-    externalApiHost = "https://explanatory-agent-dev.azurewebsites.net"
-elif xARA_dbHost == "explanatory-agent.postgres.database.azure.com":
-    externalApiHost = "https://explanatory-agent.azurewebsites.net"
-else:
-    externalApiHost = "http://127.0.0.1"
+externalApiHost = resolveDefaultValue(value=os.getenv("EXTERNAL_API_HOST"), default="http://127.0.0.1")
 
 bert_checkpoints_folder = "/media/storage/biobert/re_outputs" if isDocker else "/media/engineer1/Data/virtualbox_share/Work_In_Progress/xARA/Transfer_In/biobert/biobert/re_outputs/"
 
