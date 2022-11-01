@@ -665,7 +665,7 @@ class clsQueryManager(clsNode):
 
     @property
     def resultsUrl(self) -> str:
-        return f"{modConfig.externalApiHost}/{modConfig.defaultVersion}/query_async/?uuid={self.uuid}"
+        return f"{modConfig.externalApiProtocol}://{modConfig.externalApiHost}/{modConfig.defaultVersion}/query_async/?uuid={self.uuid}"
 
     @property
     def userResponseBodyPendingAsync(self):
