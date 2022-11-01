@@ -50,7 +50,9 @@ dbConfig = {
     }
 }
 
-externalApiHost = resolveDefaultValue(value=os.getenv("EXTERNAL_API_HOST"), default="http://127.0.0.1")
+# The environment variable value should be JUST the host! No protocol! E.g. "www.website.com" and NOT "http://www.website.com"
+externalApiHost = resolveDefaultValue(value=os.getenv("EXTERNAL_API_HOST"), default="127.0.0.1")
+externalApiProtocol = resolveDefaultValue(value=os.getenv("EXTERNAL_API_PROTOCOL"), default="https")
 
 bert_checkpoints_folder = "/media/storage/biobert/re_outputs" if isDocker else "/media/engineer1/Data/virtualbox_share/Work_In_Progress/xARA/Transfer_In/biobert/biobert/re_outputs/"
 
