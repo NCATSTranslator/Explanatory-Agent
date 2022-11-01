@@ -8,7 +8,7 @@ fullnameOverride: "ea"
 
 image:
   repository: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent
-  tag: v2022.1003.2
+  tag: v2022.1101.1
   imagePullPolicy: Always
 
 ncats:
