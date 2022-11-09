@@ -15,7 +15,7 @@ class clsCategoriesProvider:
     """
     timeoutSeconds = 30
 
-    url = "https://nodenormalization-sri.renci.org/1.2/get_normalized_nodes"
+    url = "https://nodenormalization-sri.renci.org/1.3/get_normalized_nodes"
 
     def __init__(self, curieIds: list):
         """
