@@ -196,7 +196,7 @@ class clsQueryManager(clsNode):
         # make sure predicates in edge are valid
         if "predicates" in edge and type(edge["predicates"]) == list:
             if type(edge['predicates']) != list: return False
-            if not 1 <= len(list(set(edge['predicates']))) <= 10: return False  # at least 1, max of 10
+            if len(list(set(edge['predicates']))) < 1: return False  # at least 1
             for predicate in edge['predicates']:
                 if type(predicate) != str: return False
                 if isNullOrWhiteSpace(predicate): return False
