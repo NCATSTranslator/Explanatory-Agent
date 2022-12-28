@@ -60,7 +60,7 @@ pipeline {
                 configFileProvider([
                     configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml')
                 ]){
-                    withAWS(credentials:'aws-ifx-deploy') {
+                    script {
                         sh '''
                         # Retrieve username and password from aws secret manager
                         export username=`aws --region ${AWS_REGION} secretsmanager get-secret-value --secret-id TranslatorCIExplanatoryAgentDBSecret | jq --raw-output .SecretString | jq -r ."username"`
