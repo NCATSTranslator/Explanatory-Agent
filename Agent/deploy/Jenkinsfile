@@ -67,7 +67,7 @@ pipeline {
                         export password=`aws --region ${AWS_REGION} secretsmanager get-secret-value --secret-id TranslatorCIExplanatoryAgentDBSecret | jq --raw-output .SecretString | jq -r ."password"`
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
                         ls
-                        cd Agent/deploy 
+                        cd Explanatory-Agent/Agent/deploy 
                         ls
                         /bin/bash deploy.sh
                         '''
