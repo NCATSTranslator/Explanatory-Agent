@@ -64,7 +64,6 @@ pipeline {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
                         rm -rf Explanatory-Agent
-                        echo $(whoami)
                         git clone -b betty https://github.com/bettyli037/Explanatory-Agent.git
                         cp values-ncats.yaml Explanatory-Agent/Agent/deploy/
                         cd Explanatory-Agent/Agent/deploy && /bin/bash deploy.sh
