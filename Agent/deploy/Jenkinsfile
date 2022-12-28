@@ -66,10 +66,11 @@ pipeline {
                         export username=`aws --region ${AWS_REGION} secretsmanager get-secret-value --secret-id TranslatorCIExplanatoryAgentDBSecret | jq --raw-output .SecretString | jq -r ."username"`
                         export password=`aws --region ${AWS_REGION} secretsmanager get-secret-value --secret-id TranslatorCIExplanatoryAgentDBSecret | jq --raw-output .SecretString | jq -r ."password"`
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
-                        ls
+                        rm -rf Explanatory-Agent
+                        git clone -b https://github.com/bettyli037/Explanatory-Agent.git
                         cd Explanatory-Agent/Agent/deploy 
-                        ls
                         /bin/bash deploy.sh
+
                         '''
                     }
                 }
