@@ -15,7 +15,7 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     environment {
-        DOCKER_REPO_NAME = "translator-explanatory-agent"
+        DOCKER_REPO_NAME = "853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent"
         KUBERNETES_BLUE_CLUSTER_NAME = "translator-eks-ci-blue-cluster"
         KUBERNETES_GREEN_CLUSTER_NAME = "translator-eks-ci-green-cluster"
     }
@@ -45,19 +45,28 @@ pipeline {
             steps {
                 script {
                     docker.build(env.DOCKER_REPO_NAME, "--no-cache ./Agent")
-                    docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws-ifx-deploy') {
-                        docker.image(env.DOCKER_REPO_NAME).push("${BUILD_VERSION}")
+                    script {
+                        sh '''
+                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin  853771734544.dkr.ecr.us-east-1.amazonaws.com
+                        docker image push env.DOCKER_REPO_NAME:${BUILD_VERSION}
+                        '''
                     }
                 }
             }
         }
         stage('Deploy to AWS EKS Blue') {
+            agent {
+                label 'translator && ci && deploy'
+            }
             steps {
                 configFileProvider([
                     configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml')
                 ]){
                     withAWS(credentials:'aws-ifx-deploy') {
                         sh '''
+                        # Retrieve username and password from aws secret manager
+                        export username=`aws --region ${AWS_REGION} secretsmanager get-secret-value --secret-id TranslatorCIExplanatoryAgentDBSecret | jq --raw-output .SecretString | jq -r ."username"`
+                        export password=`aws --region ${AWS_REGION} secretsmanager get-secret-value --secret-id TranslatorCIExplanatoryAgentDBSecret | jq --raw-output .SecretString | jq -r ."password"`
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
                         cd Agent/deploy && /bin/bash deploy.sh
                         '''
