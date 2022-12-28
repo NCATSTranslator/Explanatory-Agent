@@ -58,7 +58,7 @@ pipeline {
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml')
+                    configFile(fileId: 'values-ci.yaml', targetLocation: 'values-ncats.yaml')
                 ]){
                     script {
                         sh '''
@@ -68,8 +68,8 @@ pipeline {
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
                         rm -rf Explanatory-Agent
                         git clone -b betty https://github.com/bettyli037/Explanatory-Agent.git
-                        cd Explanatory-Agent/Agent/deploy 
-                        /bin/bash deploy.sh
+                        cp values-ncats.yaml Explanatory-Agent/Agent/deploy/
+                        cd Explanatory-Agent/Agent/deploy && /bin/bash deploy.sh
 
                         '''
                     }
