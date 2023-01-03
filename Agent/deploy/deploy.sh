@@ -8,5 +8,4 @@ sed -i.bak \
     values.yaml
 rm values.yaml.bak
 
-cat values-ncats.yaml
 helm -n ${namespace} upgrade --install ${projectName} -f values-ncats.yaml ./
