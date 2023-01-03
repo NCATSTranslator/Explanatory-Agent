@@ -8,11 +8,7 @@ sed -i.bak \
     values.yaml
 rm values.yaml.bak
 
-sed -i.bak \
-    -e "s/DB_USERNAME_VALUE/$DB_USERNAME/g;s/DB_PASSWORD_VALUE/$DB_PASSWORD/g" \
-    -e "s/APP_DB_USERNAME_VALUE/$APP_DB_USERNAME/g;s/APP_DB_PASSWORD_VALUE/$APP_DB_PASSWORD/g" \
-    values-ncats.yaml
-rm values-ncats.yaml.bak
+echo "Print out variables:"
 echo $DB_USERNAME
 echo $DB_PASSWORD
 echo $APP_DB_USERNAME
