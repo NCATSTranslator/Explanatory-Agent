@@ -4,8 +4,8 @@ pipeline {
         skipDefaultCheckout()
         disableConcurrentBuilds()
     }
-    agent {
-        node { label 'transltr-ci-build-node-03' }
+     agent {
+        node { label 'translator && aws && build && chp' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
@@ -17,7 +17,6 @@ pipeline {
     environment {
         DOCKER_REPO_NAME = "853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent"
         KUBERNETES_BLUE_CLUSTER_NAME = "translator-eks-ci-blue-cluster"
-        KUBERNETES_GREEN_CLUSTER_NAME = "translator-eks-ci-green-cluster"
     }
     stages {
         stage('Build Version'){
@@ -34,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage('Checkout source code') {
+        stage('Checkout source code in build node') {
             steps {
                 cleanWs()
                 checkout scm
@@ -52,25 +51,41 @@ pipeline {
                 }
             }
         }
+        stage('Checkout source code in deploy node') {
+            agent {
+                label 'translator && ci && deploy'
+            }
+            steps {
+                checkout scm
+            }
+        }
         stage('Deploy to AWS EKS Blue') {
             agent {
                 label 'translator && ci && deploy'
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'values-ci.yaml', targetLocation: 'values-ncats.yaml')
+                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml'),
+                    configFile(fileId: 'database.sh', targetLocation: 'Agent/deploy/database.sh')
                 ]){
                     script {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
-                        rm -rf Explanatory-Agent
-                        git clone -b betty https://github.com/bettyli037/Explanatory-Agent.git
-                        cp values-ncats.yaml Explanatory-Agent/Agent/deploy/
-                        cd Explanatory-Agent/Agent/deploy && /bin/bash deploy.sh
+                        cd Agent/deploy 
+                        /bin/bash database.sh
+                        /bin/bash deploy.sh
 
                         '''
                     }
                 }
+            }
+        }
+        stage('Clean up workspace in deploy node') {
+            agent {
+                label 'translator && ci && deploy'
+            }
+            steps {
+                cleanWs()
             }
         }
     }
