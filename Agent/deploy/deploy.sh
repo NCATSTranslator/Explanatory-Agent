@@ -13,4 +13,9 @@ sed -i.bak \
     -e "s/APP_DB_USERNAME_VALUE/$APP_DB_USERNAME/g;s/APP_DB_PASSWORD_VALUE/$APP_DB_PASSWORD/g" \
     values-ncats.yaml
 rm values-ncats.yaml.bak
+echo $DB_USERNAME
+echo $DB_PASSWORD
+echo $APP_DB_USERNAME
+echo $APP_DB_PASSWORD
+cat values-ncats.yaml
 helm -n ${namespace} upgrade --install ${projectName} -f values-ncats.yaml ./
