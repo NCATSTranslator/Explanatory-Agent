@@ -8,10 +8,5 @@ sed -i.bak \
     values.yaml
 rm values.yaml.bak
 
-echo "Print out variables:"
-echo $DB_USERNAME
-echo $DB_PASSWORD
-echo $APP_DB_USERNAME
-echo $APP_DB_PASSWORD
 cat values-ncats.yaml
 helm -n ${namespace} upgrade --install ${projectName} -f values-ncats.yaml ./
