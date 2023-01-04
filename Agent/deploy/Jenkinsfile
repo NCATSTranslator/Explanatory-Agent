@@ -4,8 +4,8 @@ pipeline {
         skipDefaultCheckout()
         disableConcurrentBuilds()
     }
-    agent {
-        node { label 'transltr-ci-build-node-03' }
+     agent {
+        node { label 'translator && aws && build && chp' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
@@ -15,9 +15,8 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     environment {
-        DOCKER_REPO_NAME = "translator-explanatory-agent"
+        DOCKER_REPO_NAME = "853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent"
         KUBERNETES_BLUE_CLUSTER_NAME = "translator-eks-ci-blue-cluster"
-        KUBERNETES_GREEN_CLUSTER_NAME = "translator-eks-ci-green-cluster"
     }
     stages {
         stage('Build Version'){
@@ -34,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage('Checkout source code') {
+        stage('Checkout source code in build node') {
             steps {
                 cleanWs()
                 checkout scm
@@ -45,24 +44,46 @@ pipeline {
             steps {
                 script {
                     docker.build(env.DOCKER_REPO_NAME, "--no-cache ./Agent")
-                    docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws-ifx-deploy') {
-                        docker.image(env.DOCKER_REPO_NAME).push("${BUILD_VERSION}")
+                    sh '''
+                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin  853771734544.dkr.ecr.us-east-1.amazonaws.com
+                    '''
+                    docker.image(env.DOCKER_REPO_NAME).push("${BUILD_VERSION}")
+                }
+            }
+        }
+        stage('Checkout source code in deploy node') {
+            agent {
+                label 'translator && ci && deploy'
+            }
+            steps {
+                checkout scm
+            }
+        }
+        stage('Deploy to AWS EKS Blue') {
+            agent {
+                label 'translator && ci && deploy'
+            }
+            steps {
+                configFileProvider([
+                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml'),
+                    configFile(fileId: 'database.sh', targetLocation: 'Agent/deploy/database.sh')
+                ]){
+                    script {
+                        sh '''
+                        aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
+                        cd Agent/deploy 
+                        /bin/bash deploy.sh
+                        '''
                     }
                 }
             }
         }
-        stage('Deploy to AWS EKS Blue') {
+        stage('Clean up workspace in deploy node') {
+            agent {
+                label 'translator && ci && deploy'
+            }
             steps {
-                configFileProvider([
-                    configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml')
-                ]){
-                    withAWS(credentials:'aws-ifx-deploy') {
-                        sh '''
-                        aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
-                        cd Agent/deploy && /bin/bash deploy.sh
-                        '''
-                    }
-                }
+                cleanWs()
             }
         }
     }
