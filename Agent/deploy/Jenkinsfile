@@ -72,7 +72,6 @@ pipeline {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_BLUE_CLUSTER_NAME}
                         cd Agent/deploy 
-                        /bin/bash database.sh
                         /bin/bash deploy.sh
                         '''
                     }
