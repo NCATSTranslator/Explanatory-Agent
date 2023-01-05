@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source database.sh
+source secrets
 
 projectName="agent"
 namespace="chp"
