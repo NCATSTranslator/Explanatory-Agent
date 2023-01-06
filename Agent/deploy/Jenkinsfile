@@ -77,7 +77,7 @@ pipeline {
                 label 'translator && ci && deploy'
             }
         always {
-            echo " Clean up the workspace all the time!"
+            echo " Clean up the workspace in deploy node!"
             cleanWs()
         }
     }
