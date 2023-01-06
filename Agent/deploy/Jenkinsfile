@@ -70,15 +70,12 @@ pipeline {
                     }
                 }
             }
-        }
-    }
-    post {
-        always {
-            agent {
-                label 'translator && ci && deploy'
+            post {
+                always {
+                echo " Clean up the workspace in deploy node!"
+                cleanWs()
+                }
             }
-            echo " Clean up the workspace in deploy node!"
-            cleanWs()
         }
     }
 }
