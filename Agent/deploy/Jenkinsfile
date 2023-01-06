@@ -69,8 +69,13 @@ pipeline {
                         '''
                     }
                 }
-                cleanWs()
             }
+        }
+    }
+    post {
+        always {
+            echo " Clean up the workspace all the time!"
+            cleanWs()
         }
     }
 }
