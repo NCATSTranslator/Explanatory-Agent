@@ -59,7 +59,7 @@ pipeline {
                 checkout scm
                 configFileProvider([
                     configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml'),
-                    configFile(fileId: 'secrets', targetLocation: 'Agent/deploy/secrets')
+                    configFile(fileId: 'prepare.sh', targetLocation: 'Agent/deploy/prepare.sh')
                 ]){
                     script {
                         sh '''

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source secrets
+source prepare.sh
 
 projectName="agent"
 namespace="chp"
