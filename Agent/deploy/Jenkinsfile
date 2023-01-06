@@ -51,22 +51,15 @@ pipeline {
                 }
             }
         }
-        stage('Checkout source code in deploy node') {
-            agent {
-                label 'translator && ci && deploy'
-            }
-            steps {
-                checkout scm
-            }
-        }
         stage('Deploy to AWS EKS Blue') {
             agent {
                 label 'translator && ci && deploy'
             }
             steps {
+                checkout scm
                 configFileProvider([
                     configFile(fileId: 'values-ci.yaml', targetLocation: 'Agent/deploy/values-ncats.yaml'),
-                    configFile(fileId: 'database.sh', targetLocation: 'Agent/deploy/database.sh')
+                    configFile(fileId: 'prepare.sh', targetLocation: 'Agent/deploy/prepare.sh')
                 ]){
                     script {
                         sh '''
@@ -77,13 +70,11 @@ pipeline {
                     }
                 }
             }
-        }
-        stage('Clean up workspace in deploy node') {
-            agent {
-                label 'translator && ci && deploy'
-            }
-            steps {
-                cleanWs()
+            post {
+                always {
+                    echo " Clean up the workspace in deploy node!"
+                    cleanWs()
+                }
             }
         }
     }

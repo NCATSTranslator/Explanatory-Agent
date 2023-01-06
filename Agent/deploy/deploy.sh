@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source database.sh
+source prepare.sh
 
 projectName="agent"
 namespace="chp"
