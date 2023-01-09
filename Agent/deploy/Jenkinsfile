@@ -15,7 +15,7 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     environment {
-        DOCKER_REPO_NAME = "853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent"
+        IMAGE_NAME = "853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-explanatory-agent"
         KUBERNETES_BLUE_CLUSTER_NAME = "translator-eks-ci-blue-cluster"
     }
     stages {
@@ -43,11 +43,11 @@ pipeline {
            when { expression { return env.BUILD == 'true' }}
             steps {
                 script {
-                    docker.build(env.DOCKER_REPO_NAME, "--no-cache ./Agent")
+                    docker.build(env.IMAGE_NAME, "--no-cache ./Agent")
                     sh '''
                     aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin  853771734544.dkr.ecr.us-east-1.amazonaws.com
                     '''
-                    docker.image(env.DOCKER_REPO_NAME).push("${BUILD_VERSION}")
+                    docker.image(env.IMAGE_NAME).push("${BUILD_VERSION}")
                 }
             }
         }
