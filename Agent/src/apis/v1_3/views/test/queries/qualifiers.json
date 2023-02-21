@@ -1,0 +1,48 @@
+{
+  "message": {
+    "query_graph": {
+      "nodes": {
+        "n0": {
+          "categories": [
+            "biolink:ChemicalEntity"
+          ]
+        },
+        "n1": {
+          "categories": [
+            "biolink:GeneOrGeneProduct"
+          ],
+          "ids": [
+            "HGNC:3467"
+          ]
+        }
+      },
+      "edges": {
+        "e01": {
+          "subject": "n0",
+          "object": "n1",
+          "predicates": [
+            "biolink:affects"
+          ],
+          "qualifier_constraints": [
+            {
+              "qualifier_set": [
+                {
+                  "qualifier_type_id": "biolink:object_aspect_qualifier",
+                  "qualifier_value": "degradation"
+                },
+                {
+                  "qualifier_type_id": "biolink:object_direction_qualifier",
+                  "qualifier_value": "decreased"
+                },
+                {
+                  "qualifier_type_id": "biolink:qualified_predicate",
+                  "qualifier_value": "biolink:causes"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

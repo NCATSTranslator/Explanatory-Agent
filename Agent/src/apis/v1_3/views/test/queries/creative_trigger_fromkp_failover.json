@@ -1,0 +1,31 @@
+{
+    "message": {
+        "query_graph": {
+            "nodes": {
+                "drug": {
+                    "categories": [
+                        "biolink:NamedThing"
+                    ]
+                },
+                "disease": {
+                    "ids": [
+                        "MONDO:0004975"
+                    ],
+                    "categories": [
+                        "biolink:NamedThing"
+                    ]
+                }
+            },
+            "edges": {
+                "treats": {
+                    "object": "disease",
+                    "subject": "drug",
+                    "predicates": [
+                        "biolink:author"
+                    ],
+                    "knowledge_type": "inferred"
+                }
+            }
+        }
+    }
+}
