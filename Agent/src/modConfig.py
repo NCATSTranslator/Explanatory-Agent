@@ -69,8 +69,8 @@ defaultLoggingLevel = logging.DEBUG
 environmentMode = os.getenv("ENVIRONMENT_MODE")
 environmentModeKPURLColumn = OrderedDict([
     ("DEVELOPMENT", "DEV_URL"),
-    ("STAGING", "STAGING_URL"),  # AKA CI
-    ("TESTING", "TESTING_URL"),
+    ("CI", "STAGING_URL"),  # AKA CI
+    ("TEST", "TESTING_URL"),
     ("PRODUCTION", "PROD_URL"),
 ])
 if environmentMode not in list(environmentModeKPURLColumn.keys()):
