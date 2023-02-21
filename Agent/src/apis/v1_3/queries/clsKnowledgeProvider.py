@@ -101,6 +101,11 @@ class clsKnowledgeProvider:
             message=f"KP 200 response in {response.elapsed}. Content size: {len(response.content)}."
         ))
         self.responseBody = response.json()
+
+        # 2022-12-06 Automat is not returning valid TRAPI. So to fix their mistake and use their results the workflow section is being removed from their responses.
+        if "automat" in self.url:
+            if "workflow" in self.responseBody:
+                del self.responseBody["workflow"]
         self.validateResponseBody()
         self.checkForEmptyResponseBody()
 
@@ -144,9 +149,9 @@ class clsKnowledgeProvider:
             ))
             return True
 
-        knowledge_graph = self.responseBody['message']['knowledge_graph']
+        knowledge_graph = self.responseBody['message'].get('knowledge_graph', None)
         if knowledge_graph is None:
-            # todo, this is a bug, some of the knowledge providers return a None, which seems to valid by TRAPI v1.1
+            # This is a TRAPI bug: some of the knowledge providers return a None value (or no 'knowledge_graph' key), which seems to valid by TRAPI v1.3.0
             knowledge_graph = {'edges': {}, 'nodes': {}}
             self.responseBody['message']['knowledge_graph'] = knowledge_graph
         if len(knowledge_graph['edges']) == 0 or len(knowledge_graph['nodes']) == 0:

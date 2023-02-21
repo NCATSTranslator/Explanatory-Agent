@@ -79,8 +79,8 @@ class TestExplanationX00013(unittest.TestCase):
                 'e01': [{'id': 'knowledge_graph_edge1'}]
             },
             'node_bindings': {
-                'n0': [{'id': 'n1'}],
-                'n1': [{'id': 'n2'}]
+                'n0': [{'id': 'n2'}],
+                'n1': [{'id': 'n1'}]
             },
             'score': 1.0,
             'attributes': [

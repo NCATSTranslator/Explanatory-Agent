@@ -20,6 +20,7 @@ class clsCaseSolution(clsElement):
         super().__init__(dispatchId=dispatchId, dispatchDescription=dispatchDescription)
         self.id = None  # the auto-increment id in the table
         self.caseId = None  # the string representation of a case id
+        self.solution_step: int = None  # a case solution may have multiple hops to execute
         self.paths = None  # list of length 1 or 2
         # Case Solutions to run for each path to allow for explanations
         self.path_solutions = None
@@ -63,6 +64,19 @@ class clsCaseSolution(clsElement):
         # Successful when all KPs have returned data, there were no errors, and the results were generated.
         self.successful = False
 
+    @property
+    def log_id(self):
+        """
+        Returns the ID and solution step to help distinguish in the logs what statement it is for.
+        :return:
+        """
+        solution_id = f"{self.id}"
+        # add the step of the solution, if applicable
+        if self.solution_step is not None:
+            solution_id = f"{self.id}.{self.solution_step + 1}"
+
+        return solution_id
+
     def __repr__(self):
         return f"Case Solution: {self.id} Case ID: {self.caseId}"
 
@@ -75,7 +89,7 @@ class clsCaseSolution(clsElement):
             identifier=self.id,
             level="DEBUG",
             code="",
-            message=f"Executing Solution ID '{self.id}' for Case ID '{self.caseId}'"
+            message=f"Executing Solution ID '{self.log_id}' for Case ID '{self.caseId}'"
         ))
         try:
             if len(self.paths) == 1:
@@ -97,7 +111,7 @@ class clsCaseSolution(clsElement):
                 raise AttributeError("Number of knowledge provider paths supported is either 1 or 2")
             edges = sorted(list(self.knowledge_graph["edges"].keys()))
             self.logs.append(clsLogEvent(
-                identifier=self.id,
+                identifier=self.log_id,
                 level="DEBUG",
                 code="",
                 message=f"Case executed successfully. KP: {self.paths[0].knowledgeProvider.name}({self.paths[0].knowledgeProvider.url}) Query: {self.paths[0].knowledgeProvider.requestBody} Found {len(edges)} edges: {edges}"
@@ -107,7 +121,7 @@ class clsCaseSolution(clsElement):
             self.successful = True
         except HTTPError as e:
             self.logs.append(clsLogEvent(
-                identifier=self.id,
+                identifier=self.log_id,
                 level="ERROR",
                 code="Error",
                 message=f"{type(e).__name__} Exception: {e}"
@@ -118,7 +132,7 @@ class clsCaseSolution(clsElement):
         except Exception as e:
             print(traceback.format_exc())
             self.logs.append(clsLogEvent(
-                identifier=self.id,
+                identifier=self.log_id,
                 level="ERROR",
                 code="Error",
                 message=f"Unhandled {type(e).__name__} Exception: {e}"
@@ -217,7 +231,7 @@ class clsCaseSolution(clsElement):
                                                                                  similarity_threshold=self.explanation_similarity)
         self.explanation_case_solution.logs = self.logs
         self.logs.append(clsLogEvent(
-            identifier=self.id,
+            identifier=self.log_id,
             level="DEBUG",
             code="",
             message=f"Executing explanation case '{self.explanation_case_solution.case_id}'. Knowledge Graph edges: {len(self.knowledge_graph['edges'])}."
@@ -230,8 +244,38 @@ class clsCaseSolution(clsElement):
         """
         Create a case solution for each path. This allows each solution to have their own explanations, which can be combined as a single result in this
         parent case solution.
+
+        If the query graph being bult to send to a KP is derived, then the qualifier information can only be added to a predicate if the predicte is being used
+        in the query in association with the same object node (or subject node) from the original query. This is checked by the description of the qualifier
+        under qualifier_type_id where it says if it is a subject or object node qualifier (e.g., object_aspect, object_direction vs subject_aspect, subject_direction).
         :return:
         """
+
+        def filter_qualifier_constraints(qualifier_constraints, node_type: str):
+            """
+            Determine if any qualifier constraints apply to this side of the hop (qualifier_type_id will specify subject_* vs object_*)
+            :param qualifier_constraints: List of QualifierConstraint dictionaries
+            :param node_type: "Subject" or "Object" to filter qualifier constraints on.
+            :return: List of QualifierConstraint dictionaries
+            """
+            node_type_lower = node_type.lower()
+
+            def filter_function(iterable):
+                qualifier_type_id = iterable["qualifier_type_id"].lower()
+                # if the node type is in the type ID or neither subject or object is in the type (e.g. biolink:qualified_predicate)
+                if node_type_lower in qualifier_type_id or ("subject" not in qualifier_type_id and "object" not in qualifier_type_id):
+                    return True
+                else:
+                    return False
+
+            filtered_qualifier_constraints = []
+            # If any qualifier in a qualifier set passes the filter, then include the entire qualifier set
+            for qualifier_set in qualifier_constraints:
+                filtered_qualifier_set = list(filter(filter_function, qualifier_set["qualifier_set"]))
+                if len(filtered_qualifier_set) > 0:
+                    filtered_qualifier_constraints.append(qualifier_set)
+
+            return filtered_qualifier_constraints
 
         self.path_solutions = []
         for i, path in enumerate(self.paths):
@@ -245,19 +289,31 @@ class clsCaseSolution(clsElement):
             caseSolution.logs = self.logs  # enables shared log across all objects by passing by reference. Don't want currently.
             caseSolution.id = self.id
             caseSolution.caseId = self.caseId
+            caseSolution.solution_step = i
+            path.name = caseSolution.log_id
             caseSolution.similarSubject = path.subject
             caseSolution.similarObject = path.object
             caseSolution.similarPredicate = path.predicate
+            # left side of the two hops (original subject -> new object)
             if i == 0:
                 caseSolution.subjectCurieIds = self.subjectCurieIds
                 caseSolution.objectCurieIds = None
                 caseSolution.subjectConstraints = self.subjectConstraints
                 caseSolution.objectConstraints = None
+                # determine if any qualifier constraints apply to this side of the hop (qualifier_type_id will specify subject vs object)
+                if self.edgeQualifierConstraints:
+                    caseSolution.edgeQualifierConstraints = filter_qualifier_constraints(self.edgeQualifierConstraints, "subject")
+
+            # right side of the two hops (new object -> original object)
             else:
                 caseSolution.subjectCurieIds = None
                 caseSolution.objectCurieIds = self.objectCurieIds
                 caseSolution.subjectConstraints = None
                 caseSolution.objectConstraints = self.objectConstraints
+                # determine if any qualifier constraints apply to this side of the hop (qualifier_type_id will specify subject vs object)
+                if self.edgeQualifierConstraints:
+                    caseSolution.edgeQualifierConstraints = filter_qualifier_constraints(self.edgeQualifierConstraints, "object")
+
             caseSolution.explanation_similarity = self.explanation_similarity
             caseSolution.explanation_solution_finder = self.explanation_solution_finder
 

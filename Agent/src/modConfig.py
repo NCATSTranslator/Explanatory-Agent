@@ -9,6 +9,8 @@ WHO: SL 2020-09-10
 import os
 from utils.modTextUtils import resolveDefaultValue
 import logging
+from collections import OrderedDict
+import warnings
 
 # injected into container image build in Azure DevOps with: '--build-arg BUILD_NUMBER_ARG=$(Build.BuildNumber)'
 buildNumber = resolveDefaultValue(value=os.getenv("BUILD_NUMBER"), default="LOCAL BUILD")
@@ -62,3 +64,18 @@ maxThreadCount = 4
 ZERO_RESULT_SCORE = 0.0001
 
 defaultLoggingLevel = logging.DEBUG
+
+# see clsCaseSolutionManager.retrieve_kp_urls() for explanation
+environmentMode = os.getenv("ENVIRONMENT_MODE")
+environmentModeKPURLColumn = OrderedDict([
+    ("DEVELOPMENT", "DEV_URL"),
+    ("STAGING", "STAGING_URL"),  # AKA CI
+    ("TESTING", "TESTING_URL"),
+    ("PRODUCTION", "PROD_URL"),
+])
+if environmentMode not in list(environmentModeKPURLColumn.keys()):
+    environmentMode = list(environmentModeKPURLColumn.keys())[-1]
+    warnings.warn(f"Environment Mode not defined! Defaulting to {environmentMode}")
+
+warnings.warn(f"Environment Mode is currently {environmentMode}")
+

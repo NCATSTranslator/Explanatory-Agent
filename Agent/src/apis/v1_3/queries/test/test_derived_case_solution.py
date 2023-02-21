@@ -8,6 +8,8 @@ import random
 
 
 class TestDerivedCaseSolution(unittest.TestCase):
+    maxDiff = None
+
     @classmethod
     def setUpClass(cls):
         pass
@@ -93,7 +95,17 @@ class TestDerivedCaseSolution(unittest.TestCase):
                             "attributes": [],
                             "subject": "GENE:0001",
                             "predicate": "biolink:creates",
-                            "object": "PROTEIN:0002"
+                            "object": "PROTEIN:0002",
+                            "qualifiers": [
+                                {
+                                    "qualifier_type_id": "biolink:creates qualifier1_type",
+                                    "qualifier_value": "biolink:creates qualifier1_value"
+                                },
+                                {
+                                    "qualifier_type_id": "biolink:creates qualifier2_type",
+                                    "qualifier_value": "biolink:creates qualifier2_value"
+                                }
+                            ]
                         },
                     }
                 },
@@ -193,20 +205,30 @@ class TestDerivedCaseSolution(unittest.TestCase):
                                 'attribute_type_id': 'biolink:aggregator_knowledge_source',
                                 'value': 'infores:explanatory-agent',
                                 'value_type_id': 'biolink:InformationResource',
-                                'value_url': 'https://explanatory-agent.azurewebsites.net/v1.2',
+                                'value_url': 'https://explanatory-agent.azurewebsites.net/v1.3',
                                 'description': 'The eXplanatory Autonomous Relay Agent (xARA) utilizes a case-based reasoning approach to execute ARS queries by obtaining results from multiple knowledge providers (KPs) and utilizes various methods such as natural language understanding models that traverse biomedical literature to score and explain its scores.',
                                 'attribute_source': 'infores:explanatory-agent'
                             }],
                             "subject": "GENE:0001",
                             "predicate": "biolink:creates",
-                            "object": "PROTEIN:0002"
+                            "object": "PROTEIN:0002",
+                            "qualifiers": [
+                                {
+                                    "qualifier_type_id": "biolink:creates qualifier1_type",
+                                    "qualifier_value": "biolink:creates qualifier1_value"
+                                },
+                                {
+                                    "qualifier_type_id": "biolink:creates qualifier2_type",
+                                    "qualifier_value": "biolink:creates qualifier2_value"
+                                }
+                            ]
                         },
                         "KP2E1-cdylhaazal": {
                             'attributes': [{
                                 'attribute_type_id': 'biolink:aggregator_knowledge_source',
                                 'value': 'infores:explanatory-agent',
                                 'value_type_id': 'biolink:InformationResource',
-                                'value_url': 'https://explanatory-agent.azurewebsites.net/v1.2',
+                                'value_url': 'https://explanatory-agent.azurewebsites.net/v1.3',
                                 'description': 'The eXplanatory Autonomous Relay Agent (xARA) utilizes a case-based reasoning approach to execute ARS queries by obtaining results from multiple knowledge providers (KPs) and utilizes various methods such as natural language understanding models that traverse biomedical literature to score and explain its scores.',
                                 'attribute_source': 'infores:explanatory-agent'
                             }],
@@ -225,11 +247,11 @@ class TestDerivedCaseSolution(unittest.TestCase):
                                 'attributes': [{'attribute_type_id': 'biolink:description',
                                                  'description': 'Describes to user the Rationale for explaining the ranking',
                                                  'original_attribute_name': 'Explanation Rationale',
-                                                 'value': 'Score assigned was zero because no evidence, provenance, or confidence information was available to compute a score.'},
+                                                 'value': 'No explanation as this edge is not scored.'},
                                                {'attribute_type_id': 'biolink:has_evidence',
                                                 'description': 'Describes to user the reason this specific edge receives a score w.r.t Rationale.',
                                                 'original_attribute_name': 'Explanation Text',
-                                                'value': 'No explanation as this edge is not scored'}],
+                                                'value': 'Explanatory Agent is unable to confirm the quality of this result due to a lack of response from the NGD service hosted on the ARAX SmartAPI endpoint.'}],
                             }],
                             "e01": [{
                                 "id": "KP2E1-cdylhaazal",
@@ -237,11 +259,11 @@ class TestDerivedCaseSolution(unittest.TestCase):
                                 'attributes': [{'attribute_type_id': 'biolink:description',
                                                 'description': 'Describes to user the Rationale for explaining the ranking',
                                                 'original_attribute_name': 'Explanation Rationale',
-                                                'value': 'Score assigned was zero because no evidence, provenance, or confidence information was available to compute a score.'},
+                                                'value': 'No explanation as this edge is not scored.'},
                                                {'attribute_type_id': 'biolink:has_evidence',
                                                 'description': 'Describes to user the reason this specific edge receives a score w.r.t Rationale.',
                                                 'original_attribute_name': 'Explanation Text',
-                                                'value': 'No explanation as this edge is not scored'}],
+                                                'value': 'Explanatory Agent is unable to confirm the quality of this result due to a lack of response from the NGD service hosted on the ARAX SmartAPI endpoint.'}],
                             }],
                         },
                         "node_bindings": {

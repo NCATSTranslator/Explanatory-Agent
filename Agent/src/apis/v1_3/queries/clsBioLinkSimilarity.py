@@ -7,6 +7,7 @@ WHO: YR 2021-08-13
 """
 
 from modDatabase import db
+from .clsKnowledgeType import clsKnowledgeType
 from bmt import Toolkit
 import logging
 from time import time
@@ -101,9 +102,11 @@ class clsBiolinkSimilarity:
 
         for result in sim_score_results:
             node_pair = (result[0], result[1])
+            node_pair_inverse = (result[1], result[0])
             similarity = result[2]
 
             self.node_similarities[node_pair] = similarity
+            self.node_similarities[node_pair_inverse] = similarity
 
     def cache_predicate_similarity(self):
         """
@@ -193,46 +196,58 @@ class clsBiolinkSimilarity:
         else:
             return 99999, 99999  # Arbitrary large number since they are not in the same tree
 
-    def get_top_global_sim_cases(self, global_similarity: pd.DataFrame, query_threshold, global_precision, max_cases: int):
+    def get_top_global_sim_cases(self, global_similarity: pd.DataFrame, query_threshold, global_precision, max_cases: int, knowledge_type: str, max_similarity_lt: float = None):
         """
         Sort Global_Similarity
         return top  caseid's from global_similarity
         """
-        sorted_global_similarity = global_similarity.sort_values(['global_sim', 'CASE_ID'], ascending=[False, True])
+        all_sorted_global_similarity = global_similarity.sort_values(['global_sim', 'CASE_ID'], ascending=[False, True])
 
-        # As Per RE: xARA Multihop Results Issues 2021-12-08
-        # When we get the results the similarity scores are sorted. Then, if at the highest similarity score, there is a fromKP, then ignore the derived. But,
-        # if at the highest similarity score, there is only a derived, then consider the derived.
-        # It is only when there is a fromKP that has higher similarity score than the derived that the derived is to be ignored.
-        top_case = sorted_global_similarity.iloc[0]
-        top_case_origin = top_case['ORIGIN']
-        if top_case_origin == "fromKP":
-            sorted_global_similarity = sorted_global_similarity[sorted_global_similarity['ORIGIN'] != 'derived']
-        # logic from 12-8 call: if the top case is a derived query ONLY use that case
-        elif top_case_origin == "derived":
-            sorted_global_similarity = sorted_global_similarity[:1]
+        # Step Sim P1a3
+        # Keep all cases above or equal to query_threshold
+        sorted_global_similarity = all_sorted_global_similarity[all_sorted_global_similarity["global_sim"] >= query_threshold]
+        if max_similarity_lt:
+            sorted_global_similarity = sorted_global_similarity[sorted_global_similarity["global_sim"] < max_similarity_lt]
+
+        # if all cases (or all but one) have been filtered, then we can return immediately. The next logic operates assuming 2+ cases are present.
+        if len(sorted_global_similarity) <= 1:
+            selected_cases = sorted_global_similarity
         else:
-            raise ValueError(f"Case origin '{top_case_origin}' not known!")
+            # if executing Regular Mode:
+            if knowledge_type == clsKnowledgeType.LOOKUP:
+                # Execute all solutions from all cases with GSS at the first highest score greater than the REGULAR_GLOBAL_QUERY_THRESHOLD
+                top_score = sorted_global_similarity['global_sim'].unique()[0]
+                selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == top_score]
+            # if executing Creative Mode:
+            elif knowledge_type == clsKnowledgeType.CREATIVE_MODE:
+                # IF the second highest GSS in the list is above 0.9499
+                # THEN execute all solutions from all cases with GSS at the first and second highest similarity scores except for those with GSS=1 
+                # ELSE execute all solutions from all cases with GSS at the first highest score greater than the CREATIVE_GLOBAL_QUERY_THRESHOLD except for those with GSS=1
 
-        # Use all cases with the top score. If the second highest score is > 0.9499 include all of those cases as well.
-        top_two_scores = sorted_global_similarity['global_sim'].unique()[:2]
+                # Use all cases with the top score. If the second highest score is > 0.9499 include all of those cases as well.
+                top_two_scores = sorted_global_similarity['global_sim'].unique()[:2]
 
-        top_score = top_two_scores[0]
+                top_score = top_two_scores[0]
 
-        # if only one score was viable, set the runner up score to -1 so that logic won't be triggered
-        if len(top_two_scores) == 1:
-            runner_up_score = -1
-        else:
-            runner_up_score = top_two_scores[1]
+                # if only one score was viable, set the runner up score to -1 so that logic won't be triggered
+                if len(top_two_scores) == 1:
+                    runner_up_score = -1
+                else:
+                    runner_up_score = top_two_scores[1]
 
-        selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == top_score]
-        if runner_up_score > 0.9499:
-            runner_up_selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == runner_up_score].head(self.second_highest_max_reuse)
-            selected_cases = pd.concat((selected_cases, runner_up_selected_cases))
+                selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == top_score]
+                if runner_up_score > 0.9499:
+                    runner_up_selected_cases = sorted_global_similarity[sorted_global_similarity['global_sim'] == runner_up_score].head(self.second_highest_max_reuse)
+                    selected_cases = pd.concat((selected_cases, runner_up_selected_cases))
+            # otherwise we're in a mode that isnt regular or creative? That's bad
+            else:
+                raise NotImplementedError
 
+        # return top n caseId from sorted list, based on the knowledge type
         self.selected_case_ids_and_similarities = list(selected_cases.iloc[:max_cases][['CASE_ID', 'global_sim']].to_records(index=False))
-        # get top n caseId from sorted list
-        return [x[0] for x in self.selected_case_ids_and_similarities]
+
+        final_cases = [x[0] for x in self.selected_case_ids_and_similarities]
+        return final_cases
 
     def get_local_sim_score_preds(self, pred1, pred2):
         """
@@ -251,9 +266,10 @@ class clsBiolinkSimilarity:
         # If the node pair is not found in the file, directly compare the nodes
         score = self.predicate_similarities.get(predicate_pair, int(pred1 == pred2))
 
+        # Removed as per Slack conversation on 2023-02-15
         # As per "still pruning responses" on 2022-02-07 4:38 pm if score is 0, set to -20
-        if score == 0:
-            score = -20
+        # if score == 0:
+        #     score = -20
 
         return score
 
@@ -277,12 +293,14 @@ class clsBiolinkSimilarity:
     def fetch_cases(self, origins, exclude_matching_n0_n1):
         return self.fetch_cases_from_db(origins, exclude_matching_n0_n1)
 
-    def get_global_sim_triplets(self, new_subject, new_object, new_predicate, origins):
+    def get_global_sim_triplets(self, new_subject, new_object, new_predicate, origins, knowledge_type: str, max_similarity_lt: float = None):
         """
         :param new_subject:
         :param new_object:
         :param new_predicate:
         :param origins: List of origin types to search on.
+        :param knowledge_type: "Creative mode" flag. Will use a different query threshold and max cases based on the value
+        :param max_similarity_lt: If the maximum similarity in get_top_global_sim_cases should be less than a value
         :return:
         """
 
@@ -296,7 +314,8 @@ class clsBiolinkSimilarity:
         with self.app.app_context():
             # len_rows_xARA_caseproblems = db.session.execute('SELECT COUNT("CASE_ID") FROM "xARA_CaseProblems";').fetchall()
             weights_results = db.session.execute('SELECT * FROM "xARA_QueryWeights";').fetchall()
-            config_result = db.session.execute('SELECT "GLOBAL_QUERY_THRESHOLD", "GLOBAL_PRECISION", "MAX_REUSE", "SECOND_HIGHEST_MAX_REUSE" FROM public."xARA_Config";').fetchall()[0]
+            config_query = clsKnowledgeType.config_query(knowledge_type=knowledge_type)
+            config_result = db.session.execute(config_query).fetchall()[0]
             query_threshold = config_result[0]
             global_precision = config_result[1]
             max_cases = int(config_result[2])
@@ -307,18 +326,19 @@ class clsBiolinkSimilarity:
 
         start = time()
         # As per "RE: 2 ITEMS", exclude any case problems with matching n0 and n1 categories IFF the new subject and object categories are not the same
+        # As per discussion on 2-14-2023, we can remove the limitation of exact matches for n00 categories
         cases = self.fetch_cases(origins, exclude_matching_n0_n1=(new_subject != new_object))
         logging.debug(f"Fetched {len(cases)} cases in {time() - start}")
 
         start = time()
-        cases['subject_local_sim'] = np.select([cases['N00_NODE_CATEGORY'] == new_subject], [1])
+        cases['subject_local_sim'] = cases['N00_NODE_CATEGORY'].map(lambda x: self.get_local_sim_score_nodes(new_subject, x))
         cases['object_local_sim'] = cases['N01_NODE_CATEGORY'].map(lambda x: self.get_local_sim_score_nodes(new_object, x))
         cases['pred_local_sim'] = cases['E00_EDGE_PREDICATE'].map(lambda x: self.get_local_sim_score_preds(new_predicate, x))
         cases['global_sim'] = ((cases['subject_local_sim'] * float(SUBJECT_NODE_WEIGHT) + cases['object_local_sim']
                                 * float(OBJECT_NODE_WEIGHT) + cases['pred_local_sim'] * float(PREDICATE_WEIGHT)) / float(weightSum))
         logging.debug(f'Calculated global similarity in {time() - start}')
 
-        return self.get_top_global_sim_cases(cases, query_threshold, global_precision, max_cases)
+        return self.get_top_global_sim_cases(cases, query_threshold, global_precision, max_cases, knowledge_type=knowledge_type, max_similarity_lt=max_similarity_lt)
 
 
 def direct_compare(new_category, candidate_category):
