@@ -95,7 +95,7 @@ class TestExplanationX00013(unittest.TestCase):
                 "response_code": "OK",
                 "value": 0.55
             }
-            mock_re = re.compile('arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/')
+            mock_re = re.compile('arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/')
             mocker.register_uri('GET', mock_re, json=mock_arax_response)
 
             results = x.create_results_and_explain(case_solution)
@@ -221,14 +221,14 @@ class TestExplanationX00013(unittest.TestCase):
                 "message": "Not found in MeSH",
                 "response_code": "TermNotFound"
             }
-            mock_re = re.compile(r'arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/.*No.*')
+            mock_re = re.compile(r'arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/.*No.*')
             mocker.register_uri('GET', mock_re, json=mock_arax_response)
 
             mock_arax_response = {
                 "value": 1.0,
                 "response_code": "OK"
             }
-            mock_re = re.compile(r'arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/SubjectResult3/ObjectResult3')
+            mock_re = re.compile(r'arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/SubjectResult3/ObjectResult3')
             mocker.register_uri('GET', mock_re, json=mock_arax_response)
 
             results = x.get_ngd(subject_synonyms, object_synonyms)
@@ -251,7 +251,7 @@ class TestExplanationX00013(unittest.TestCase):
                 "message": "Not found in MeSH",
                 "response_code": "TermNotFound"
             }
-            mock_re = re.compile(r'arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/.*No.*')
+            mock_re = re.compile(r'arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/.*No.*')
             mocker.register_uri('GET', mock_re, json=mock_arax_response)
 
             results = x.get_ngd(subject_synonyms, object_synonyms)

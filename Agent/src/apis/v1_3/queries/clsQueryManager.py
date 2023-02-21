@@ -14,6 +14,7 @@ from .clsCaseSolutionManager import clsCaseSolutionManager
 from .clsCategoriesProvider import clsCategoriesProvider
 from .clsCurieIdsProvider import clsCurieIdsProvider
 from utils.multithreading.clsNode import clsNode
+import copy
 import json
 from flask import current_app, request
 import time
@@ -26,10 +27,12 @@ from .clsBioLinkSimilarity import clsBiolinkSimilarity
 from .clsExplanationSolutionFinder import ExplanationSolutionFinder
 from ..models.workflow.clsWorkflow import Workflow
 import requests
+from extensions.requests_extension import request_with_global_timeout
 import logging
 from ..models.clsXaraQueryResults import tableName
 from modDatabase import db
 import modConfig
+from .clsKnowledgeType import clsKnowledgeType
 
 
 class clsQueryManager(clsNode):
@@ -70,6 +73,8 @@ class clsQueryManager(clsNode):
 
         # Callback URL for asynchronous query. If present, a request will be sent out to this URL when a response is ready to return.
         self.callback_url = None
+
+
 
     def userRequestBodyValidation(self):
         """
@@ -363,7 +368,14 @@ class clsQueryManager(clsNode):
             for predicate in edge_data["predicates"]:
                 new_edge = deepcopy(edge_data)
                 new_edge["predicates"] = [predicate]
-                yield edge_id, new_edge
+
+                if "qualifier_constraints" in new_edge and len(new_edge["qualifier_constraints"]) > 0:
+                    for qualifier_constraint in new_edge["qualifier_constraints"]:
+                        new_qc_edge = deepcopy(new_edge)
+                        new_qc_edge["qualifier_constraints"] = [qualifier_constraint]
+                        yield edge_id, new_qc_edge
+                else:
+                    yield edge_id, new_edge
 
         args = [node_generator(node_id, node_data) for node_id, node_data in query_graph["nodes"].items()]
         node_lists = list(product(*args))
@@ -454,23 +466,10 @@ class clsQueryManager(clsNode):
             self.caseMultiHops = []
             for case_solution_manager in self.dispatchList:
                 # also merge any logs
-                self.logs += case_solution_manager.logs
+                # self.logs += case_solution_manager.logs
 
                 if case_solution_manager.dispatchList:
                     self.caseMultiHops += case_solution_manager.dispatchList
-            # self.caseMultiHops = self.caseMultiHops[:5]
-            # test_solutions = [c for c in self.caseSolutions if c.caseId == 'Q000391' and c.id == 2065]  # Solution ID '2065' for Case ID 'Q000391'
-            # self.caseMultiHops = [c for c in self.caseMultiHops if c.caseId != 'Q001884'][:10] + test_solutions
-            # self.caseMultiHops = test_solutions
-
-            # self.caseSolutions = self.caseSolutions[:200]
-
-            # self.logs.append(clsLogEvent(
-            #     identifier="",
-            #     level="DEBUG",
-            #     code="",
-            #     message=f"Matched {len(self.caseSolutions)} Case Solutions."
-            # ))
 
             query_dispatch(
                 objects=self.caseMultiHops,
@@ -489,6 +488,46 @@ class clsQueryManager(clsNode):
             ))
 
             return
+
+    def creative_mode_validate_results(self):
+        """
+        If no results have been found AND we're in creative mode AND only derived queries have been tried, re-dispatch the case solution managers,
+        but only selecting fromKP creative mode cases.
+        :return:
+        """
+        new_dispatch_list = []
+        for case_solution_manager in self.dispatchList:
+            # If this manager already searched creative mode fromKPs, then we don't need to re-run this manager in any way.
+            if case_solution_manager.creative_searched_from_kps:
+                continue
+
+            edge_id = list(case_solution_manager.userRequestBody['message']['query_graph']['edges'].keys())[0]
+            edge = case_solution_manager.userRequestBody['message']['query_graph']['edges'][edge_id]
+            # if the manager was running in creative mode
+            if 'knowledge_type' in edge and edge['knowledge_type'] == clsKnowledgeType.CREATIVE_MODE:
+                # check if there were any results
+                for multi_hop in self.caseMultiHops:
+                    # if there were none, attempt this manager again with the override logic
+                    if multi_hop.results is not None and len(multi_hop.results) <= 0:
+                        # if the solution manager wasn't already added (since a manager can have many multi hops)
+                        if case_solution_manager not in new_dispatch_list:
+                            case_solution_manager.creative_no_results_override = True
+                            new_dispatch_list.append(case_solution_manager)
+
+        # if any case solution manager can be re-run, dispatch again
+        if len(new_dispatch_list) > 0:
+            self.logs.append(clsLogEvent(
+                identifier="",
+                level="DEBUG",
+                code="",
+                message=f"Identified no creative mode results from executed derived queries. Rerunning with fromKP cases instead."
+            ))
+
+            # hold on to the old multi hops so we can include their logs and results (if any)
+            prior_multi_hops = self.caseMultiHops
+            self.dispatchList = new_dispatch_list
+            self.dispatch()
+            self.caseMultiHops += prior_multi_hops
 
     @property
     def userRequestBodyHasAtLeastOneSupportedCaseSolution(self):
@@ -511,10 +550,15 @@ class clsQueryManager(clsNode):
 
         # Query graph is the submitted QG unless derived case solutions were used. In that case the query graph is the one used by the derived cases.
         self.query_graph = deepcopy(self.userRequestBody["message"]["query_graph"])
-        for multi_hop in self.caseMultiHops:
-            if len(multi_hop.case_solutions) == 1 and multi_hop.case_solutions[0].derived is True and \
-                    multi_hop.case_solutions[0].query_graph:
-                self.query_graph = deepcopy(multi_hop.case_solutions[0].query_graph)
+        # No longer the case, the query graph must be static
+        # This is especially true if multiple case solutions were used: How to select what is the query graph to use from multiples?
+        # for multi_hop in self.caseMultiHops:
+        #     if len(multi_hop.case_solutions) == 1 and multi_hop.case_solutions[0].derived is True and \
+        #             multi_hop.case_solutions[0].query_graph:
+        #         self.query_graph = deepcopy(multi_hop.case_solutions[0].query_graph)
+
+        for case_solution_manager in self.dispatchList:
+            self.logs += case_solution_manager.logs
 
         all_cases_unsuccessful = True
         for multi_hop in self.caseMultiHops:
@@ -536,6 +580,9 @@ class clsQueryManager(clsNode):
                     self.knowledge_graph['nodes'].update(deepcopy(multi_hop.knowledge_graph['nodes']))
                     self.results.extend(deepcopy(multi_hop.results))
 
+        # Merge all results with same subject and object IDs
+        self.merge_overlapping_results()
+
         if all_cases_unsuccessful:
             self.query_graph = deepcopy(self.userRequestBody["message"]["query_graph"])
             self.knowledge_graph = {'nodes': {}, 'edges': {}}
@@ -548,6 +595,100 @@ class clsQueryManager(clsNode):
         for edge_id, edge in self.query_graph["edges"].items():
             if "ANY" in edge["predicates"]:
                 del edge["predicates"]
+
+    # def update_knowledge_graph(self):
+    #     """
+    #     Updates the query manager's knowledge graph
+    #     :return:
+    #     """
+
+    def execute(self):
+        self.applyThreadLockToChildren()
+        self.preExecute()
+        self.dispatch()
+        self.creative_mode_validate_results()
+
+    def merge_overlapping_results(self):
+        """
+        Merges multiple results with the same subject and object IDs into a single response object as described in Step 3 of Sol P 2
+        :return:
+        """
+        # dictionary of tuples of node identifiers with a list of result objects
+        # e.g. (nodeID_1, nodeID_2, ... nodeID_n): [{...result_1}, {...result_2}, ..., {...result_n}]
+        overlapping_results = {}
+        # a map of the overlapping node IDs and their exact node bindings. This is needed to create the newly merged result object (since we can't hash the node binding object itself.)
+        overlapping_results_node_bindings = {}
+
+        for result in self.results:
+            # ensure order is consistent by sorting the node query ID keys (n00, n01, etc).
+            node_ids = []
+            for node_query_id in sorted(list(result["node_bindings"].keys())):
+                binding_node_ids = [binding["id"] for binding in result["node_bindings"][node_query_id]]
+                node_ids.append(tuple(binding_node_ids))
+            node_ids = tuple(node_ids)
+
+            if node_ids not in overlapping_results:
+                overlapping_results[node_ids] = []
+                overlapping_results_node_bindings[node_ids] = result["node_bindings"]
+            overlapping_results[node_ids].append(result)
+
+        merged_results = []
+        for node_ids, results in overlapping_results.items():
+            node_bindings = overlapping_results_node_bindings[node_ids]
+            merged_result = {
+                "node_bindings": node_bindings,
+                "edge_bindings": {},
+                "score": -1
+            }
+            for result in results:
+                for edge_binding_key, edge_bindings in result["edge_bindings"].items():
+                    if edge_binding_key not in merged_result["edge_bindings"]:
+                        merged_result["edge_bindings"][edge_binding_key] = []
+                    for edge_binding in edge_bindings:
+                        new_edge_binding = copy.deepcopy(edge_binding)
+
+                        # if "score" in new_edge_binding:
+                        #     new_edge_binding["original_score"] = new_edge_binding["score"]
+                        #     new_edge_binding["score"] += 0.2
+                        #     if new_edge_binding["score"] > 1:
+                        #         new_edge_binding["score"] = 1
+                        merged_result["edge_bindings"][edge_binding_key].append(new_edge_binding)
+
+            """
+            STEP 4 COMPUTE SCORES FOR MERGED RESULTS
+              INPUT:   Results graph with populated node and edge bindings and xARA EPC attributes, individual edge scores for every result, and groups of merged results.  
+
+            PROCESS: Add 0.2 to each individual edge score except if the exisitng score is greater than 0.8 in which case the score becomes 1. 
+                     Now, take the number of edges merged into the group and divide the sum of individual edge scores for all merged results by the number of 
+                     merged edges. This will become the aggregated score allocated to the 'score' variable for the merged results in the results graph.    
+
+             OUTPUT:  Result graph with populated node and edge binding and merged results' scores
+            """
+
+            if len(results) > 1:
+                results_scores = [result["score"] for result in results if "score" in result]
+                for i, score in enumerate(results_scores):
+                    score += 0.2
+                    if score > 1:
+                        score = 1
+                    results_scores[i] = score
+
+                if len(results_scores) > 0:
+                    merged_result["score"] = sum(results_scores) / len(results_scores)
+                else:
+                    merged_result["score"] = 0.0
+            else:
+                merged_result["score"] = results[0].get("score", 0.0)
+
+            merged_results.append(merged_result)
+
+        self.logs.append(clsLogEvent(
+            identifier="",
+            level="DEBUG",
+            code="",
+            message=f"Merged overlapping results. Reduced {len(self.results)} results to {len(merged_results)} results."
+        ))
+        self.results = merged_results
 
     def mergeCaseSolutionManagers(self):
         """
@@ -684,6 +825,55 @@ class clsQueryManager(clsNode):
             },
             "results_url": self.resultsUrl
         }
+
+    def send_to_aes(self):
+        """
+        Sends the response to the AES web service for evidence scoring.
+        :return:
+        """
+        # aes_url = "http://172.16.32.17/AES/Analyze/"
+        # aes_url = "http://localhost/AES/Analyze/"
+        aes_url = "https://aes.decisionengineering.us/AES/Analyze/"
+        timeout_seconds = 60
+        message = {
+            "message": {
+                "query_graph": self.query_graph,
+                "knowledge_graph": self.knowledge_graph,
+                "results": self.results,
+            }
+        }
+        try:
+            response = request_with_global_timeout(
+                method="post",
+                url=aes_url,
+                global_timeout=None,
+                # global_timeout=self.timeoutSeconds,
+                json=message
+            )
+            response.raise_for_status()
+            response_data = response.json()
+            self.results = response_data['message']["results"]
+
+            self.logs.append(clsLogEvent(
+                identifier="",
+                level="ERROR",
+                code="KPTimeout",
+                message=f"Successfully performed AES results labeling."
+            ))
+        except requests.exceptions.Timeout:
+            self.logs.append(clsLogEvent(
+                identifier="",
+                level="ERROR",
+                code="KPTimeout",
+                message=f"AES {aes_url} timed out after {timeout_seconds} seconds"
+            ))
+        except requests.exceptions.HTTPError:
+            self.logs.append(clsLogEvent(
+                identifier="",
+                level="ERROR",
+                code="KPNotAvailable",
+                message=f"AES {aes_url} returned HTTP error code {str(response.status_code)}."
+            ))
 
     def insertUuidIntoDatabaseIfApplicable(self) -> None:
         """

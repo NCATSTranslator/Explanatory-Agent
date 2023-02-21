@@ -108,6 +108,7 @@ def querySync(queryManager: clsQueryManager) -> Tuple[dict, int]:
     # solve solution
     try:
         queryManager.execute()
+
     except requests.exceptions.RequestException as requestError:
         queryManager.generateEmptyUserResponseBody(status="KPError",
                                                    description="An error occurred while accessing a Knowledge Provider.")
@@ -126,6 +127,8 @@ def querySync(queryManager: clsQueryManager) -> Tuple[dict, int]:
 
     # merge all case solution managers together
     queryManager.mergeCaseSolutions()
+
+    queryManager.send_to_aes()
 
     # generate a successful user response body
     queryManager.generateSuccessUserResponseBody()

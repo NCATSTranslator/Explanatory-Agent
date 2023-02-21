@@ -26,7 +26,7 @@ class test_clsMeshNormalizedGoogleDistanceProvider(unittest.TestCase):
                 "value": 1.0,
                 "response_code": "OK",
             }
-            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/acetaminophen/acetaminophen', json=mock_arax_response)
+            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/acetaminophen/acetaminophen', json=mock_arax_response)
             provider = clsMeshNormalizedGoogleDistanceProvider(subject_name, object_name)
             provider.get_value()
         self.assertEqual(1.0, provider.value)
@@ -39,7 +39,7 @@ class test_clsMeshNormalizedGoogleDistanceProvider(unittest.TestCase):
                 "message": "Term 1 'TBX3' not found in MeSH",
                 "response_code": "TermNotFound",
             }
-            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/TBX3/acetaminophen', json=mock_arax_response)
+            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/TBX3/acetaminophen', json=mock_arax_response)
             provider = clsMeshNormalizedGoogleDistanceProvider(subject_name, object_name)
             provider.get_value()
         self.assertEqual(None, provider.value)
@@ -53,7 +53,7 @@ class test_clsMeshNormalizedGoogleDistanceProvider(unittest.TestCase):
                 "response_code": "OK",
                 "value": 0.55
             }
-            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/Subject/Object', status_code=500, reason="Internal error", json=mock_arax_response)
+            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/Subject/Object', status_code=500, reason="Internal error", json=mock_arax_response)
             provider = clsMeshNormalizedGoogleDistanceProvider(subject_name, object_name)
             provider.get_value()
         self.assertEqual(None, provider.value)
@@ -66,7 +66,7 @@ class test_clsMeshNormalizedGoogleDistanceProvider(unittest.TestCase):
         object_name = "Object"
         with requests_mock.Mocker() as mocker:
             mock_arax_response = "Not JSON"
-            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.2/PubmedMeshNgd/Subject/Object', status_code=500, reason="Internal error", text=mock_arax_response)
+            mocker.register_uri('GET', 'https://arax.ncats.io/api/arax/v1.3/PubmedMeshNgd/Subject/Object', status_code=500, reason="Internal error", text=mock_arax_response)
             provider = clsMeshNormalizedGoogleDistanceProvider(subject_name, object_name)
             provider.get_value()
         self.assertEqual(None, provider.value)

@@ -6,6 +6,8 @@ import requests_mock
 from jsonschema import ValidationError
 from requests.exceptions import InvalidSchema, HTTPError
 from datetime import datetime
+from utils.clsLog import clsLogEvent
+import json
 
 
 class test_clsKnowledgeProvider(unittest.TestCase):
@@ -59,12 +61,11 @@ class test_clsKnowledgeProvider(unittest.TestCase):
             with self.assertRaises(HTTPError):
                 knowledgeProvider.execute()
 
-        expectedLogs = [{
-            "timestamp": '1970-01-01T00:00:00',
-            "level": "ERROR",
-            "code": "KPNotAvailable",
-            "message": f"Knowledge Provider {self.url} returned HTTP error code 400"
-        }]
+        expectedLogs = [
+            clsLogEvent("TestKP", "DEBUG", "", f"Sending request to Knowledge Provider {self.url}..."),
+            clsLogEvent("TestKP", "ERROR", "KPNotAvailable", f"Knowledge Provider {self.url} returned HTTP error code 400 for message: {knowledgeProvider.requestBody}"),
+        ]
+
         self.assertEqual(knowledgeProvider.logs, expectedLogs)
 
     @patch.object(clsKnowledgeProvider, "timeoutSeconds", new=None)
@@ -87,13 +88,16 @@ class test_clsKnowledgeProvider(unittest.TestCase):
             with self.assertRaises(InvalidSchema):
                 knowledgeProvider.execute()
 
-        expectedLogs = [{
-            "timestamp": '1970-01-01T00:00:00',
-            "level": "ERROR",
-            "code": "KPMalformedResponse",
-            "message": f"Knowledge Provider {self.url} did not return a valid TRAPI v1.1 response"
-        }]
-        self.assertEqual(knowledgeProvider.logs, expectedLogs)
+        expectedLogs = [
+            clsLogEvent("TestKP", "DEBUG", "", f"Sending request to Knowledge Provider {self.url}..."),
+            clsLogEvent("TestKP", "DEBUG", "", f"KP 200 response in 0:00:00.000471. Content size: 118."),
+            clsLogEvent("TestKP", "ERROR", "KPMalformedResponse", f"Knowledge Provider {self.url} did not return a valid TRAPI v1.3.0 response for message: {knowledgeProvider.requestBody}"),
+        ]
+
+        self.assertEqual(len(knowledgeProvider.logs), len(expectedLogs))
+        self.assertEqual(knowledgeProvider.logs[0], expectedLogs[0])
+        # skipping log [1], due to the message including a timing string that varies
+        self.assertEqual(knowledgeProvider.logs[2], expectedLogs[2])
 
     @patch.object(clsKnowledgeProvider, "timeoutSeconds", new=None)
     @time_machine.travel(datetime.utcfromtimestamp(0))
@@ -122,18 +126,21 @@ class test_clsKnowledgeProvider(unittest.TestCase):
             }
         }
 
-        with requests_mock.Mocker() as mocker:
+        with requests_mock.Mocker(real_http=True) as mocker:
             mocker.register_uri('POST', knowledgeProvider.url, json=expectedResponseBody)
             knowledgeProvider.execute()
         self.assertEqual(knowledgeProvider.responseBody, expectedResponseBody)
 
-        expectedLogs = [{
-            "timestamp": '1970-01-01T00:00:00',
-            "level": "WARNING",
-            "code": "KPEmptyResponse",
-            "message": f"Knowledge Provider {self.url} returned an empty knowledge graph"
-        }]
-        self.assertEqual(knowledgeProvider.logs, expectedLogs)
+        expectedLogs = [
+            clsLogEvent("TestKP", "DEBUG", "", f"Sending request to Knowledge Provider {self.url}..."),
+            clsLogEvent("TestKP", "DEBUG", "", f"KP 200 response in 0:00:00.000471. Content size: 118."),
+            clsLogEvent("TestKP", "WARNING", "KPEmptyResponse", f"Knowledge Provider {self.url} returned an empty knowledge graph for message: {knowledgeProvider.requestBody}"),
+        ]
+
+        self.assertEqual(len(knowledgeProvider.logs), len(expectedLogs))
+        self.assertEqual(knowledgeProvider.logs[0], expectedLogs[0])
+        # skipping log [1], due to the message including a timing string that varies
+        self.assertEqual(knowledgeProvider.logs[2], expectedLogs[2])
 
     @patch.object(clsKnowledgeProvider, "timeoutSeconds", new=None)
     def test_nominal_request_nominal_response_is_ok(self):
@@ -177,8 +184,17 @@ class test_clsKnowledgeProvider(unittest.TestCase):
         with requests_mock.Mocker() as mocker:
             mocker.register_uri('POST', knowledgeProvider.url, json=expectedResponseBody)
             knowledgeProvider.execute()
+
+        expectedLogs = [
+            clsLogEvent("TestKP", "DEBUG", "", f"Sending request to Knowledge Provider {self.url}..."),
+            clsLogEvent("TestKP", "DEBUG", "", f"KP 200 response in 0:00:00.000471. Content size: 118."),
+        ]
+
         self.assertEqual(knowledgeProvider.responseBody, expectedResponseBody)
-        self.assertEqual(knowledgeProvider.logs, [])
+
+        self.assertEqual(len(knowledgeProvider.logs), len(expectedLogs))
+        self.assertEqual(knowledgeProvider.logs[0], expectedLogs[0])
+        # skipping log [1], due to the message including a timing string that varies
 
 
 if __name__ == '__main__':

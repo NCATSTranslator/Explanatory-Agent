@@ -47,7 +47,6 @@ class ExplanationX00014(clsExplanationBase):
         :param object_synonyms:
         :return: Value of the first matched NGD, None if no values were found
         """
-
         for subject_name, object_name in product(subject_synonyms, object_synonyms):
 
             ngd_provider = clsMeshNormalizedGoogleDistanceProvider(subject_name, object_name)
@@ -86,7 +85,7 @@ class ExplanationX00014(clsExplanationBase):
         name_resolution_provider.get_synonyms()
         synonyms = name_resolution_provider.synonyms
 
-        for index, (edgeId, edge) in self.enumerate_edges(knowledge_graph):
+        for index, (edgeId, edge) in list(self.enumerate_edges(knowledge_graph))[:10]:
             result = OrderedDict({
                 'edge_bindings': {
                     e00_id: [{"id": edgeId}]
