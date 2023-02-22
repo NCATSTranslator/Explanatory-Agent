@@ -853,6 +853,7 @@ class clsQueryManager(clsNode):
             response.raise_for_status()
             response_data = response.json()
             self.results = response_data['message']["results"]
+            self.knowledge_graph = response_data['message']["knowledge_graph"]
 
             self.logs.append(clsLogEvent(
                 identifier="",

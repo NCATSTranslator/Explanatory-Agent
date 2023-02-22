@@ -69,7 +69,7 @@ defaultLoggingLevel = logging.DEBUG
 environmentMode = os.getenv("ENVIRONMENT_MODE")
 environmentModeKPURLColumn = OrderedDict([
     ("DEVELOPMENT", "DEV_URL"),
-    ("CI", "STAGING_URL"),  # AKA CI
+    ("CI", "STAGING_URL"),
     ("TEST", "TESTING_URL"),
     ("PRODUCTION", "PROD_URL"),
 ])
