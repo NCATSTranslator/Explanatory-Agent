@@ -38,6 +38,8 @@ spec:
               value: {{ .Values.app_db.dbname }}
             - name: EXTERNAL_API_HOST
               value: {{ .Values.api_host }}
+            - name: ENVIRONMENT_MODE
+              value: {{ .Values.environment_mode }}  
           ports:
             - name: http
               containerPort: 80
