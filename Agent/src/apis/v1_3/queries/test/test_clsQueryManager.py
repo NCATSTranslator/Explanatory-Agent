@@ -722,6 +722,8 @@ class test_clsQueryManager(unittest.TestCase):
         :return:
         """
         response = self.loadJsonFromFile("trapi_disease2phenotype.json")
+        # response = self.loadJsonFromFile("/home/engineer1/Downloads/trapi_phenotype2protein.json")
+        # response = self.loadJsonFromFile("/home/engineer1/Downloads/trapi_protein2chemical.json")
         query_manager = clsQueryManager()
         query_manager.query_graph = response["message"]["query_graph"]
         query_manager.knowledge_graph = response["message"]["knowledge_graph"]
@@ -734,13 +736,21 @@ class test_clsQueryManager(unittest.TestCase):
         import reasoner_validator
         reasoner_validator.validate(response, "Response", "1.3.0")
 
-        aes_attribute_found = False
+        aes_results_attribute_found = False
         for result in response["message"]["results"]:
             for edge_binding_id, edge_bindings in result["edge_bindings"].items():
                 for edge_binding in edge_bindings:
                     if "attributes" in edge_binding:
                         for attribute in edge_binding["attributes"]:
                             if attribute["attribute_type_id"] == "biolink:aes_evidence_score":
-                                aes_attribute_found = True
+                                aes_results_attribute_found = True
+                                # check that the same edge has an aes attribute
+                                kg_edge = response["message"]["knowledge_graph"]["edges"][edge_binding["id"]]
+                                aes_kg_edge_attribute_found = False
+                                for attribute in kg_edge["attributes"]:
+                                    if attribute["attribute_type_id"] == "biolink:aes_evidence_score":
+                                        aes_kg_edge_attribute_found = True
+                                        break
+                                assert aes_kg_edge_attribute_found is True
 
-        assert aes_attribute_found is True
+        assert aes_results_attribute_found is True
