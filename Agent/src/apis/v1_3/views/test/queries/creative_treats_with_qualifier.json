@@ -1,0 +1,49 @@
+{
+  "message": {
+    "query_graph": {
+      "nodes": {
+        "drug": {
+          "categories": [
+            "biolink:ChemicalEntity"
+          ]
+        },
+        "disease": {
+          "ids": [
+            "MONDO:0004975"
+          ],
+          "categories": [
+            "biolink:Disease"
+          ]
+        }
+      },
+      "edges": {
+        "treats": {
+          "object": "disease",
+          "subject": "drug",
+          "predicates": [
+            "biolink:treats"
+          ],
+          "qualifier_constraints": [
+            {
+              "qualifier_set": [
+                {
+                  "qualifier_type_id": "biolink:object_aspect_qualifier",
+                  "qualifier_value": "degradation"
+                },
+                {
+                  "qualifier_type_id": "biolink:object_direction_qualifier",
+                  "qualifier_value": "decreased"
+                },
+                {
+                  "qualifier_type_id": "biolink:qualified_predicate",
+                  "qualifier_value": "biolink:causes"
+                }
+              ]
+            }
+          ],
+          "knowledge_type": "inferred"
+        }
+      }
+    }
+  }
+}
