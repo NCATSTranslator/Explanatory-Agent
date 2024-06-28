@@ -48,30 +48,31 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip 
   host: EA_HOSTNAME_VALUE
 
-affinity:
-   # this ensures only ONE pod will run on each node
+tolerations: 
+  - key: "transltr"
+    value: "chp"
+    operator: "Equal"
+    effect: "NoSchedule"
+
+affinity: 
+  # this ensures only ONE pod will run on each node
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-    - labelSelector:
-        matchExpressions:
-        - key: app
-          operator: In
-          values:
-          - ea
-      topologyKey: "kubernetes.io/hostname"
-  # this ensures pod only runs on node with label application=ea
+      - labelSelector:
+          matchExpressions:
+          - key: applicaiton
+            operator: In
+            values:
+            - chp
+        topologyKey: "kubernetes.io/hostname"
+  # this ensures pod only runs on node with label application=managed-app
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: application
-          operator: In
-          values:
-          - ea
-tolerations:
-  - key: "transltr"
-    value: "ea"
-    operator: "Equal"
-    effect: "NoSchedule"
+        - matchExpressions:
+          - key: application
+            operator: In
+            values:
+            - chp
       
 restartPolicy: Always
