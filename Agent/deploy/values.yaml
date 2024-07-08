@@ -60,7 +60,7 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
           matchExpressions:
-          - key: applicaiton
+          - key: application
             operator: In
             values:
             - chp
